@@ -1,0 +1,22 @@
+server:
+  port: 8091
+springdoc:
+  api-docs:
+    path: /meetyourroommate
+  swagger_ui:
+    path: /project-api-doc-ui.html
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/roommate
+    username: root
+    password: root
+logging:
+  level:
+    org.hibernate.sql: DEBUG
+    org.hibernate.type: TRACE
