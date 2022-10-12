@@ -75,6 +75,13 @@ Press Enter until the terminal finishes assigning all the names for the default 
 ### Process reference image
 ![git-flow](./config-img/gitflowconfig.png)
 
+## Config conventional commits
+
+execute the following command line
+```
+git config commit.template ./commit-structure.txt
+```
+
 ### Common commands
 
 #### Git Flow Feature Commands
