@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class AgrementAsset implements Serializable {
+public class AgreementAsset implements Serializable {
     @Column(name="urlPdf", unique=true, updatable = false)
     private String urlPdf;
 }
