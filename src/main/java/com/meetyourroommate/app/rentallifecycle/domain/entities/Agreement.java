@@ -1,6 +1,7 @@
 package com.meetyourroommate.app.rentallifecycle.domain.entities;
 
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.AgreementAsset;
+import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.AgreementId;
 import com.meetyourroommate.app.shared.valueobjects.Audit;
 import lombok.Data;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 public class Agreement {
     @Id
     @GeneratedValue
-    private Long id;
+    private AgreementId agreementId;
     @Embedded
     private AgreementAsset agrementAsset;
     @Column(name="summary_of_terms_and_conditions", updatable = false)

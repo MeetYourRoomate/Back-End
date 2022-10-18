@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.rentallifecycle.domain.entities;
 
+import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.RentalRequestId;
 import com.meetyourroommate.app.shared.valueobjects.Audit;
 import lombok.Data;
 
@@ -12,8 +13,7 @@ import javax.persistence.Id;
 @Data
 public class RentalRequest {
     @Id
-    @GeneratedValue
-    private Long id;
+    private RentalRequestId rentalRequestId;
     @Embedded
     private Audit audit;
 }

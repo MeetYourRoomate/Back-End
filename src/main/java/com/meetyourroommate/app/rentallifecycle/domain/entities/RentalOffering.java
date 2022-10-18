@@ -3,6 +3,7 @@ package com.meetyourroommate.app.rentallifecycle.domain.entities;
 import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyId;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.Amount;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.Lifecycle;
+import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.RentalOfferingId;
 import com.meetyourroommate.app.shared.valueobjects.Audit;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import javax.persistence.Id;
 @Data
 public class RentalOffering {
     @Id
-    private Long id;
+    private RentalOfferingId rentalOfferingId;
     @Embedded
     private Lifecycle lifecycle;
     @Embedded
