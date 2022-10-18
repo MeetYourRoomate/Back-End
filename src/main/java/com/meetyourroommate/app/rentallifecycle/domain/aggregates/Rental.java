@@ -10,6 +10,7 @@ import lombok.Data;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import java.util.List;
 
@@ -19,8 +20,11 @@ public class Rental {
     @AggregateIdentifier
     private Long id;
     @Embedded
+    @Column(name = "agreement_id")
     private AgreementId agreementId;
+
     @Embedded
+    @Column(name = "rental_offering_id")
     private RentalOfferingId rentalOfferingId;
 
     private List<RentalRequest> rentalRequestList;

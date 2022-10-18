@@ -7,6 +7,7 @@ import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.RentalOfferi
 import com.meetyourroommate.app.shared.valueobjects.Audit;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 @Data
 public class RentalOffering {
     @Id
+    @Column(name="id", unique=true, updatable = false)
     private RentalOfferingId rentalOfferingId;
     @Embedded
     private Lifecycle lifecycle;

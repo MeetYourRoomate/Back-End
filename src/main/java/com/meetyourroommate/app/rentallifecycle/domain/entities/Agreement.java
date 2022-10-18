@@ -13,6 +13,7 @@ import java.util.Date;
 public class Agreement {
     @Id
     @GeneratedValue
+    @Column(name="id", unique=true, updatable = false)
     private AgreementId agreementId;
     @Embedded
     private AgreementAsset agrementAsset;
