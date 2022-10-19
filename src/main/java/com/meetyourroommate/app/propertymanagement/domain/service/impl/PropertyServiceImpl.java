@@ -22,16 +22,19 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<Property> findAll() throws Exception {
-        return null;
+        return propertyRepository.findAll();
     }
 
     @Override
     public Optional<Property> findById(PropertyId propertyId) throws Exception {
-        return Optional.empty();
+        return propertyRepository.findById(propertyId);
     }
 
     @Override
     public Property update(PropertyId propertyId, Property property) throws Exception {
+        Optional<Property> findedProperty = findById(propertyId);
+        if (findedProperty.isPresent()){
+        }
         return null;
     }
 

@@ -1,6 +1,7 @@
 package com.meetyourroommate.app.propertymanagement.domain.controllers;
 
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
+import com.meetyourroommate.app.propertymanagement.domain.resources.PropertyResource;
 import com.meetyourroommate.app.propertymanagement.domain.service.PropertyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,7 +27,10 @@ public class PropertyController {
 		@ApiResponse(responseCode = "200", description = "Created property", content = @Content(mediaType = "application/json"))
 	})
 	@PostMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Property save(@RequestBody Property entity) throws Exception{
-        return propertyService.save(entity);
+    public Property save(@RequestBody PropertyResource entity) throws Exception{
+        Property newProperty = new Property();
+        newProperty.setDescription(entity.getDescription());
+        newProperty.setPropertyAsset(entity.getPropertyAsset());
+        return propertyService.save(newProperty);
     }
 }

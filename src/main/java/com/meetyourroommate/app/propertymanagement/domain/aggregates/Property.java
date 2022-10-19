@@ -42,4 +42,12 @@ public class Property {
         this.description = description;
         return this;
     }
+
+    public PropertyAsset getPropertyAsset() {
+        return propertyAsset;
+    }
+
+    public void setPropertyAsset(PropertyAsset propertyAsset) {
+        this.propertyAsset = propertyAsset;
+    }
 }
