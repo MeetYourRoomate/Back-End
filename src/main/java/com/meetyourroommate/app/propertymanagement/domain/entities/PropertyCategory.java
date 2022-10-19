@@ -12,7 +12,7 @@ import javax.persistence.Id;
 public class PropertyCategory {
     @Id
     private PropertyCategoryId propertyCategoryId;
-
+    private String description;
     @Embedded
     private Audit audit;
 }

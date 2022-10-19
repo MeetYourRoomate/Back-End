@@ -12,6 +12,7 @@ import javax.persistence.Id;
 public class ServiceOrder {
     @Id
     private ServiceOrderId serviceOrderId;
+    private String state;
     @Embedded
     private Audit audit;
 }
