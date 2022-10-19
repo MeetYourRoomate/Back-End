@@ -24,6 +24,7 @@ public class Property {
     private Audit audit;
     public Property(String description){
         this.audit = new Audit();
+        this.description = description;
     }
 
     public Property() {
