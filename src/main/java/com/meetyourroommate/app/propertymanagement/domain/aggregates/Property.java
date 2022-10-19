@@ -1,17 +1,25 @@
 package com.meetyourroommate.app.propertymanagement.domain.aggregates;
 
+import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyFeature;
+import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyFeatureId;
 import com.meetyourroommate.app.shared.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
 
-import javax.persistence.Embedded;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
+import java.util.List;
 
 @AggregateRoot
 public class Property {
+
     @AggregateIdentifier
     @GeneratedValue
     private Long id;
+
+    private String description;
+    @OneToMany(mappedBy = "property")
+    List<PropertyFeature> propertyFeatureList;
+
     @Embedded
     private Audit audit;
 }

@@ -1,17 +1,23 @@
 package com.meetyourroommate.app.propertymanagement.domain.entities;
 
+import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
+import com.meetyourroommate.app.propertymanagement.domain.valueobjects.Feature;
+import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyFeatureId;
 import com.meetyourroommate.app.shared.valueobjects.Audit;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class PropertyFeature {
     @Id
-    @GeneratedValue
-    private Long id;
+    private PropertyFeatureId propertyFeatureId;
+
+    @ManyToOne
+    @JoinColumn(name = "property_feature")
+    private Property property;
+
+    @Embedded
+    private Feature feature;
     @Embedded
     private Audit audit;
 }

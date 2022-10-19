@@ -1,7 +1,5 @@
 package com.meetyourroommate.app.rentallifecycle.domain.aggregates;
 
-import com.meetyourroommate.app.rentallifecycle.domain.entities.Agreement;
-import com.meetyourroommate.app.rentallifecycle.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rentallifecycle.domain.entities.RentalRequest;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.AgreementId;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.RentalOfferingId;

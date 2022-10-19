@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.propertymanagement.domain.entities;
 
+import com.meetyourroommate.app.propertymanagement.domain.valueobjects.ServiceOrderId;
 import com.meetyourroommate.app.shared.valueobjects.Audit;
 
 import javax.persistence.Embedded;
@@ -10,8 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class ServiceOrder {
     @Id
-    @GeneratedValue
-    private Long id;
+    private ServiceOrderId serviceOrderId;
     @Embedded
     private Audit audit;
 }

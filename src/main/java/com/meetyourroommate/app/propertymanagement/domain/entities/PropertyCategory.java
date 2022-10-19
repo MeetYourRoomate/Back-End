@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.propertymanagement.domain.entities;
 
+import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyCategoryId;
 import com.meetyourroommate.app.shared.valueobjects.Audit;
 
 import javax.persistence.Embedded;
@@ -10,8 +11,8 @@ import javax.persistence.Id;
 @Entity
 public class PropertyCategory {
     @Id
-    @GeneratedValue
-    private Long id;
+    private PropertyCategoryId propertyCategoryId;
+
     @Embedded
     private Audit audit;
 }
