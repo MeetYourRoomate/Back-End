@@ -33,13 +33,11 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Property update(PropertyId propertyId, Property property) throws Exception {
         Optional<Property> findedProperty = findById(propertyId);
-        if (findedProperty.isPresent()){
-        }
-        return null;
+        return findedProperty.get();
     }
 
     @Override
     public void deleteById(PropertyId propertyId) throws Exception {
-
+        propertyRepository.deleteById(propertyId);
     }
 }

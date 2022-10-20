@@ -16,17 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/property")
+@RequestMapping("/api")
 public class PropertyController {
-
     @Autowired
     private PropertyService propertyService;
-
 	@Operation(summary = "Create new property", description = "Create property to lessor", tags = {"property"})
 	@ApiResponses( value = {
 		@ApiResponse(responseCode = "200", description = "Created property", content = @Content(mediaType = "application/json"))
 	})
-	@PostMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/property", produces = MediaType.APPLICATION_JSON_VALUE)
     public Property save(@RequestBody PropertyResource entity) throws Exception{
         Property newProperty = new Property();
         newProperty.setDescription(entity.getDescription());
