@@ -2,14 +2,18 @@ package com.meetyourroommate.app.iam.domain.valueobjects;
 
 import javax.persistence.Embeddable;
 
-import lombok.Data;
+import lombok.*;
 
 @Embeddable
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@With
 public class Email {
   private String value;
 
-  public Boolean isValid(){
+  public Boolean isValid() {
     // TODO: Regex to determine if email is valid
     return true;
   }
