@@ -24,4 +24,8 @@ public class Audit implements Serializable {
     public Date getUpdatedAt() {
         return updatedAt;
     }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 }

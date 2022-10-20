@@ -9,4 +9,12 @@ import java.util.Date;
 public class Lifecycle implements Serializable {
     @Column(name="end_at", updatable = false)
     private Date endAt;
+
+    public Date getEndAt() {
+        return endAt;
+    }
+
+    public void setEndAt(Date endAt) {
+        this.endAt = endAt;
+    }
 }
