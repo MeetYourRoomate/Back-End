@@ -26,18 +26,18 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Optional<Property> findById(PropertyId propertyId) throws Exception {
+    public Optional<Property> findById(Long propertyId) throws Exception {
         return propertyRepository.findById(propertyId);
     }
 
     @Override
-    public Property update(PropertyId propertyId, Property property) throws Exception {
+    public Property update(Long propertyId, Property property) throws Exception {
         Optional<Property> findedProperty = findById(propertyId);
         return findedProperty.get();
     }
 
     @Override
-    public void deleteById(PropertyId propertyId) throws Exception {
+    public void deleteById(Long propertyId) throws Exception {
         propertyRepository.deleteById(propertyId);
     }
 }

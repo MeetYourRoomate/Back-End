@@ -2,6 +2,7 @@ package com.meetyourroommate.app.propertymanagement.domain.aggregates;
 
 import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyFeature;
 import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyAsset;
+import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyId;
 import com.meetyourroommate.app.shared.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
@@ -31,9 +32,10 @@ public class Property {
     }
 
     public Property() {
-
     }
-
+    public List<PropertyAsset> getPropertyAssets(){
+       return this.propertyAsset;
+    }
     public String getDescription() {
         return description;
     }
@@ -41,5 +43,8 @@ public class Property {
     public Property setDescription(String description) {
         this.description = description;
         return this;
+    }
+    public Long getId(){
+        return this.id;
     }
 }
