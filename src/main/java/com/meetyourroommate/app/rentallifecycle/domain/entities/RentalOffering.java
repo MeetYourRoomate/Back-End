@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Data
 public class RentalOffering {
     @Id
     @Column(name="id", unique=true, updatable = false)

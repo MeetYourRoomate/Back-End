@@ -11,7 +11,6 @@ import javax.persistence.*;
 public class PropertyFeature {
     @Id
     private PropertyFeatureId propertyFeatureId;
-
     @ManyToOne
     @JoinColumn(name = "property_feature")
     private Property property;
