@@ -20,7 +20,7 @@ public class Property {
     private Long id;
     private String description;
     @OneToMany(mappedBy = "propertyid")
-    List<PropertyAsset> propertyAsset;
+    List<PropertyAsset> assets;
 
     @OneToMany(mappedBy = "property")
     List<PropertyFeature> propertyFeatureList;
@@ -34,7 +34,7 @@ public class Property {
     public Property() {
     }
     public List<PropertyAsset> getPropertyAssets(){
-       return this.propertyAsset;
+       return this.assets;
     }
     public String getDescription() {
         return description;

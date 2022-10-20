@@ -1,9 +1,8 @@
-package com.meetyourroommate.app.propertymanagement.domain.service.impl;
+package com.meetyourroommate.app.propertymanagement.service.impl;
 
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
-import com.meetyourroommate.app.propertymanagement.domain.repositories.PropertyRepository;
-import com.meetyourroommate.app.propertymanagement.domain.service.PropertyService;
-import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyId;
+import com.meetyourroommate.app.propertymanagement.repositories.PropertyRepository;
+import com.meetyourroommate.app.propertymanagement.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

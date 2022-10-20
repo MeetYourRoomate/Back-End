@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.propertymanagement.domain.service;
+package com.meetyourroommate.app.propertymanagement.service;
 
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
 import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyId;

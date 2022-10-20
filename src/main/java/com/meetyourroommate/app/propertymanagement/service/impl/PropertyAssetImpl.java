@@ -1,9 +1,9 @@
-package com.meetyourroommate.app.propertymanagement.domain.service.impl;
+package com.meetyourroommate.app.propertymanagement.service.impl;
 
+import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
 import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyAsset;
-import com.meetyourroommate.app.propertymanagement.domain.repositories.PropertyAssetRepository;
-import com.meetyourroommate.app.propertymanagement.domain.service.PropertyAssetService;
-import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyAssetId;
+import com.meetyourroommate.app.propertymanagement.repositories.PropertyAssetRepository;
+import com.meetyourroommate.app.propertymanagement.service.PropertyAssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +37,11 @@ public class PropertyAssetImpl implements PropertyAssetService {
     @Override
     public void deleteById(Long propertyAssetId) throws Exception {
         propertyAssetRepository.deleteById(propertyAssetId);
+    }
+    public List<PropertyAsset> findAllByProperty(Property property){
+        return propertyAssetRepository.findAllByPropertyid(property);
+    }
+    public Optional<PropertyAsset> findByPropertyAndId(Property property, Long id){
+        return propertyAssetRepository.findByPropertyidAndId(property,id);
     }
 }

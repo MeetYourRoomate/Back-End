@@ -1,10 +1,8 @@
-package com.meetyourroommate.app.propertymanagement.domain.controllers;
+package com.meetyourroommate.app.propertymanagement.controllers;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
-import com.meetyourroommate.app.propertymanagement.domain.resources.PropertyResource;
-import com.meetyourroommate.app.propertymanagement.domain.service.PropertyService;
-import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyId;
+import com.meetyourroommate.app.propertymanagement.resources.PropertyResource;
+import com.meetyourroommate.app.propertymanagement.service.PropertyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
