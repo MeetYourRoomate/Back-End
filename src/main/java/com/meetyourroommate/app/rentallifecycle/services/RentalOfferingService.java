@@ -11,4 +11,5 @@ import java.util.List;
 @Service
 public interface RentalOfferingService extends CrudService<RentalOffering, Long> {
     Page<RentalOffering> findByOffsetAndPageSize(int offset, int pagesize);
+    Page<RentalOffering> findByOffsetAndPageSizeAndField(int offset, int pagesize, String field, String order);
 }

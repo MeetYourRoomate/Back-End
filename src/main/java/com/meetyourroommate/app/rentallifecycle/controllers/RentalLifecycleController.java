@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class RentalLifecycleController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Listed all rental offering", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping(path = "/rentaloffering" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/rentaloffering/all" ,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAll(){
         try{
             List<RentalOffering> rentalOfferingList = rentalOfferingService.findAll();
@@ -60,4 +61,32 @@ public class RentalLifecycleController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Operation(summary = "List rentaloffering", description = "List all rental offering with pagination", tags = {"Rental Lifecycle"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Listed all rental offering", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping(path = "/rentaloffering",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findByQuery(@RequestParam int offset, @RequestParam int pagesize){
+        try{
+            Page<RentalOffering> rentalOfferingPage = rentalOfferingService.findByOffsetAndPageSize(offset, pagesize);
+            return new ResponseEntity<Page<RentalOffering>>(rentalOfferingPage, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "List rentaloffering", description = "List all rental offering with pagination and field", tags = {"Rental Lifecycle"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Listed all rental offering", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping(path = "/rentaloffering/amount",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findByQueryAndSort(@RequestParam int offset, @RequestParam int pagesize, @RequestParam String order){
+        try{
+            Page<RentalOffering> rentalOfferingPage = rentalOfferingService.findByOffsetAndPageSizeAndField(offset, pagesize,"amount", order);
+            return new ResponseEntity<Page<RentalOffering>>(rentalOfferingPage, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
