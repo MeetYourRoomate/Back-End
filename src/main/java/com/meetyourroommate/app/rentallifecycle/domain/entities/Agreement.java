@@ -2,7 +2,8 @@ package com.meetyourroommate.app.rentallifecycle.domain.entities;
 
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.AgreementAsset;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.AgreementId;
-import com.meetyourroommate.app.shared.valueobjects.Audit;
+import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
+
 import lombok.Data;
 
 import javax.persistence.*;

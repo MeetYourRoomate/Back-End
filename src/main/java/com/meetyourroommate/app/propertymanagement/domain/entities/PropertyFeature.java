@@ -3,7 +3,7 @@ package com.meetyourroommate.app.propertymanagement.domain.entities;
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
 import com.meetyourroommate.app.propertymanagement.domain.valueobjects.Feature;
 import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyFeatureId;
-import com.meetyourroommate.app.shared.valueobjects.Audit;
+import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 
 import javax.persistence.*;
 

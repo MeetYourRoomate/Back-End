@@ -4,7 +4,8 @@ import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyI
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.Amount;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.Lifecycle;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.RentalOfferingId;
-import com.meetyourroommate.app.shared.valueobjects.Audit;
+import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
+
 import lombok.Data;
 
 import javax.persistence.Column;

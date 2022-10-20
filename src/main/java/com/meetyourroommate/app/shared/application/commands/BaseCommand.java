@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.shared.commands;
+package com.meetyourroommate.app.shared.application.commands;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
