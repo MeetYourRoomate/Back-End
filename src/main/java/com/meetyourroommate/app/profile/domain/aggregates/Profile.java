@@ -14,6 +14,7 @@ import java.util.List;
 public class Profile {
     @Id
     @AggregateIdentifier
+    @GeneratedValue
     private Long id;
     private String name;
     private String surname;
@@ -23,7 +24,7 @@ public class Profile {
     List<Property> properties;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     public User getUser() {

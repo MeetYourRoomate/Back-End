@@ -41,13 +41,16 @@ public class ProfileController {
         try
         {
             Optional<User> user = userService.findById(userId);
-            if(user.isPresent()){
-                Profile profile = mapper.toEntity(profileResource);
-                profile.setUser(user.get());
-                return new ResponseEntity<Profile>(profileService.save(profile), HttpStatus.OK);
-            }else{
-               return new ResponseEntity<String>("User not found.", HttpStatus.NOT_FOUND);
+            if(user.isEmpty()){
+                return new ResponseEntity<String>("User not found.", HttpStatus.NOT_FOUND);
             }
+            Optional<Profile> profile = profileService.findByUser(user.get());
+            if(profile.isPresent()){
+                return new ResponseEntity<String>("Profile Already exist.", HttpStatus.CONFLICT);
+            }
+            Profile newProfile = mapper.toEntity(profileResource);
+            newProfile.setUser(user.get());
+            return new ResponseEntity<Profile>(profileService.save(newProfile), HttpStatus.OK);
         }catch(Exception e){
            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
