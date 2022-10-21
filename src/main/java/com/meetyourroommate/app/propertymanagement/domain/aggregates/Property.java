@@ -3,7 +3,7 @@ package com.meetyourroommate.app.propertymanagement.domain.aggregates;
 import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyFeature;
 import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyAsset;
 import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyId;
-import com.meetyourroommate.app.shared.valueobjects.Audit;
+import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
 

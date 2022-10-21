@@ -3,7 +3,7 @@ package com.meetyourroommate.app.rentallifecycle.domain.aggregates;
 import com.meetyourroommate.app.rentallifecycle.domain.entities.RentalRequest;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.AgreementId;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.RentalOfferingId;
-import com.meetyourroommate.app.shared.valueobjects.Audit;
+import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import lombok.Data;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;

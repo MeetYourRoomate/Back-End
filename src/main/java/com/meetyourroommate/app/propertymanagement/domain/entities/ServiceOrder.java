@@ -1,7 +1,7 @@
 package com.meetyourroommate.app.propertymanagement.domain.entities;
 
 import com.meetyourroommate.app.propertymanagement.domain.valueobjects.ServiceOrderId;
-import com.meetyourroommate.app.shared.valueobjects.Audit;
+import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;

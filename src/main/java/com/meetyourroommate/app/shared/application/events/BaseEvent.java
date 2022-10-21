@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.shared.events;
+package com.meetyourroommate.app.shared.application.events;
 
 
 public class BaseEvent<T> {

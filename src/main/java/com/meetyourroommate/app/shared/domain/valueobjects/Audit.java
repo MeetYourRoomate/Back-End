@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.shared.valueobjects;
+package com.meetyourroommate.app.shared.domain.valueobjects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
