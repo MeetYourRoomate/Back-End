@@ -1,7 +1,7 @@
 package com.meetyourroommate.app.rentallifecycle.controllers;
 
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
-import com.meetyourroommate.app.propertymanagement.service.PropertyService;
+import com.meetyourroommate.app.propertymanagement.applitacation.service.PropertyService;
 import com.meetyourroommate.app.rentallifecycle.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rentallifecycle.resources.RentalOfferingResource;
 import com.meetyourroommate.app.rentallifecycle.services.RentalOfferingService;
