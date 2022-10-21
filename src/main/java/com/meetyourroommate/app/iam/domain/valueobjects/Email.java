@@ -5,16 +5,14 @@ import javax.persistence.Embeddable;
 import lombok.*;
 
 @Embeddable
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@With
 public class Email {
-  private String value;
+  private String adress;
 
-  public Boolean isValid() {
-    // TODO: Regex to determine if email is valid
-    return true;
+  public String getAdress() {
+    return adress;
+  }
+
+  public void setAdress(String adress) {
+    this.adress = adress;
   }
 }

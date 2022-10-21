@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.shared.services;
+package com.meetyourroommate.app.shared.application.services;
 
 import java.util.List;
 import java.util.Optional;

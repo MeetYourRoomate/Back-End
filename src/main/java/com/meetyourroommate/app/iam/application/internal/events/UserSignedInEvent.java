@@ -7,11 +7,11 @@ import lombok.Getter;
 
 @Getter
 public class UserSignedInEvent {
-  private String id;
+  private Long id;
   private Email email;
   private Password password;
 
-  public UserSignedInEvent(String id, Email email, Password password) {
+  public UserSignedInEvent(Long id, Email email, Password password) {
     this.id = id;
     this.email = email;
     this.password = password;

@@ -3,13 +3,9 @@ package com.meetyourroommate.app.iam.domain.aggregates;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.persistence.JoinTable;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
+import com.meetyourroommate.app.iam.application.services.UserService;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -36,17 +32,13 @@ import lombok.With;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@With
 @AggregateRoot
 @Entity
 public class User {
-  @AggregateIdentifier
   @Id
-  private String id;
+  @AggregateIdentifier
+  @GeneratedValue
+  private Long id;
 
   @Embedded
   private Email email;
@@ -55,9 +47,11 @@ public class User {
 
   private Boolean active;
 
-  private String token;
+  public Long getId() {
+    return id;
+  }
 
-  @ManyToMany
+  /*  @ManyToMany
   @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
   @JsonIgnore
   private Set<Role> roles;
@@ -69,10 +63,10 @@ public class User {
 
   @Autowired
   @JsonIgnore
-  private UserRepository userRepository;
-
+  private UserService userService;
   @CommandHandler
   public void handle(SignInUserCommand command) {
+
     Optional<User> userOptional = userRepository.findByEmail(command.getEmail());
 
     if (!userOptional.isPresent()) {
@@ -91,5 +85,5 @@ public class User {
     this.email = event.getEmail();
     this.password = event.getPassword();
     this.active = true;
-  }
+  }*/
 }
