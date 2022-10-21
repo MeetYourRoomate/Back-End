@@ -2,6 +2,7 @@ package com.meetyourroommate.app.iam.domain.aggregates;
 
 import javax.persistence.*;
 
+import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
@@ -17,6 +18,7 @@ public class User {
   @Embedded
   private Email email;
   private Boolean active;
+
   public User(){
     this.active = true;
   }

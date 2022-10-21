@@ -4,7 +4,7 @@ package com.meetyourroommate.app.profile.application.transform;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration("ProfileMappingConfiguration")
+@Configuration("profileMappingConfiguration")
 public class MappingConfiguration {
 
     @Bean

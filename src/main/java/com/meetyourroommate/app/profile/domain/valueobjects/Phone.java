@@ -4,7 +4,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class Phone implements Serializable {
+public class Phone {
     private String number;
     private String code;
 
@@ -12,15 +12,17 @@ public class Phone implements Serializable {
         return number;
     }
 
-    public void setNumber(String number) {
+    public Phone setNumber(String number) {
         this.number = number;
+        return this;
     }
 
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public Phone setCode(String code) {
         this.code = code;
+        return this;
     }
 }

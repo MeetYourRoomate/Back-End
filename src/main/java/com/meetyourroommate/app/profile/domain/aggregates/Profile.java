@@ -14,16 +14,17 @@ import java.util.List;
 public class Profile {
     @Id
     @AggregateIdentifier
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String surname;
     @Embedded
     private Phone phone;
+
     @OneToMany(mappedBy = "profile")
     List<Property> properties;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
@@ -37,6 +38,10 @@ public class Profile {
 
     public Phone getPhone() {
         return phone;
+    }
+    public Profile setPhone(Phone phone){
+       this.phone = phone;
+       return this;
     }
 
     public String getSurname() {
