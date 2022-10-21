@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.propertymanagement.application.services.impl;
 
+import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
 import com.meetyourroommate.app.propertymanagement.infrastructure.persistance.jpa.PropertyRepository;
 import com.meetyourroommate.app.propertymanagement.application.services.PropertyService;
@@ -15,8 +16,7 @@ public class PropertyServiceImpl implements PropertyService {
     private PropertyRepository propertyRepository;
     @Override
     public Property save(Property property) throws Exception {
-        Property newProperty = new Property(property.getDescription());
-        return propertyRepository.save(newProperty);
+        return propertyRepository.save(property);
     }
 
     @Override
@@ -38,5 +38,10 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public void deleteById(Long propertyId) throws Exception {
         propertyRepository.deleteById(propertyId);
+    }
+
+    @Override
+    public List<Property> findAllByProfile(Profile profile) {
+        return propertyRepository.findAllByProfile(profile);
     }
 }

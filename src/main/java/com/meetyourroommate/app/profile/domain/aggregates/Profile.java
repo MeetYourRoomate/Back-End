@@ -3,6 +3,7 @@ package com.meetyourroommate.app.profile.domain.aggregates;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
+import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
 
@@ -14,16 +15,24 @@ import java.util.List;
 public class Profile {
     @Id
     @AggregateIdentifier
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String surname;
     @Embedded
     private Phone phone;
-    @OneToMany(mappedBy = "profile")
+    @Embedded
+    private Audit audit;
+
+    public Profile(){
+       this.audit = new Audit();
+    }
+
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     List<Property> properties;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     public User getUser() {
@@ -36,6 +45,10 @@ public class Profile {
 
     public Phone getPhone() {
         return phone;
+    }
+    public Profile setPhone(Phone phone){
+       this.phone = phone;
+       return this;
     }
 
     public String getSurname() {
@@ -52,5 +65,13 @@ public class Profile {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Audit getAudit() {
+        return audit;
+    }
+
+    public void setAudit(Audit audit) {
+        this.audit = audit;
     }
 }

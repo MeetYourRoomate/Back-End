@@ -2,6 +2,8 @@ package com.meetyourroommate.app.iam.domain.aggregates;
 
 import javax.persistence.*;
 
+import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
@@ -17,8 +19,13 @@ public class User {
   @Embedded
   private Email email;
   private Boolean active;
+
+  @Embedded
+  private Audit audit;
+
   public User(){
     this.active = true;
+    this.audit = new Audit();
   }
 
   public String getId() {
@@ -43,6 +50,14 @@ public class User {
 
   public void setActive(Boolean active) {
     this.active = active;
+  }
+
+  public Audit getAudit() {
+    return audit;
+  }
+
+  public void setAudit(Audit audit) {
+    this.audit = audit;
   }
 
   /*  @ManyToMany
