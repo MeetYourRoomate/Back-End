@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.rentallifecycle.repositories;
+package com.meetyourroommate.app.rentallifecycle.infrastructure.persistance.jpa;
 
 import com.meetyourroommate.app.rentallifecycle.domain.entities.RentalOffering;
 import org.springframework.data.jpa.repository.JpaRepository;

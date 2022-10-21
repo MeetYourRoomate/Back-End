@@ -1,6 +1,4 @@
-package com.meetyourroommate.app.propertymanagement.applitacation.transform.resources;
-
-import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyId;
+package com.meetyourroommate.app.propertymanagement.application.transform.resources;
 
 public class PropertyAssetResource {
     private String urlImage;

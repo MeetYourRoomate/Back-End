@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.rentallifecycle.resources;
+package com.meetyourroommate.app.rentallifecycle.application.transform.resources;
 
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.Amount;
 import com.meetyourroommate.app.rentallifecycle.domain.valueobjects.Lifecycle;

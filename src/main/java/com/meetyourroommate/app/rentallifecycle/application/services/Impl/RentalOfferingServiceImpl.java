@@ -1,8 +1,8 @@
-package com.meetyourroommate.app.rentallifecycle.services.Impl;
+package com.meetyourroommate.app.rentallifecycle.application.services.Impl;
 
 import com.meetyourroommate.app.rentallifecycle.domain.entities.RentalOffering;
-import com.meetyourroommate.app.rentallifecycle.repositories.RentalOfferingRepository;
-import com.meetyourroommate.app.rentallifecycle.services.RentalOfferingService;
+import com.meetyourroommate.app.rentallifecycle.infrastructure.persistance.jpa.RentalOfferingRepository;
+import com.meetyourroommate.app.rentallifecycle.application.services.RentalOfferingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

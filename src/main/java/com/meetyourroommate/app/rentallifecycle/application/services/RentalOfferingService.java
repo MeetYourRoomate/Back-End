@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.rentallifecycle.services;
+package com.meetyourroommate.app.rentallifecycle.application.services;
 
 import com.meetyourroommate.app.rentallifecycle.domain.entities.RentalOffering;
 import com.meetyourroommate.app.shared.application.services.CrudService;

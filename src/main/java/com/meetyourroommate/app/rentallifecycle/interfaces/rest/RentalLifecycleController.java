@@ -1,10 +1,10 @@
-package com.meetyourroommate.app.rentallifecycle.controllers;
+package com.meetyourroommate.app.rentallifecycle.interfaces.rest;
 
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
-import com.meetyourroommate.app.propertymanagement.applitacation.service.PropertyService;
+import com.meetyourroommate.app.propertymanagement.application.services.PropertyService;
 import com.meetyourroommate.app.rentallifecycle.domain.entities.RentalOffering;
-import com.meetyourroommate.app.rentallifecycle.resources.RentalOfferingResource;
-import com.meetyourroommate.app.rentallifecycle.services.RentalOfferingService;
+import com.meetyourroommate.app.rentallifecycle.application.transform.resources.RentalOfferingResource;
+import com.meetyourroommate.app.rentallifecycle.application.services.RentalOfferingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

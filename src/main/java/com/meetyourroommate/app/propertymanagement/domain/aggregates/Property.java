@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.propertymanagement.domain.aggregates;
 
+import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyFeature;
 import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyAsset;
 import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyId;
@@ -19,6 +20,9 @@ public class Property {
     @GeneratedValue
     private Long id;
     private String description;
+    @ManyToOne
+    @JoinColumn(name = "profile_id")
+    Profile profile;
     @OneToMany(mappedBy = "propertyid")
     List<PropertyAsset> assets;
 

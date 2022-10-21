@@ -1,8 +1,7 @@
-package com.meetyourroommate.app.propertymanagement.applitacation.service;
+package com.meetyourroommate.app.propertymanagement.application.services;
 
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
 import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyAsset;
-import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyAssetId;
 import com.meetyourroommate.app.shared.application.services.CrudService;
 
 import java.util.List;

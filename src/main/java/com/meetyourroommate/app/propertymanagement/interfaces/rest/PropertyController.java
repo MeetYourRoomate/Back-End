@@ -1,8 +1,8 @@
 package com.meetyourroommate.app.propertymanagement.interfaces.rest;
 
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
-import com.meetyourroommate.app.propertymanagement.applitacation.transform.resources.PropertyResource;
-import com.meetyourroommate.app.propertymanagement.applitacation.service.PropertyService;
+import com.meetyourroommate.app.propertymanagement.application.transform.resources.PropertyResource;
+import com.meetyourroommate.app.propertymanagement.application.services.PropertyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
