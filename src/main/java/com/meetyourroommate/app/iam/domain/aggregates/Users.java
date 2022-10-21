@@ -7,23 +7,26 @@ import org.axonframework.modelling.command.AggregateRoot;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 import com.meetyourroommate.app.iam.domain.valueobjects.Email;
-import com.meetyourroommate.app.iam.domain.valueobjects.Password;
 
 @AggregateRoot
 @Entity
-public class User {
+public class Users {
   @Id
   @AggregateIdentifier
   private String id;
   @Embedded
   private Email email;
   private Boolean active;
-  public User(){
+  public Users(){
     this.active = true;
   }
 
   public String getId() {
     return this.id;
+  }
+  public Users setId(String id) {
+    this.id = id;
+    return this;
   }
 
   public Email getEmail() {

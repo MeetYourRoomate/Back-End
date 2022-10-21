@@ -1,6 +1,6 @@
 package com.meetyourroommate.app.profile.application.services.Impl;
 
-import com.meetyourroommate.app.iam.domain.aggregates.User;
+import com.meetyourroommate.app.iam.domain.aggregates.Users;
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.profile.infrastructure.persistance.jpa.ProfileRepository;
@@ -40,7 +40,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile findByUser(User user) {
+    public Profile findByUser(Users user) {
         return profileRepository.findByUser(user);
     }
 }
