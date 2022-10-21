@@ -6,8 +6,7 @@ import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.application.transform.ProfileMapper;
 import com.meetyourroommate.app.profile.application.transform.resources.ProfileResource;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
-import com.meetyourroommate.app.propertymanagement.application.services.PropertyService;
-import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
+import com.meetyourroommate.app.property.application.services.PropertyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Profile", description = "Create, read, update and delete profile")
