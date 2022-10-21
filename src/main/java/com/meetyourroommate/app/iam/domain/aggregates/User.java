@@ -16,7 +16,6 @@ public class User {
   @AggregateIdentifier
   @GeneratedValue
   private Long id;
-
   @Embedded
   private Email email;
   @Embedded
