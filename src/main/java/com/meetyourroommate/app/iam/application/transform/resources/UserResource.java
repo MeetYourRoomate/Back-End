@@ -9,7 +9,6 @@ import lombok.Data;
 
 @Data
 public class UserResource {
-  private String username;
+  private String id;
   private Email email;
-  private Password password;
 }

@@ -1,23 +1,19 @@
 package com.meetyourroommate.app.iam.interfaces.rest;
 
-import javax.validation.Valid;
-
 import com.meetyourroommate.app.iam.application.services.UserService;
 import com.meetyourroommate.app.iam.application.transform.UserMapper;
 import com.meetyourroommate.app.iam.application.transform.resources.UserResource;
-import com.meetyourroommate.app.iam.domain.aggregates.User;
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import com.meetyourroommate.app.iam.domain.aggregates.Users;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.meetyourroommate.app.iam.application.communication.AuthenticationRequest;
-import com.meetyourroommate.app.iam.application.communication.RegistrationRequest;
-
 import io.swagger.v3.oas.annotations.tags.Tag;
-
-import java.util.Optional;
 
 @Tag(name = "Users", description = "Create, read, update and delete users")
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -31,56 +27,18 @@ public class UsersController {
   @Autowired
   private UserMapper mapper;
 
-/*  private final CommandGateway gateway;
-
-  // private final UserService userService;
-  // private final UserMapper mapper;
-
-  public UsersController(CommandGateway gateway) {
-    this.gateway = gateway;
-  }
-
-  @PostMapping("/auth/sign-in")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthenticationRequest request) {
-    // return userService.authenticate(request);
-    return null;
-  }
-
-  @PostMapping("/auth/sign-up")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest request) {
-    // return userService.register(request);
-    return null;
-  }
-*/
+  @Operation(summary = "Create user", description = "Create new user", tags = {"property asset"})
+  @ApiResponses( value = {
+          @ApiResponse(responseCode = "200", description = "Created new user", content = @Content(mediaType = "application/json"))
+  })
   @PostMapping("/register")
   public ResponseEntity<?> registerUser(@RequestBody UserResource userResource){
     try{
-      User newUser = mapper.toEntity(userResource);
-      return new ResponseEntity<User>(userService.save(newUser),HttpStatus.OK);
+      Users newUser = mapper.toEntity(userResource);
+      newUser.setId(userResource.getId());
+      return new ResponseEntity<Users>(userService.save(newUser),HttpStatus.OK);
     }catch(Exception e){
       return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
-  @GetMapping("/login")
-  public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password){
-    try {
-      AuthenticationRequest authenticationRequest = new AuthenticationRequest(email, password);
-      Optional<User> user =  userService.findByEmailAndPassword(authenticationRequest);
-      if(user.isPresent()){
-        return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-      }else{
-        return new ResponseEntity<String>("UserNotFound", HttpStatus.NOT_FOUND);
-      }
-    }catch(Exception e){
-      return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  // @GetMapping
-  // @PreAuthorize("hasRole('ADMIN')")
-  // public ResponseEntity<?> getAllUsers(Pageable pageable) {
-  //   Page<UserResource> resources = mapper.modelListToPage(userService.getAll(), pageable);
-  //   return ResponseEntity.ok(resources);
-  // }
 }

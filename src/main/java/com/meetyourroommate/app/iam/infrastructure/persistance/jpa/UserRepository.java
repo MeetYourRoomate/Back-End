@@ -1,15 +1,9 @@
 package com.meetyourroommate.app.iam.infrastructure.persistance.jpa;
 
-import java.util.Optional;
-
-import com.meetyourroommate.app.iam.domain.aggregates.User;
-import com.meetyourroommate.app.iam.domain.valueobjects.Email;
-import com.meetyourroommate.app.iam.domain.valueobjects.Password;
+import com.meetyourroommate.app.iam.domain.aggregates.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-  Optional<User> findByEmail(String email);
-  Optional<User> findByEmailAndPassword(Email email, Password password);
+public interface UserRepository extends JpaRepository<Users, String> {
 }
