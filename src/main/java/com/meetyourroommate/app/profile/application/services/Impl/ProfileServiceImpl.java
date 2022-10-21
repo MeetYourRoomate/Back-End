@@ -40,7 +40,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile findByUser(User user) {
+    public Optional<Profile> findByUser(User user) {
         return profileRepository.findByUser(user);
     }
 }

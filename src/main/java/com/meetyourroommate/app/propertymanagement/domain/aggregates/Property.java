@@ -34,7 +34,12 @@ public class Property {
         this.audit = new Audit();
         this.description = description;
     }
-
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+    public Profile getProfile(){
+       return this.profile;
+    }
     public Property() {
     }
     public List<PropertyAsset> getPropertyAssets(){
