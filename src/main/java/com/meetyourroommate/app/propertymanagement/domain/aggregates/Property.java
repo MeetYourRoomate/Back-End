@@ -22,7 +22,7 @@ public class Property {
     private String description;
     @ManyToOne
     @JoinColumn(name = "profile_id")
-    Profile profile;
+    private Profile profile;
     @OneToMany(mappedBy = "propertyid")
     List<PropertyAsset> assets;
 
@@ -30,17 +30,15 @@ public class Property {
     List<PropertyFeature> propertyFeatureList;
     @Embedded
     private Audit audit;
-    public Property(String description){
+    public Property() {
         this.audit = new Audit();
-        this.description = description;
     }
-    public void setProfile(Profile profile) {
+    public Property setProfile(Profile profile) {
         this.profile = profile;
+        return this;
     }
     public Profile getProfile(){
        return this.profile;
-    }
-    public Property() {
     }
     public List<PropertyAsset> getPropertyAssets(){
        return this.assets;

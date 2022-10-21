@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface ProfileService extends CrudService<Profile, Long> {
     Optional<Profile> findByUser(User user);
+    Optional<Profile> findByUserId(String userId);
 }

@@ -6,6 +6,8 @@ import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.application.transform.ProfileMapper;
 import com.meetyourroommate.app.profile.application.transform.resources.ProfileResource;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.propertymanagement.application.services.PropertyService;
+import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Profile", description = "Create, read, update and delete profile")
@@ -24,11 +27,13 @@ import java.util.Optional;
 public class ProfileController {
     private ProfileService profileService;
     private UserService userService;
+    private PropertyService propertyService;
     private ProfileMapper mapper;
 
-    public ProfileController(ProfileService profileService, UserService userService, ProfileMapper mapper) {
+    public ProfileController(ProfileService profileService, UserService userService, PropertyService propertyService, ProfileMapper mapper) {
         this.profileService = profileService;
         this.userService = userService;
+        this.propertyService = propertyService;
         this.mapper = mapper;
     }
 
@@ -66,5 +71,20 @@ public class ProfileController {
         }
 
     }
+
+    @GetMapping(path = "/{id}/properties", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?>getProperties(@PathVariable String id){
+        try{
+            Optional<Profile> profile = profileService.findByUserId(id);
+            if (profile.isEmpty()){
+                return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
+            }
+            List<Property> properties = propertyService.findAllByProfile(profile.get());
+            return new ResponseEntity<>(properties, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

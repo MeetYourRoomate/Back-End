@@ -21,7 +21,7 @@ public class Profile {
     @Embedded
     private Phone phone;
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     List<Property> properties;
 
     @OneToOne(cascade = CascadeType.REMOVE)

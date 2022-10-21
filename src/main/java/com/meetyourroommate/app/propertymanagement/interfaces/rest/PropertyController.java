@@ -61,7 +61,7 @@ public class PropertyController {
         }
     }
 
-    @Operation(summary = "Delete property", description = "Delete property", tags = {"property"})
+    @Operation(summary = "Delete property", description = "Delete property")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Deleted property", content = @Content(mediaType = "application/json"))
     })
@@ -71,7 +71,7 @@ public class PropertyController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Get properties", description = "Get properties", tags = {"property"})
+    @Operation(summary = "Get properties", description = "Get properties")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Properties", content = @Content(mediaType = "application/json"))
     })
@@ -85,4 +85,5 @@ public class PropertyController {
         }
 
     }
+
 }
