@@ -5,17 +5,49 @@ springdoc:
     path: /meetyourroommate
   swagger_ui:
     path: /project-api-doc-ui.html
+
 spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:~/db/roommate-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: admin
+    password: admin
   jpa:
+    database: h2
     hibernate:
       ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-  datasource:
-    url: jdbc:mysql://localhost:3306/roommate
-    username: root
-    password: 8Hu#6Fyw
+        show_sql: true
+        user_sql_comment: false
+        format_sql: false
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+#Clever cloud config
+#  datasource:
+#   url: jdbc:mysql://beiq8exwtpognvmrc7rp-mysql.services.clever-cloud.com:3306/beiq8exwtpognvmrc7rp
+#   username: umkh6gnhvngmq9xi
+#   password: GhbPh6WJdI6HuumqTeVO
+
+#  datasource: [RENATO] Configuracion de base de datos local
+#   url: jdbc:mysql://localhost:3306/roommate
+#   username: root
+#   password: 8Hu#6Fyw
+#  datasource: [SEBATIAN] Configuracion de base de datos local
+#    url: jdbc:mysql://localhost:3306/roommate
+#    username: root
+#    password: root
+
 logging:
   level:
     org.hibernate.sql: DEBUG
