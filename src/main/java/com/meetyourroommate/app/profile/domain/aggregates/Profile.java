@@ -3,6 +3,7 @@ package com.meetyourroommate.app.profile.domain.aggregates;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
+import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
 
@@ -20,6 +21,12 @@ public class Profile {
     private String surname;
     @Embedded
     private Phone phone;
+    @Embedded
+    private Audit audit;
+
+    public Profile(){
+       this.audit = new Audit();
+    }
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     List<Property> properties;
@@ -58,5 +65,13 @@ public class Profile {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Audit getAudit() {
+        return audit;
+    }
+
+    public void setAudit(Audit audit) {
+        this.audit = audit;
     }
 }

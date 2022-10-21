@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Tag(name = "Property", description = "Create, read, update and delete properties")
 @RestController
-@RequestMapping("/api/v1/properties")
+@RequestMapping("/api/v1")
 public class PropertyController {
     private PropertyService propertyService;
     private ProfileService profileService;
@@ -42,7 +42,7 @@ public class PropertyController {
 	@ApiResponses( value = {
 		@ApiResponse(responseCode = "200", description = "Created property", content = @Content(mediaType = "application/json"))
 	})
-	@PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/properties", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> save(@RequestParam String userid, @RequestBody PropertyResource model){
         try{
             Optional<User> user = userService.findById(userid);
@@ -61,11 +61,11 @@ public class PropertyController {
         }
     }
 
-    @Operation(summary = "Delete property", description = "Delete property")
+    @Operation(summary = "Delete property by id", description = "Delete property by property id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Deleted property", content = @Content(mediaType = "application/json"))
     })
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/properties/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> delete(@RequestParam("id") Long id) throws Exception{
         propertyService.deleteById(id);
         return ResponseEntity.ok().build();
@@ -75,7 +75,7 @@ public class PropertyController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Properties", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/properties", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Property>> getALl(){
         try{
             List<Property> properties = propertyService.findAll();
@@ -85,5 +85,21 @@ public class PropertyController {
         }
 
     }
-
+    @Operation(summary = "Get Properties by user id", description = "Find all properties by profile")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Created new profile", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping(path = "/users/{id}/profiles/properties", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?>getProperties(@PathVariable String id){
+        try{
+            Optional<Profile> profile = profileService.findByUserId(id);
+            if (profile.isEmpty()){
+                return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
+            }
+            List<Property> properties = propertyService.findAllByProfile(profile.get());
+            return new ResponseEntity<>(properties, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Tag(name = "Profile", description = "Create, read, update and delete profile")
 @RestController
-@RequestMapping("/api/v1/profiles")
+@RequestMapping("/api/v1")
 public class ProfileController {
     private ProfileService profileService;
     private UserService userService;
@@ -41,7 +41,7 @@ public class ProfileController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Created new profile", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> save(@RequestParam String userId, @RequestBody ProfileResource profileResource){
         try
         {
@@ -61,7 +61,11 @@ public class ProfileController {
         }
     }
 
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Delete profile", description = "Delete profile")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Created new profile", content = @Content(mediaType = "application/json"))
+    })
+    @DeleteMapping(value = "/users/{id}/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>delete(@PathVariable Long id){
         try{
             profileService.deleteById(id);
@@ -72,19 +76,6 @@ public class ProfileController {
 
     }
 
-    @GetMapping(path = "/{id}/properties", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?>getProperties(@PathVariable String id){
-        try{
-            Optional<Profile> profile = profileService.findByUserId(id);
-            if (profile.isEmpty()){
-                return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
-            }
-            List<Property> properties = propertyService.findAllByProfile(profile.get());
-            return new ResponseEntity<>(properties, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
 
 }
