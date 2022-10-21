@@ -6,6 +6,5 @@ import com.meetyourroommate.app.shared.application.services.CrudService;
 
 import java.util.Optional;
 
-public interface UserService  extends CrudService<User, Long> {
-    Optional<User> findByEmailAndPassword(AuthenticationRequest authenticationRequest);
+public interface UserService  extends CrudService<User, String> {
 }

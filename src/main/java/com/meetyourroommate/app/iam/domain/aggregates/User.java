@@ -14,20 +14,16 @@ import com.meetyourroommate.app.iam.domain.valueobjects.Password;
 public class User {
   @Id
   @AggregateIdentifier
-  @GeneratedValue
-  private Long id;
+  private String id;
   @Embedded
   private Email email;
-  @Embedded
-  private Password password;
-
   private Boolean active;
   public User(){
     this.active = true;
   }
 
-  public Long getId() {
-    return id;
+  public String getId() {
+    return this.id;
   }
 
   public Email getEmail() {
@@ -36,14 +32,6 @@ public class User {
 
   public void setEmail(Email email) {
     this.email = email;
-  }
-
-  public Password getPassword() {
-    return password;
-  }
-
-  public void setPassword(Password password) {
-    this.password = password;
   }
 
   public Boolean getActive() {

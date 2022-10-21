@@ -6,6 +6,10 @@ import com.meetyourroommate.app.iam.application.services.UserService;
 import com.meetyourroommate.app.iam.application.transform.UserMapper;
 import com.meetyourroommate.app.iam.application.transform.resources.UserResource;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,26 +56,15 @@ public class UsersController {
     return null;
   }
 */
+  @Operation(summary = "Create user", description = "Create new user", tags = {"property asset"})
+  @ApiResponses( value = {
+          @ApiResponse(responseCode = "200", description = "Created new user", content = @Content(mediaType = "application/json"))
+  })
   @PostMapping("/register")
   public ResponseEntity<?> registerUser(@RequestBody UserResource userResource){
     try{
       User newUser = mapper.toEntity(userResource);
       return new ResponseEntity<User>(userService.save(newUser),HttpStatus.OK);
-    }catch(Exception e){
-      return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  @GetMapping("/login")
-  public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password){
-    try {
-      AuthenticationRequest authenticationRequest = new AuthenticationRequest(email, password);
-      Optional<User> user =  userService.findByEmailAndPassword(authenticationRequest);
-      if(user.isPresent()){
-        return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-      }else{
-        return new ResponseEntity<String>("UserNotFound", HttpStatus.NOT_FOUND);
-      }
     }catch(Exception e){
       return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
