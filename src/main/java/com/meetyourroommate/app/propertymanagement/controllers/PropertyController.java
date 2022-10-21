@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +15,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/properties")
 public class PropertyController {
-    @Autowired
     private PropertyService propertyService;
-	@Operation(summary = "Create new property", description = "Create property to lessor", tags = {"property"})
+
+    public PropertyController(PropertyService propertyService) {
+        this.propertyService = propertyService;
+    }
+
+    @Operation(summary = "Create new property", description = "Create property to lessor", tags = {"property"})
 	@ApiResponses( value = {
 		@ApiResponse(responseCode = "200", description = "Created property", content = @Content(mediaType = "application/json"))
 	})
-	@PostMapping(path = "/property", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Property save(@RequestBody PropertyResource entity) throws Exception{
         Property newProperty = new Property();
         newProperty.setDescription(entity.getDescription());
@@ -35,7 +38,7 @@ public class PropertyController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Deleted property", content = @Content(mediaType = "application/json"))
     })
-    @DeleteMapping(path = "/property/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> delete(@RequestParam("id") Long id) throws Exception{
         propertyService.deleteById(id);
         return ResponseEntity.ok().build();
@@ -45,7 +48,7 @@ public class PropertyController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Properties", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping(path = "/property", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Property>> getALl(){
         try{
             List<Property> properties = propertyService.findAll();
