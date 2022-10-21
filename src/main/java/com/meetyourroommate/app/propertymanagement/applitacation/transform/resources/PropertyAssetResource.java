@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.propertymanagement.resources;
+package com.meetyourroommate.app.propertymanagement.applitacation.transform.resources;
 
 import com.meetyourroommate.app.propertymanagement.domain.valueobjects.PropertyId;
 

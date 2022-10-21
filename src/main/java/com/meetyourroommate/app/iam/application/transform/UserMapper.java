@@ -3,7 +3,7 @@ package com.meetyourroommate.app.iam.application.transform;
 import java.io.Serializable;
 import java.util.List;
 
-import com.meetyourroommate.app.iam.domain.aggregates.Users;
+import com.meetyourroommate.app.iam.domain.aggregates.User;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 
@@ -27,15 +27,15 @@ public class UserMapper implements Serializable {
     }
   };
 
-  public UserResource toResource(Users model) {
+  public UserResource toResource(User model) {
     return mapper.map(model, UserResource.class);
   }
 
-  public Users toEntity(UserResource resource) {
-    return mapper.map(resource, Users.class);
+  public User toEntity(UserResource resource) {
+    return mapper.map(resource, User.class);
   }
 
-  public Page<UserResource> modelListToPage(List<Users> modelList, Pageable pageable) {
+  public Page<UserResource> modelListToPage(List<User> modelList, Pageable pageable) {
     mapper.addConverter(roleToStringConverter);
     return new PageImpl<>(mapper.mapList(modelList, UserResource.class), pageable, modelList.size());
   }

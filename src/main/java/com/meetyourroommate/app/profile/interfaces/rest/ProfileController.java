@@ -1,12 +1,16 @@
 package com.meetyourroommate.app.profile.interfaces.rest;
 
 import com.meetyourroommate.app.iam.application.services.UserService;
-import com.meetyourroommate.app.iam.domain.aggregates.Users;
+import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.application.transform.ProfileMapper;
 import com.meetyourroommate.app.profile.application.transform.resources.ProfileResource;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
-import org.h2.engine.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@Tag(name = "Profile", description = "Create, read, update and delete profile")
 @RestController
 @RequestMapping("/api/v1/profiles")
 public class ProfileController {
@@ -27,11 +32,15 @@ public class ProfileController {
         this.mapper = mapper;
     }
 
+    @Operation(summary = "Create profile", description = "Create new profile")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Created new profile", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> save(@RequestParam String userId, @RequestBody ProfileResource profileResource){
         try
         {
-            Optional<Users> user = userService.findById(userId);
+            Optional<User> user = userService.findById(userId);
             if(user.isPresent()){
                 Profile profile = mapper.toEntity(profileResource);
                 profile.setUser(user.get());

@@ -1,7 +1,7 @@
 package com.meetyourroommate.app.iam.application.services.Impl;
 
 import com.meetyourroommate.app.iam.application.services.UserService;
-import com.meetyourroommate.app.iam.domain.aggregates.Users;
+import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.iam.infrastructure.persistance.jpa.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,22 +17,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users save(Users user) throws Exception {
+    public User save(User user) throws Exception {
         return userRepository.save(user);
     }
 
     @Override
-    public List<Users> findAll() throws Exception {
+    public List<User> findAll() throws Exception {
         return userRepository.findAll();
     }
 
     @Override
-    public Optional<Users> findById(String id) throws Exception {
+    public Optional<User> findById(String id) throws Exception {
         return userRepository.findById(id);
     }
 
     @Override
-    public Users update(String s, Users user) throws Exception {
+    public User update(String s, User user) throws Exception {
         return null;
     }
 

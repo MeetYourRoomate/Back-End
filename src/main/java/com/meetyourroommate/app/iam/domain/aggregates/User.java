@@ -10,21 +10,21 @@ import com.meetyourroommate.app.iam.domain.valueobjects.Email;
 
 @AggregateRoot
 @Entity
-public class Users {
+public class User {
   @Id
   @AggregateIdentifier
   private String id;
   @Embedded
   private Email email;
   private Boolean active;
-  public Users(){
+  public User(){
     this.active = true;
   }
 
   public String getId() {
     return this.id;
   }
-  public Users setId(String id) {
+  public User setId(String id) {
     this.id = id;
     return this;
   }

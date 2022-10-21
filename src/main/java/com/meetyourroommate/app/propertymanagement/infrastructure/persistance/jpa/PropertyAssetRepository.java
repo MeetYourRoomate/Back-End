@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.propertymanagement.repositories;
+package com.meetyourroommate.app.propertymanagement.infrastructure.persistance.jpa;
 
 import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
 import com.meetyourroommate.app.propertymanagement.domain.entities.PropertyAsset;
