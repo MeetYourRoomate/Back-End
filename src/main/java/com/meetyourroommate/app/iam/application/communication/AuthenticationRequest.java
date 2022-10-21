@@ -3,16 +3,20 @@ package com.meetyourroommate.app.iam.application.communication;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.meetyourroommate.app.iam.domain.valueobjects.Email;
+import com.meetyourroommate.app.iam.domain.valueobjects.Password;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class AuthenticationRequest {
-  @NotNull
-  @NotBlank
-  private String email;
-  @NotNull
-  @NotBlank
-  private String password;
+  private Email email;
+  private Password password;
+  public AuthenticationRequest (){}
+  public AuthenticationRequest (String email, String password){
+    this.email.setAdress(email);
+    this.password.setPassword(password);
+  }
+
 }

@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.iam.application.services.Impl;
 
+import com.meetyourroommate.app.iam.application.communication.AuthenticationRequest;
 import com.meetyourroommate.app.iam.application.services.UserService;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.iam.infrastructure.persistance.jpa.UserRepository;
@@ -36,5 +37,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(Long id) throws Exception {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<User> findByEmailAndPassword(AuthenticationRequest authenticationRequest) {
+        return userRepository.findByEmailAndPassword(authenticationRequest.getEmail(), authenticationRequest.getPassword());
     }
 }

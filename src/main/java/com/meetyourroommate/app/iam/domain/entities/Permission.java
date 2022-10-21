@@ -1,6 +1,4 @@
 package com.meetyourroommate.app.iam.domain.entities;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.meetyourroommate.app.iam.domain.aggregates.User;
 
 import lombok.Data;
 

@@ -6,13 +6,13 @@ import lombok.*;
 
 @Embeddable
 public class Password {
-  private String password;
+  private String value;
 
   public String getPassword() {
-    return password;
+    return value;
   }
 
   public void setPassword(String password) {
-    this.password = password;
+    this.value = password;
   }
 }
