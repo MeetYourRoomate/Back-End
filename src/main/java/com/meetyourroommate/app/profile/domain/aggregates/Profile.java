@@ -1,8 +1,10 @@
 package com.meetyourroommate.app.profile.domain.aggregates;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
-import com.meetyourroommate.app.propertymanagement.domain.aggregates.Property;
+import com.meetyourroommate.app.property.domain.aggregates.Property;
+import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
@@ -22,8 +24,10 @@ public class Profile {
     @Embedded
     private Phone phone;
     @Embedded
+    @JsonIgnore
     private Audit audit;
-
+    @OneToMany(mappedBy = "studentProfile")
+    private List<RentalRequest> rentalRequest;
     public Profile(){
        this.audit = new Audit();
     }
@@ -33,6 +37,7 @@ public class Profile {
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", unique = true)
+    @JsonIgnore
     private User user;
 
     public User getUser() {
@@ -65,10 +70,6 @@ public class Profile {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Audit getAudit() {
-        return audit;
     }
 
     public void setAudit(Audit audit) {
