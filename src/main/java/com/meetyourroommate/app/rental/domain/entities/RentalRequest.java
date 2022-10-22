@@ -1,5 +1,7 @@
 package com.meetyourroommate.app.rental.domain.entities;
 
+import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.rental.domain.aggregates.Rental;
 import com.meetyourroommate.app.rental.domain.valueobjects.RentalRequestId;
 import com.meetyourroommate.app.shared.domain.enumerate.Status;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
@@ -11,10 +13,19 @@ import javax.persistence.*;
 @Data
 public class RentalRequest {
     @Id
-    @Column(name = "id", unique = true, updatable = false)
-    private RentalRequestId rentalRequestId;
+    @GeneratedValue
+    private Long id;
     @Embedded
     private Audit audit;
-    @Embedded
-    private Status status;
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.PENDING;
+    private String message;
+
+    @ManyToOne
+    @JoinColumn(name = "student_profile_id")
+    private Profile studentProfile;
+    @ManyToOne
+    @JoinColumn(name = "rental_offert_id")
+    private RentalOffering rentalOffering;
+
 }

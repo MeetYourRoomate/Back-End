@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.rental.application.services.Impl;
 
+import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.infrastructure.persistance.jpa.RentalOfferingRepository;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
@@ -57,5 +58,9 @@ public class RentalOfferingServiceImpl implements RentalOfferingService {
             default:
                 return rentalOfferingRepository.findAll(PageRequest.of(offset, pagesize).withSort(Sort.by(field)));
         }
+    }
+    @Override
+    public Optional<RentalOffering> findByProperty(Property property) {
+        return rentalOfferingRepository.findByProperty(property);
     }
 }

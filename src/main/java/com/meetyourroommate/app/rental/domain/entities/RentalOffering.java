@@ -1,11 +1,13 @@
 package com.meetyourroommate.app.rental.domain.entities;
 
 import com.meetyourroommate.app.property.domain.aggregates.Property;
+import com.meetyourroommate.app.rental.domain.enumerate.RentalStatus;
 import com.meetyourroommate.app.rental.domain.valueobjects.Amount;
 import com.meetyourroommate.app.rental.domain.valueobjects.Lifecycle;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class RentalOffering {
@@ -19,8 +21,14 @@ public class RentalOffering {
 
     private String conditions;
     @OneToOne
-    @JoinColumn(name = "property_id")
+    @JoinColumn(name = "property_id",unique = true)
     private Property property;
+
+    @Enumerated(EnumType.STRING)
+    private RentalStatus status = RentalStatus.FREE;
+
+    @OneToMany(mappedBy = "rentalOffering", cascade = CascadeType.REMOVE)
+    private List<RentalRequest> rentalRequestList;
 
     @Embedded
     private Audit audit;
@@ -72,5 +80,13 @@ public class RentalOffering {
 
     public void setProperty(Property property) {
         this.property = property;
+    }
+
+    public RentalStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RentalStatus status) {
+        this.status = status;
     }
 }
