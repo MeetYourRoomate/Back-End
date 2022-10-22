@@ -2,6 +2,7 @@ package com.meetyourroommate.app.iam.application.services.Impl;
 
 import com.meetyourroommate.app.iam.application.services.RoleService;
 import com.meetyourroommate.app.iam.domain.entities.Role;
+import com.meetyourroommate.app.iam.domain.entities.enums.Roles;
 import com.meetyourroommate.app.iam.infrastructure.persistance.jpa.RoleRepository;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Optional<Role> findByName(String name) {
-        return roleRepository.findByName(name);
+    public Optional<Role> findByName(Roles roleName) {
+        return roleRepository.findByName(roleName);
     }
 }

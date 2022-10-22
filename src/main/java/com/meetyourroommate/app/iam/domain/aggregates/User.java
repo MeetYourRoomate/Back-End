@@ -2,6 +2,7 @@ package com.meetyourroommate.app.iam.domain.aggregates;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.iam.domain.entities.Role;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -21,6 +22,7 @@ public class User {
   private Boolean active;
 
   @Embedded
+  @JsonIgnore
   private Audit audit;
 
   @ManyToOne
@@ -64,4 +66,11 @@ public class User {
     this.audit = audit;
   }
 
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
 }
