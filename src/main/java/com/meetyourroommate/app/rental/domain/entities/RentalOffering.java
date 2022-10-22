@@ -62,10 +62,6 @@ public class RentalOffering {
         this.amount = amount;
     }
 
-    public Audit getAudit() {
-        return audit;
-    }
-
     public Long getId() {
         return id;
     }

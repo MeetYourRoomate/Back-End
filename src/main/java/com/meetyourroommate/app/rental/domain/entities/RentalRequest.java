@@ -1,22 +1,18 @@
 package com.meetyourroommate.app.rental.domain.entities;
 
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
-import com.meetyourroommate.app.rental.domain.aggregates.Rental;
-import com.meetyourroommate.app.rental.domain.valueobjects.RentalRequestId;
 import com.meetyourroommate.app.shared.domain.enumerate.Status;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
-import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Data
 public class RentalRequest {
     @Id
     @GeneratedValue
     private Long id;
     @Embedded
-    private Audit audit;
+    private Audit audit = new Audit();
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDING;
     private String message;
@@ -28,4 +24,43 @@ public class RentalRequest {
     @JoinColumn(name = "rental_offert_id")
     private RentalOffering rentalOffering;
 
+    public RentalRequest(){
+    }
+    public RentalRequest(Profile profile, RentalOffering rentalOffering, String message){
+        this.studentProfile = profile;
+        this.rentalOffering = rentalOffering;
+        this.message = message;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public RentalOffering getRentalOffering() {
+        return rentalOffering;
+    }
+
+    public void setRentalOffering(RentalOffering rentalOffering) {
+        this.rentalOffering = rentalOffering;
+    }
+
+    public Profile getStudentProfile() {
+        return studentProfile;
+    }
+
+    public void setStudentProfile(Profile studentProfile) {
+        this.studentProfile = studentProfile;
+    }
 }

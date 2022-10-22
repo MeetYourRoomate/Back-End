@@ -24,6 +24,7 @@ public class Profile {
     @Embedded
     private Phone phone;
     @Embedded
+    @JsonIgnore
     private Audit audit;
     @OneToMany(mappedBy = "studentProfile")
     private List<RentalRequest> rentalRequest;
@@ -69,10 +70,6 @@ public class Profile {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Audit getAudit() {
-        return audit;
     }
 
     public void setAudit(Audit audit) {
