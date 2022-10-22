@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,8 +20,9 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Rental offer", description = "Create, read, update and delete rental offer")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class RentalLifecycleController {
     private PropertyService propertyService;
     private RentalOfferingService rentalOfferingService;
@@ -30,11 +32,11 @@ public class RentalLifecycleController {
         this.rentalOfferingService = rentalOfferingService;
     }
 
-    @Operation(summary = "Create new property asset", description = "Create propertyasset to property", tags = {"Rental Lifecycle"})
+    @Operation(summary = "Create new property asset", description = "Create propertyasset to property")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Created property assets", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping(path = "/property/{id}/rentaloffering", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/property/{id}/rentaloffers", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> save(@PathParam("id") Long property_id, @RequestBody RentalOfferingResource rentalOfferingResource){
         try{
             Optional<Property> property = propertyService.findById(property_id);
@@ -53,11 +55,11 @@ public class RentalLifecycleController {
         }
     }
 
-    @Operation(summary = "List rentaloffering", description = "List all rental offering without pagination", tags = {"Rental Lifecycle"})
+    @Operation(summary = "List rentaloffering", description = "List all rental offering without pagination")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Listed all rental offering", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping(path = "/rentaloffering/all" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/rentaloffers/all" ,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAll(){
         try{
             List<RentalOffering> rentalOfferingList = rentalOfferingService.findAll();
@@ -66,11 +68,11 @@ public class RentalLifecycleController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @Operation(summary = "List rentaloffering", description = "List all rental offering with pagination and field", tags = {"Rental Lifecycle"})
+    @Operation(summary = "List rentaloffering", description = "List all rental offering with pagination and field")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Listed all rental offering", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping(path = "/rentaloffering",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/rentaloffers",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findByQueryAndSort(@RequestParam int offset, @RequestParam int pagesize,@RequestParam String field, @RequestParam String order){
         try{
             Page<RentalOffering> rentalOfferingPage = rentalOfferingService.findByOffsetAndPageSizeAndField(offset, pagesize,field, order);
