@@ -2,7 +2,9 @@ package com.meetyourroommate.app.iam.domain.aggregates;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.iam.domain.entities.Role;
+import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
@@ -21,9 +23,14 @@ public class User {
   private Boolean active;
 
   @Embedded
+  @JsonIgnore
   private Audit audit;
 
-  @ManyToOne
+  @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+  @JsonIgnore
+  private Profile profile;
+
+  @ManyToOne()
   @JoinColumn(name = "role_id")
   private Role role;
 
@@ -64,4 +71,11 @@ public class User {
     this.audit = audit;
   }
 
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
 }

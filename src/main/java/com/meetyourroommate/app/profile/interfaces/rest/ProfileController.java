@@ -58,22 +58,4 @@ public class ProfileController {
            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @Operation(summary = "Delete profile", description = "Delete profile")
-    @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Created new profile", content = @Content(mediaType = "application/json"))
-    })
-    @DeleteMapping(value = "/users/{id}/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?>delete(@PathVariable Long id){
-        try{
-            profileService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-           return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-
-
 }
