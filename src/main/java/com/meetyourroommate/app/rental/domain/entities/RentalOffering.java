@@ -82,7 +82,8 @@ public class RentalOffering {
         return status;
     }
 
-    public void setStatus(RentalStatus status) {
+    public RentalOffering setStatus(RentalStatus status) {
         this.status = status;
+        return this;
     }
 }

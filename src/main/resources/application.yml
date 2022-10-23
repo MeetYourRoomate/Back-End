@@ -10,17 +10,11 @@ spring:
     console:
       enabled: true
       path: /h2-console
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:~/db/roommate-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: admin
-    password: admin
-  #Clever cloud config
-  #  datasource:
-  #   url: jdbc:mysql://beiq8exwtpognvmrc7rp-mysql.services.clever-cloud.com:3306/beiq8exwtpognvmrc7rp
-  #   username: umkh6gnhvngmq9xi
-  #   password: GhbPh6WJdI6HuumqTeVO
-
+  #datasource:
+  #  driver-class-name: org.h2.Driver
+  #  url: jdbc:h2:file:~/db/roommate-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+  #  username: admin
+  #  password: admin
   #  datasource: [RENATO] Configuracion de base de datos local
   #   url: jdbc:mysql://localhost:3306/roommate
   #   username: root
@@ -28,27 +22,31 @@ spring:
   #datasource: #[SEBATIAN] Configuracion de base de datos local
   #    url: jdbc:mysql://localhost:3306/roommate
   #    username: root
-  #    password: root
+  #     password: root
+  datasource: #[RAILWAY] Configuracion de base de datos
+      url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
+      username: ${MYSQLUSER}
+      password: ${MYSQLPASSWORD}
   # H2 config
-  jpa:
-    database: h2
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-    database-platform: org.hibernate.dialect.H2Dialect
-    properties:
-      hibernate:
-        show_sql: true
-        user_sql_comment: false
-        format_sql: false
-
-  # My sql config
   #jpa:
+  #  database: h2
   #  hibernate:
   #    ddl-auto: update
+  #  show-sql: false
+  #  database-platform: org.hibernate.dialect.H2Dialect
   #  properties:
   #    hibernate:
-  #      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  #      show_sql: true
+  #      user_sql_comment: false
+  #      format_sql: false
+
+  # My sql config
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 logging:
   level:
