@@ -116,9 +116,28 @@ public class RentalRequestController {
            }
            rentalRequest.get().setStatus(Status.ACCEPTED);
            rentalRequest.get().getRentalOffering().setStatus(RentalStatus.BUSY);
+           //TODO: add logic to delete other rental request and generate the rental object
            return new ResponseEntity<>(rentalRequestService.save(rentalRequest.get()), HttpStatus.OK);
        }catch(Exception e){
           return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
        }
+    }
+
+    @Operation(summary = "decline rental request", description = "decline rental request by request id")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Declined rental request", content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping(path = "/requests/{id}/decline")
+    public ResponseEntity<?> declineRentalRequest(@PathVariable Long id){
+        try{
+            Optional<RentalRequest> rentalRequest = rentalRequestService.findById(id);
+            if(rentalRequest.isEmpty()){
+                return new ResponseEntity<>("Rental request not found", HttpStatus.NOT_FOUND);
+            }
+            rentalRequest.get().setStatus(Status.DECLINED);
+            return new ResponseEntity<>(rentalRequestService.save(rentalRequest.get()), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
