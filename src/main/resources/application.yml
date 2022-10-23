@@ -15,20 +15,18 @@ spring:
   #  url: jdbc:h2:file:~/db/roommate-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
   #  username: admin
   #  password: admin
-  #Clever cloud config
-  #  datasource:
-  #   url: jdbc:mysql://beiq8exwtpognvmrc7rp-mysql.services.clever-cloud.com:3306/beiq8exwtpognvmrc7rp
-  #   username: umkh6gnhvngmq9xi
-  #   password: GhbPh6WJdI6HuumqTeVO
-
   #  datasource: [RENATO] Configuracion de base de datos local
   #   url: jdbc:mysql://localhost:3306/roommate
   #   username: root
   #   password: 8Hu#6Fyw
-  datasource: #[SEBATIAN] Configuracion de base de datos local
-      url: jdbc:mysql://localhost:3306/roommate
-      username: root
-      password: root
+  #datasource: #[SEBATIAN] Configuracion de base de datos local
+  #    url: jdbc:mysql://localhost:3306/roommate
+  #    username: root
+  #     password: root
+  datasource: #[RAILWAY] Configuracion de base de datos
+      url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
+      username: ${MYSQLUSER}
+      password: ${MYSQLPASSWORD}
   # H2 config
   #jpa:
   #  database: h2
