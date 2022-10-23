@@ -1,0 +1,16 @@
+#<type>[optional scope]: <description>
+
+#[optional body]
+
+
+# The <type> can be
+
+# fix: a commit of the type fix patches a bug in your codebase
+# feat: a commit of the type feat introduces a new feature to the codebase
+# doc: a commit of the type doc introduces a new doc to the codebase documentation with swagger
+
+# The scope has to be the type of class in which the change is implemented
+# Examples:
+
+# feat[entity]: add x property to the x entity
+# fix[controller]: Fixed routing problem in controller x
