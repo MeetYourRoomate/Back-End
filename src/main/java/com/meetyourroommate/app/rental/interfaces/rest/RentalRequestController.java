@@ -7,6 +7,8 @@ import com.meetyourroommate.app.rental.application.services.RentalRequestService
 import com.meetyourroommate.app.rental.application.transform.resources.RentalRequestResource;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
+import com.meetyourroommate.app.rental.domain.enumerate.RentalStatus;
+import com.meetyourroommate.app.shared.domain.enumerate.Status;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -99,5 +101,24 @@ public class RentalRequestController {
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Operation(summary = "Accept rental request", description = "Accept rental request by request id")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Acepted rental request", content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping(path = "/requests/{id}/accept")
+    public ResponseEntity<?> acceptRentalRequest(@PathVariable Long id){
+       try{
+           Optional<RentalRequest> rentalRequest = rentalRequestService.findById(id);
+           if(rentalRequest.isEmpty()){
+              return new ResponseEntity<>("Rental request not found", HttpStatus.NOT_FOUND);
+           }
+           rentalRequest.get().setStatus(Status.ACCEPTED);
+           rentalRequest.get().getRentalOffering().setStatus(RentalStatus.BUSY);
+           return new ResponseEntity<>(rentalRequestService.save(rentalRequest.get()), HttpStatus.OK);
+       }catch(Exception e){
+          return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 }

@@ -20,7 +20,7 @@ public class RentalRequest {
     @ManyToOne
     @JoinColumn(name = "student_profile_id")
     private Profile studentProfile;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "rental_offert_id")
     private RentalOffering rentalOffering;
 
