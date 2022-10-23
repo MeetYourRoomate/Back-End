@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Tag(name = "Users", description = "Create, read, update and delete users")
@@ -90,6 +91,18 @@ public class UsersController {
       userService.deleteById(id);
       return new ResponseEntity<>(HttpStatus.OK);
     }catch (Exception e){
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<?>getUserById(@PathVariable String id){
+    try{
+      Optional<User> user = userService.findById(id);
+      if(user.isEmpty()){
+        return new ResponseEntity<>("User not found.", HttpStatus.NOT_FOUND);
+      }
+      return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    }catch(Exception e){
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

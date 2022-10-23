@@ -18,6 +18,7 @@ public class Property {
     @AggregateIdentifier
     @GeneratedValue
     private Long id;
+    @Lob
     private String description;
     @ManyToOne
     @JoinColumn(name = "profile_id")
