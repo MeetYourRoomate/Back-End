@@ -7,6 +7,7 @@ import com.meetyourroommate.app.iam.application.transform.resources.UserResource
 import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.iam.domain.entities.Role;
 import com.meetyourroommate.app.iam.domain.entities.enums.Roles;
+import com.meetyourroommate.app.iam.domain.valueobjects.Email;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -98,12 +99,34 @@ public class UsersController {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @Operation(summary = "Get user by id", description = "Get user by id")
+  @ApiResponses( value = {
+          @ApiResponse(responseCode = "200", description = "User", content = @Content(mediaType = "application/json"))
+  })
   @GetMapping(value = "/{id}")
   public ResponseEntity<?>getUserById(@PathVariable String id){
     try{
       Optional<User> user = userService.findById(id);
       if(user.isEmpty()){
         return new ResponseEntity<>("User not found.", HttpStatus.NOT_FOUND);
+      }
+      return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    }catch(Exception e){
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Operation(summary = "Get user by email", description = "Get user by email")
+  @ApiResponses( value = {
+          @ApiResponse(responseCode = "200", description = "User", content = @Content(mediaType = "application/json"))
+  })
+  @GetMapping(value = "/{email}",produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?>getUserByEmail(@RequestParam String email){
+    try{
+      Optional<User> user = userService.findUserByEmail(new Email().setAdress(email));
+      if(user.isEmpty()){
+        return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
       }
       return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }catch(Exception e){

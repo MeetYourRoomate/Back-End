@@ -2,6 +2,7 @@ package com.meetyourroommate.app.iam.application.services.Impl;
 
 import com.meetyourroommate.app.iam.application.services.UserService;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
+import com.meetyourroommate.app.iam.domain.valueobjects.Email;
 import com.meetyourroommate.app.iam.infrastructure.persistance.jpa.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +40,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(String id) throws Exception {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(Email email) {
+        return userRepository.findByEmail(email);
     }
 }
