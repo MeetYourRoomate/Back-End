@@ -42,7 +42,7 @@ public class RentalRequestController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Created rental request", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping(path = "/rental/request", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/rental/request", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> save(@RequestBody RentalRequestResource resource){
         try{
             Optional<Profile> profile = profileService.findByUserId(resource.getUserId());

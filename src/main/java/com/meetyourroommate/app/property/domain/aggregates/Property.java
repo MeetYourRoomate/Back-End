@@ -19,6 +19,8 @@ public class Property {
     @GeneratedValue
     private Long id;
     @Lob
+    private String title;
+    @Lob
     private String description;
     @ManyToOne
     @JoinColumn(name = "profile_id")
@@ -53,5 +55,13 @@ public class Property {
     }
     public Long getId(){
         return this.id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
