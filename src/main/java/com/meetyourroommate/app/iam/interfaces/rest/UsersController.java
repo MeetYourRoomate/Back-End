@@ -121,7 +121,7 @@ public class UsersController {
   @ApiResponses( value = {
           @ApiResponse(responseCode = "200", description = "User", content = @Content(mediaType = "application/json"))
   })
-  @GetMapping(value = "/{email}",produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?>getUserByEmail(@RequestParam String email){
     try{
       Optional<User> user = userService.findUserByEmail(new Email().setAdress(email));
