@@ -6,5 +6,6 @@ import java.io.Serializable;
 
 @Data
 public class PropertyResource implements Serializable {
+    private String title;
     private String description;
 }
