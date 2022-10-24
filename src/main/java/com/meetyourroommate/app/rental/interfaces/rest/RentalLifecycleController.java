@@ -82,4 +82,22 @@ public class RentalLifecycleController {
         }
     }
 
+    @Operation(summary = "Get offer by id", description = "Get ofer by id")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Offer", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping(value = "/rentaloffers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findById(@PathVariable Long id){
+       try{
+           Optional<RentalOffering> rentalOffering = rentalOfferingService.findById(id);
+           if(rentalOffering.isEmpty()){
+              return new ResponseEntity<>("Offer not found.", HttpStatus.NOT_FOUND);
+           }
+           return new ResponseEntity<>(rentalOffering.get(), HttpStatus.OK);
+       }catch(Exception e){
+           return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+       }
+    }
+
+
 }
