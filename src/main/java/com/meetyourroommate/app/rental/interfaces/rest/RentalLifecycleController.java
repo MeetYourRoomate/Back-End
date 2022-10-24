@@ -1,5 +1,7 @@
 package com.meetyourroommate.app.rental.interfaces.rest;
 
+import com.meetyourroommate.app.profile.application.services.ProfileService;
+import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.property.application.services.PropertyService;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
@@ -16,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
@@ -25,10 +28,12 @@ import java.util.Optional;
 @RequestMapping("/api/v1")
 public class RentalLifecycleController {
     private PropertyService propertyService;
+    private ProfileService profileService;
     private RentalOfferingService rentalOfferingService;
 
-    public RentalLifecycleController(PropertyService propertyService, RentalOfferingService rentalOfferingService) {
+    public RentalLifecycleController(PropertyService propertyService, ProfileService profileService, RentalOfferingService rentalOfferingService) {
         this.propertyService = propertyService;
+        this.profileService = profileService;
         this.rentalOfferingService = rentalOfferingService;
     }
 
@@ -97,6 +102,19 @@ public class RentalLifecycleController {
        }catch(Exception e){
            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
        }
+    }
+
+    @GetMapping(value = "/users/{id}/rental/offers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?>findByUserId(@PathVariable String id){
+        try{
+            Optional<Profile> profile = profileService.findByUserId(id);
+            if(profile.isEmpty()){
+                return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(rentalOfferingService.findAllByProperty_Profile(profile.get()),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
