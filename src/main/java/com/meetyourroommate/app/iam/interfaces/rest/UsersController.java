@@ -46,6 +46,10 @@ public class UsersController {
   @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> registerUser(@RequestBody UserResource userResource){
     try{
+      Optional<User> userOptional = userService.findById(userResource.getId());
+      if(userOptional.isPresent()){
+        return new ResponseEntity<>("User has already been created", HttpStatus.CONFLICT);
+      }
       User newUser = mapper.toEntity(userResource);
       newUser.setId(userResource.getId());
       Optional<Role> studentRole = roleService.findByName(Roles.ROLE_USER_STUDENT);
