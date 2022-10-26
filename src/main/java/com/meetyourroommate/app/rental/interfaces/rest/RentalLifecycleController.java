@@ -44,12 +44,12 @@ public class RentalLifecycleController {
         this.rentalOfferMapper = rentalOfferMapper;
     }
 
-    @Operation(summary = "Create new property asset", description = "Create propertyasset to property")
+    @Operation(summary = "Create new rental offer with property id", description = "Create rental offer to property")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Created property assets", content = @Content(mediaType = "application/json"))
     })
     @PostMapping(path = "/property/{id}/rentaloffers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@PathParam("id") Long property_id, @RequestBody RentalOfferingResource rentalOfferingResource){
+    public ResponseEntity<?> save(@PathVariable(value = "id") Long property_id, @RequestBody RentalOfferingResource rentalOfferingResource){
         try{
             Optional<Property> property = propertyService.findById(property_id);
             if(property.isEmpty()){
@@ -128,10 +128,14 @@ public class RentalLifecycleController {
         }
     }
 
+    @Operation(summary = "Create rental offer", description = "Create complete rental offer and property")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Created offer", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping(value = "/users/{id}/rental/offer", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createOfferWithProperty(@PathVariable String userId, @RequestBody RentalOfferResource rentalOfferResource){
+    public ResponseEntity<?> createOfferWithProperty(@PathVariable(value = "id") String id, @RequestBody RentalOfferResource rentalOfferResource){
         try{
-            Optional<Profile> profile = profileService.findByUserId(userId);
+            Optional<Profile> profile = profileService.findByUserId(id);
             if(profile.isEmpty()){
                 return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
             }
