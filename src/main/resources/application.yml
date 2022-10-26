@@ -23,7 +23,7 @@ spring:
   #    url: jdbc:mysql://localhost:3306/roommate
   #    username: root
   #    password: root
-  datasource: #[RAILWAY] Configuracion de base de datos
+  datasource: # Configuracion de base de datos
       url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
       username: ${MYSQLUSER}
       password: ${MYSQLPASSWORD}
