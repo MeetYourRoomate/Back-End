@@ -2,8 +2,11 @@ package com.meetyourroommate.app.rental.interfaces.rest;
 
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.property.application.transform.PropertyMapper;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.property.application.services.PropertyService;
+import com.meetyourroommate.app.rental.application.transform.RentalOfferMapper;
+import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferResource;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferingResource;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
@@ -18,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
@@ -31,18 +33,23 @@ public class RentalLifecycleController {
     private ProfileService profileService;
     private RentalOfferingService rentalOfferingService;
 
-    public RentalLifecycleController(PropertyService propertyService, ProfileService profileService, RentalOfferingService rentalOfferingService) {
+    private PropertyMapper propertyMapper;
+    private RentalOfferMapper rentalOfferMapper;
+
+    public RentalLifecycleController(PropertyService propertyService, ProfileService profileService, RentalOfferingService rentalOfferingService, PropertyMapper propertyMapper, RentalOfferMapper rentalOfferMapper) {
         this.propertyService = propertyService;
         this.profileService = profileService;
         this.rentalOfferingService = rentalOfferingService;
+        this.propertyMapper = propertyMapper;
+        this.rentalOfferMapper = rentalOfferMapper;
     }
 
-    @Operation(summary = "Create new property asset", description = "Create propertyasset to property")
+    @Operation(summary = "Create new rental offer with property id", description = "Create rental offer to property")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Created property assets", content = @Content(mediaType = "application/json"))
     })
     @PostMapping(path = "/property/{id}/rentaloffers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@PathParam("id") Long property_id, @RequestBody RentalOfferingResource rentalOfferingResource){
+    public ResponseEntity<?> save(@PathVariable(value = "id") Long property_id, @RequestBody RentalOfferingResource rentalOfferingResource){
         try{
             Optional<Property> property = propertyService.findById(property_id);
             if(property.isEmpty()){
@@ -104,6 +111,10 @@ public class RentalLifecycleController {
        }
     }
 
+    @Operation(summary = "Get offer by user id", description = "Get offers by user id")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Listed offers", content = @Content(mediaType = "application/json"))
+    })
     @GetMapping(value = "/users/{id}/rental/offers", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>findByUserId(@PathVariable String id){
         try{
@@ -113,6 +124,28 @@ public class RentalLifecycleController {
             }
             return new ResponseEntity<>(rentalOfferingService.findAllByProperty_Profile(profile.get()),HttpStatus.OK);
         }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Create rental offer", description = "Create complete rental offer and property")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Created offer", content = @Content(mediaType = "application/json"))
+    })
+    @PostMapping(value = "/users/{id}/rental/offer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createOfferWithProperty(@PathVariable(value = "id") String id, @RequestBody RentalOfferResource rentalOfferResource){
+        try{
+            Optional<Profile> profile = profileService.findByUserId(id);
+            if(profile.isEmpty()){
+                return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
+            }
+            Property newProperty = propertyService.save(
+                    propertyMapper.toEntity(rentalOfferResource.getPropertyResource())
+                            .setProfile(profile.get()));
+            RentalOffering newRentalOffering = rentalOfferMapper.toEntity(rentalOfferResource.getRentalOfferingResource());
+            newRentalOffering.setProperty(newProperty);
+            return new ResponseEntity<>(rentalOfferingService.save(newRentalOffering), HttpStatus.OK);
+        }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
