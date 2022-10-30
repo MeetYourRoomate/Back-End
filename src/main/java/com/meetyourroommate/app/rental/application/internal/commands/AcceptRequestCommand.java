@@ -1,22 +1,30 @@
 package com.meetyourroommate.app.rental.application.internal.commands;
 
-import com.meetyourroommate.app.rental.domain.enumerate.RentalStatus;
+import com.meetyourroommate.app.shared.domain.enumerate.Status;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class AcceptRequestCommand {
     @TargetAggregateIdentifier
-    private final Long requestId;
-    private final RentalStatus rentalStatus;
+    private final String requestId;
 
-    public AcceptRequestCommand(Long requestId, RentalStatus rentalStatus) {
+    private final Long requestIdentifier;
+    private final Status status;
+
+    public AcceptRequestCommand(String requestId, Long requestIdentifier, Status status) {
         this.requestId = requestId;
-        this.rentalStatus = rentalStatus;
+        this.requestIdentifier = requestIdentifier;
+        this.status = status;
     }
 
-    public RentalStatus getRentalStatus() {
-        return rentalStatus;
-    }
-    public Long getRequestId(){
+    public String getRequestId(){
         return this.requestId;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public Long getRequestIdentifier() {
+        return requestIdentifier;
     }
 }

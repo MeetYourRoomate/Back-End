@@ -2,6 +2,8 @@ package com.meetyourroommate.app.rental.interfaces.rest;
 
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.rental.application.internal.commands.AcceptRequestCommand;
+import com.meetyourroommate.app.rental.application.internal.commands.CreateRentalRequestCommand;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
 import com.meetyourroommate.app.rental.application.services.RentalRequestService;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalRequestResource;
@@ -14,14 +16,15 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Tag(name = "Rental Request", description = "Create, read, update and delete rental request")
 @RestController
@@ -31,11 +34,13 @@ public class RentalRequestController {
     private RentalRequestService rentalRequestService;
     private RentalOfferingService rentalOfferingService;
     private ProfileService profileService;
+    private final CommandGateway commandGateway;
 
-    public RentalRequestController(RentalRequestService rentalRequestService, RentalOfferingService rentalOfferingService, ProfileService profileService) {
+    public RentalRequestController(RentalRequestService rentalRequestService, RentalOfferingService rentalOfferingService, ProfileService profileService, CommandGateway commandGateway) {
         this.rentalRequestService = rentalRequestService;
         this.rentalOfferingService = rentalOfferingService;
         this.profileService = profileService;
+        this.commandGateway = commandGateway;
     }
 
     @Operation(summary = "Create new rental request", description = "Create new rental request to create rental object")
@@ -45,6 +50,15 @@ public class RentalRequestController {
     @PostMapping(path = "/rental/request", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> save(@RequestBody RentalRequestResource resource){
         try{
+            CreateRentalRequestCommand createRentalRequestCommand = new CreateRentalRequestCommand(
+                    UUID.randomUUID().toString(),
+                    resource.getMessage(),
+                    resource.getUserId(),
+                    resource.getRentalOfferId()
+            );
+            String result = commandGateway.sendAndWait(createRentalRequestCommand);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+            /*
             Optional<Profile> profile = profileService.findByUserId(resource.getUserId());
             if(profile.isEmpty()){
                 return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
@@ -59,6 +73,7 @@ public class RentalRequestController {
             }
             RentalRequest rentalRequest  = new RentalRequest(profile.get(), rentalOffering.get(), resource.getMessage());
             return new ResponseEntity<>(rentalRequestService.save(rentalRequest), HttpStatus.OK);
+            */
 
         }catch(Exception e){
            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -140,4 +155,5 @@ public class RentalRequestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

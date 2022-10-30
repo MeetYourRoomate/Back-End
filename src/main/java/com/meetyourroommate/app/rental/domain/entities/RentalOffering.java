@@ -1,13 +1,21 @@
 package com.meetyourroommate.app.rental.domain.entities;
 
 import com.meetyourroommate.app.property.domain.aggregates.Property;
+import com.meetyourroommate.app.rental.application.internal.commands.AcceptRequestCommand;
+import com.meetyourroommate.app.rental.application.internal.events.AcceptRequestEvent;
 import com.meetyourroommate.app.rental.domain.enumerate.RentalStatus;
 import com.meetyourroommate.app.rental.domain.valueobjects.Amount;
 import com.meetyourroommate.app.rental.domain.valueobjects.Lifecycle;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
+import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.modelling.command.AggregateIdentifier;
+import org.axonframework.spring.stereotype.Aggregate;
 
 import javax.persistence.*;
 import java.util.List;
+
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Entity
 public class RentalOffering {
