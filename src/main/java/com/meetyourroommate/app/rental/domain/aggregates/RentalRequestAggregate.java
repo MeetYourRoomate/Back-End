@@ -1,8 +1,6 @@
 package com.meetyourroommate.app.rental.domain.aggregates;
 
-import com.meetyourroommate.app.rental.application.internal.commands.AcceptRequestCommand;
 import com.meetyourroommate.app.rental.application.internal.commands.CreateRentalRequestCommand;
-import com.meetyourroommate.app.rental.application.internal.events.AcceptRequestEvent;
 import com.meetyourroommate.app.rental.application.internal.events.CreateRentalRequestEvent;
 import com.meetyourroommate.app.shared.domain.enumerate.Status;
 import org.axonframework.commandhandling.CommandHandler;

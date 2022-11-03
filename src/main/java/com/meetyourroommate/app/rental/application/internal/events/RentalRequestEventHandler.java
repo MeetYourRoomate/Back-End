@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-@ProcessingGroup("request")
 public class RentalRequestEventHandler {
 
     private RentalRequestService rentalRequestService;
