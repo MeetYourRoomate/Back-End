@@ -30,9 +30,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1")
 public class RentalRequestController {
 
-    private RentalRequestService rentalRequestService;
-    private RentalOfferingService rentalOfferingService;
-    private ProfileService profileService;
+    private final RentalRequestService rentalRequestService;
+    private final RentalOfferingService rentalOfferingService;
+    private final ProfileService profileService;
     private final CommandGateway commandGateway;
 
     public RentalRequestController(RentalRequestService rentalRequestService, RentalOfferingService rentalOfferingService, ProfileService profileService, CommandGateway commandGateway) {
@@ -50,7 +50,7 @@ public class RentalRequestController {
     public ResponseEntity<?> save(@RequestBody RentalRequestResource resource){
         try{
             CreateRentalRequestCommand createRentalRequestCommand = new CreateRentalRequestCommand(
-                    "aaaaa",
+                    UUID.randomUUID().toString(),
                     resource.getMessage(),
                     resource.getUserId(),
                     resource.getRentalOfferId()
