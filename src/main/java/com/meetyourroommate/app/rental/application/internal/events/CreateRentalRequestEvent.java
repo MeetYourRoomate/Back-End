@@ -2,7 +2,7 @@ package com.meetyourroommate.app.rental.application.internal.events;
 
 public class CreateRentalRequestEvent {
 
-    private final String requestId;
+    private final String id;
 
     private final String message;
 
@@ -10,7 +10,7 @@ public class CreateRentalRequestEvent {
     private final Long offerId;
 
     public CreateRentalRequestEvent(String requestId, String message, String userId, Long offerId) {
-        this.requestId = requestId;
+        this.id = requestId;
         this.message = message;
         this.userId = userId;
         this.offerId = offerId;
@@ -29,6 +29,6 @@ public class CreateRentalRequestEvent {
     }
 
     public String getRequestId() {
-        return requestId;
+        return id;
     }
 }

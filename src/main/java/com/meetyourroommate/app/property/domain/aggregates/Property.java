@@ -10,12 +10,10 @@ import org.axonframework.modelling.command.AggregateRoot;
 import javax.persistence.*;
 import java.util.List;
 
-@AggregateRoot
 @Entity
 public class Property {
 
     @Id
-    @AggregateIdentifier
     @GeneratedValue
     private Long id;
     @Lob

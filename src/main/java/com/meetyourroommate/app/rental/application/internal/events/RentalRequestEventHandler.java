@@ -6,18 +6,21 @@ import com.meetyourroommate.app.rental.application.services.RentalOfferingServic
 import com.meetyourroommate.app.rental.application.services.RentalRequestService;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Component
+@Slf4j
 public class RentalRequestEventHandler {
 
-    private RentalRequestService rentalRequestService;
-    private ProfileService profileService;
-    private RentalOfferingService rentalOfferingService;
+    private final RentalRequestService rentalRequestService;
+    private final ProfileService profileService;
+    private final RentalOfferingService rentalOfferingService;
 
     public RentalRequestEventHandler(RentalRequestService rentalRequestService, ProfileService profileService, RentalOfferingService rentalOfferingService) {
         this.rentalRequestService = rentalRequestService;
@@ -27,6 +30,7 @@ public class RentalRequestEventHandler {
 
     @EventHandler
     public void on(CreateRentalRequestEvent createRentalRequestEvent) throws Exception{
+        log.info("Handling CreateRentalRequestEvent....");
         Optional<Profile> profile = profileService
                 .findByUserId(createRentalRequestEvent.getUserId());
         if(profile.isEmpty()){
@@ -50,5 +54,9 @@ public class RentalRequestEventHandler {
                 createRentalRequestEvent.getMessage());
 
         rentalRequestService.save(rentalRequest);
+    }
+    @ExceptionHandler
+    public void handler(Exception e)throws Exception{
+        throw e;
     }
 }

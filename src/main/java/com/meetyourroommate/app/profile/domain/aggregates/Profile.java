@@ -12,11 +12,9 @@ import org.axonframework.modelling.command.AggregateRoot;
 import javax.persistence.*;
 import java.util.List;
 
-@AggregateRoot
 @Entity
 public class Profile {
     @Id
-    @AggregateIdentifier
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
