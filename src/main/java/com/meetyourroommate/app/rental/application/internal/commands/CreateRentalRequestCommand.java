@@ -5,7 +5,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public class CreateRentalRequestCommand {
 
     @TargetAggregateIdentifier
-    private final String requestId;
+    private final String id;
 
     private final String message;
 
@@ -13,7 +13,7 @@ public class CreateRentalRequestCommand {
     private final Long offerId;
 
     public CreateRentalRequestCommand(String requestId, String message, String userId, Long offerId) {
-        this.requestId = requestId;
+        this.id = requestId;
         this.message = message;
         this.userId = userId;
         this.offerId = offerId;
@@ -31,6 +31,6 @@ public class CreateRentalRequestCommand {
         return message;
     }
     public String getRequestId(){
-        return requestId;
+        return id;
     }
 }

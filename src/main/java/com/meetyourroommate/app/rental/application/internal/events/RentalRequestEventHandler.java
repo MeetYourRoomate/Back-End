@@ -8,11 +8,13 @@ import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
+@ProcessingGroup("request")
 public class RentalRequestEventHandler {
 
     private RentalRequestService rentalRequestService;
@@ -50,5 +52,9 @@ public class RentalRequestEventHandler {
                 createRentalRequestEvent.getMessage());
 
         rentalRequestService.save(rentalRequest);
+    }
+    @ExceptionHandler
+    public void handler(Exception e)throws Exception{
+        throw e;
     }
 }

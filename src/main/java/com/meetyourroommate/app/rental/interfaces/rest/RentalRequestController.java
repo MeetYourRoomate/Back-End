@@ -50,7 +50,7 @@ public class RentalRequestController {
     public ResponseEntity<?> save(@RequestBody RentalRequestResource resource){
         try{
             CreateRentalRequestCommand createRentalRequestCommand = new CreateRentalRequestCommand(
-                    UUID.randomUUID().toString(),
+                    "aaaaa",
                     resource.getMessage(),
                     resource.getUserId(),
                     resource.getRentalOfferId()

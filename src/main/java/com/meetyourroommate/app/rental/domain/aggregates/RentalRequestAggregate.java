@@ -3,10 +3,15 @@ package com.meetyourroommate.app.rental.domain.aggregates;
 import com.meetyourroommate.app.rental.application.internal.commands.CreateRentalRequestCommand;
 import com.meetyourroommate.app.rental.application.internal.events.CreateRentalRequestEvent;
 import com.meetyourroommate.app.shared.domain.enumerate.Status;
+import lombok.Data;
 import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
@@ -33,7 +38,7 @@ public class RentalRequestAggregate {
         apply(createRentalRequestEvent);
     }
 
-    @EventSourcingHandler
+    @EventHandler
     public void on(CreateRentalRequestEvent createRentalRequestEvent){
         this.id = createRentalRequestEvent.getRequestId();
         this.message = createRentalRequestEvent.getMessage();
