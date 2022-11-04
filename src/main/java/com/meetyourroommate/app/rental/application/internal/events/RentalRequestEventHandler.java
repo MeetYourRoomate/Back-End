@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
 @Slf4j
-@ProcessingGroup("request")
 public class RentalRequestEventHandler {
 
     private final RentalRequestService rentalRequestService;

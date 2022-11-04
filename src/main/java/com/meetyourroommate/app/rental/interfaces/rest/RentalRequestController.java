@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +29,7 @@ import java.util.UUID;
 @Tag(name = "Rental Request", description = "Create, read, update and delete rental request")
 @RestController
 @RequestMapping("/api/v1")
+@Slf4j
 public class RentalRequestController {
 
     private final RentalRequestService rentalRequestService;
@@ -49,33 +51,23 @@ public class RentalRequestController {
     @PostMapping(path = "/rental/request", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> save(@RequestBody RentalRequestResource resource){
         try{
-            CreateRentalRequestCommand createRentalRequestCommand = new CreateRentalRequestCommand(
-                    UUID.randomUUID().toString(),
-                    resource.getMessage(),
-                    resource.getUserId(),
-                    resource.getRentalOfferId()
-            );
-            String result = commandGateway.sendAndWait(createRentalRequestCommand);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-            /*
             Optional<Profile> profile = profileService.findByUserId(resource.getUserId());
             if(profile.isEmpty()){
-                return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("User not found.", HttpStatus.NOT_FOUND);
             }
             Optional<RentalOffering> rentalOffering = rentalOfferingService.findById(resource.getRentalOfferId());
             if(rentalOffering.isEmpty()){
-                return new ResponseEntity<>("RentalOffering not found.", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Rental offer not found",HttpStatus.NOT_FOUND);
             }
             Optional<RentalRequest> optionalRentalRequest = rentalRequestService.findByProfileAndOffer(profile.get(), rentalOffering.get());
             if(optionalRentalRequest.isPresent()){
-                return new ResponseEntity<>("There is already a rental request.",HttpStatus.CONFLICT);
+                return new ResponseEntity<>("Rental request already created",HttpStatus.CONFLICT);
             }
             RentalRequest rentalRequest  = new RentalRequest(profile.get(), rentalOffering.get(), resource.getMessage());
             return new ResponseEntity<>(rentalRequestService.save(rentalRequest), HttpStatus.OK);
-            */
 
         }catch(Exception e){
-           return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
