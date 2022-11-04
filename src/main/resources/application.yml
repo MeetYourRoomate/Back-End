@@ -6,15 +6,15 @@ springdoc:
   swagger_ui:
     path: /project-api-doc-ui.html
 spring:
-  #h2:
-  #  console:
-  #    enabled: true
-  #    path: /h2-console
-  #datasource:
-  #  driver-class-name: org.h2.Driver
-  #  url: jdbc:h2:file:~/db/roommate-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-  #  username: admin
-  #  password: admin
+  h2:
+   console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:~/db/roommate-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: admin
+    password: admin
   #  datasource: [RENATO] Configuracion de base de datos local
   #   url: jdbc:mysql://localhost:3306/roommate
   #   username: root
@@ -23,33 +23,33 @@ spring:
   #    url: jdbc:mysql://localhost:3306/roommate
   #    username: root
   #    password: root
-  datasource: # Configuracion de base de datos
-      url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
-      username: ${MYSQLUSER}
-      password: ${MYSQLPASSWORD}
+  #datasource: # Configuracion de base de datos
+  #    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
+  #    username: ${MYSQLUSER}
+  #    password: ${MYSQLPASSWORD}
   # H2 config
-  #jpa:
-  #  database: h2
-  #  hibernate:
-  #    ddl-auto: update
-  #  show-sql: false
-  #  database-platform: org.hibernate.dialect.H2Dialect
-  #  properties:
-  #    hibernate:
-  #      show_sql: true
-  #      user_sql_comment: false
-  #      format_sql: true
-
-  # My sql config
   jpa:
+    database: h2
     hibernate:
       ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         show_sql: true
         user_sql_comment: false
         format_sql: true
+
+  # My sql config
+  #jpa:
+  #  hibernate:
+  #    ddl-auto: update
+  #  properties:
+  #    hibernate:
+  #      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  #      show_sql: true
+  #      user_sql_comment: false
+  #      format_sql: true
 
 logging:
   level:
