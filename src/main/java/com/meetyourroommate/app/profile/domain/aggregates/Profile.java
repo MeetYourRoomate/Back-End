@@ -5,6 +5,7 @@ import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
+import com.meetyourroommate.app.roommate.domain.entities.RoommateRequest;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
@@ -24,20 +25,36 @@ public class Profile {
     @Embedded
     @JsonIgnore
     private Audit audit;
+
     @OneToMany(mappedBy = "studentProfile")
+    @JsonIgnore
     private List<RentalRequest> rentalRequest;
     public Profile(){
        this.audit = new Audit();
     }
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
-    List<Property> properties;
+    private List<Property> properties;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", unique = true)
     @JsonIgnore
     private User user;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "studentRequested", cascade = CascadeType.REMOVE)
+    private List<RoommateRequest> roommateRequest;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "studentRequestor", cascade = CascadeType.REMOVE)
+    private List<RoommateRequest> roommateRequestors;
+
+    public List<RoommateRequest> getRoommateRequest(){
+        return this.roommateRequest;
+    }
+    public List<RoommateRequest> getRoommateRequestors(){
+        return this.roommateRequestors;
+    }
     public User getUser() {
         return user;
     }
