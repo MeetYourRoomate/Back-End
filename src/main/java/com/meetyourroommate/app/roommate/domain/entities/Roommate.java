@@ -19,7 +19,7 @@ public class Roommate {
     @JoinColumn(name = "team_id", unique = true)
     public Team team;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne
     @JoinColumn(name = "profile_id", unique = true)
     public Profile profile;
 
