@@ -4,6 +4,7 @@ import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.iam.infrastructure.persistance.jpa.UserRepository;
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.profile.domain.enumerate.TeamStatus;
 import com.meetyourroommate.app.profile.infrastructure.persistance.jpa.ProfileRepository;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +62,10 @@ public class ProfileServiceImpl implements ProfileService {
             return Optional.empty();
         }
         return profile;
+    }
+
+    @Override
+    public List<Profile> findByTeamStatus(TeamStatus teamStatus) {
+        return profileRepository.findAllByTeamStatus(teamStatus);
     }
 }
