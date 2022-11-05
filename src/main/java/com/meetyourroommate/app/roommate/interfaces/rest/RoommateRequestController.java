@@ -86,6 +86,24 @@ public class RoommateRequestController {
         }
     }
 
+    @Operation(summary = "List all roommate request assigned to user", description = "List all roommate request assigned to user")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Listed request", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/users/{id}/roommate/requestors")
+    public ResponseEntity<?> findAllRoommateRequestByStudentRequested(@PathVariable("id") String id){
+        try{
+            Optional<Profile> profile = profileService.findByUserId(id);
+            if(profile.isEmpty()){
+                return new ResponseEntity<>("Profile Requestor not found.", HttpStatus.NOT_FOUND);
+            }
+            List<RoommateRequest> roommateRequestList = roommateRequestService.findAllByStudentRequested(profile.get());
+            return new ResponseEntity<>(roommateRequestList, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     private boolean IsStudent(Profile userProfile){
         return userProfile.getUser().getRole().getName() == Roles.ROLE_USER_STUDENT;

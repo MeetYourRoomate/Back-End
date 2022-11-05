@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface RoommateRequestRepository extends JpaRepository<RoommateRequest, Long> {
     List<RoommateRequest> findAllByStudentRequestor(Profile studentRequestor);
+    List<RoommateRequest> findAllByStudentRequested(Profile studentRequested);
 }

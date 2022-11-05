@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface RoommateRequestService extends CrudService<RoommateRequest, Long> {
     List<RoommateRequest> findAllByStudentRequestor(Profile studentRequestor) throws Exception;
+    List<RoommateRequest> findAllByStudentRequested(Profile studentRequested) throws Exception;
 }
