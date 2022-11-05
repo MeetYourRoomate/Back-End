@@ -14,18 +14,19 @@ import javax.persistence.*;
 public class Roommate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
     @ManyToOne
-    @JoinColumn(name = "team_id", unique = true)
-    public Team team;
+    @JoinColumn(name = "team_id")
+    @JsonIgnore
+    private Team team;
 
     @OneToOne
     @JoinColumn(name = "profile_id", unique = true)
-    public Profile profile;
+    private Profile profile;
 
     @Embedded
     @JsonIgnore
-    public Audit audit = new Audit();
+    private Audit audit = new Audit();
 
     public Roommate() {
     }

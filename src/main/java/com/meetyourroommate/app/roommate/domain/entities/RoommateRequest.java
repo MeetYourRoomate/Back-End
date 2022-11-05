@@ -15,20 +15,20 @@ import javax.persistence.*;
 public class RoommateRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "student_requestor_id", unique = true)
-    public Profile studentRequestor;
+    private Profile studentRequestor;
     @ManyToOne
     @JoinColumn(name = "student_requested_id", unique = true)
-    public Profile studentRequested;
+    private Profile studentRequested;
 
     @Enumerated(EnumType.STRING)
-    public Status status = Status.PENDING;
+    private Status status = Status.PENDING;
 
     @Embedded
     @JsonIgnore
-    public Audit audit = new Audit();
+    private Audit audit = new Audit();
 
     public RoommateRequest() {
     }

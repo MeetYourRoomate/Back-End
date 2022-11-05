@@ -2,10 +2,12 @@ package com.meetyourroommate.app.profile.domain.aggregates;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
+import com.meetyourroommate.app.profile.domain.enumerate.TeamStatus;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
 import com.meetyourroommate.app.roommate.domain.entities.RoommateRequest;
+import com.meetyourroommate.app.roommate.domain.entities.Team;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
@@ -20,6 +22,9 @@ public class Profile {
     private Long id;
     private String name;
     private String surname;
+
+    @Enumerated(EnumType.STRING)
+    private TeamStatus teamStatus = TeamStatus.WITHOUTTEAM;
     @Embedded
     private Phone phone;
     @Embedded
@@ -89,5 +94,18 @@ public class Profile {
 
     public void setAudit(Audit audit) {
         this.audit = audit;
+    }
+
+    public TeamStatus getTeamStatus() {
+        return teamStatus;
+    }
+
+    public Profile setTeamStatus(TeamStatus teamStatus) {
+        this.teamStatus = teamStatus;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.roommate.application.services.Impl;
 
+import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.roommate.application.services.RoommateService;
 import com.meetyourroommate.app.roommate.domain.entities.Roommate;
 import com.meetyourroommate.app.roommate.infrastructure.persistance.jpa.RoommateRepository;
@@ -40,5 +41,10 @@ public class RoommateServiceImpl implements RoommateService {
     @Override
     public void deleteById(Long id) throws Exception {
         roommateRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Roommate> getRoommateByProfile(Profile profile) throws Exception {
+        return roommateRepository.getRoommateByProfile(profile);
     }
 }

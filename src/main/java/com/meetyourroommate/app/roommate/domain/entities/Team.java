@@ -6,10 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.w3c.dom.stylesheets.LinkStyle;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -17,15 +14,16 @@ import java.util.List;
 @AllArgsConstructor
 public class Team {
     @Id
-    public Long id;
-    public String name;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 
     @OneToMany(mappedBy = "team")
-    public List<Roommate> roommates;
+    private List<Roommate> roommates;
 
     @Embedded
     @JsonIgnore
-    public Audit audit = new Audit();
+    private Audit audit = new Audit();
 
     public Team() {
     }
