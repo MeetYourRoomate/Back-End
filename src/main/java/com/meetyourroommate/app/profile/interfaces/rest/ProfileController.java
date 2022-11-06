@@ -125,12 +125,12 @@ public class ProfileController {
             if(profile.isEmpty()){
                 return new ResponseEntity<>(
                         new ProfileResponse("Profile not found."),
-                        HttpStatus.INTERNAL_SERVER_ERROR
+                        HttpStatus.NOT_FOUND
                 );
             }
             return new ResponseEntity<>(
                     new ProfileResponse(profile.get()),
-                    HttpStatus.INTERNAL_SERVER_ERROR
+                    HttpStatus.OK
             );
         }catch(Exception e){
             return new ResponseEntity<>(
