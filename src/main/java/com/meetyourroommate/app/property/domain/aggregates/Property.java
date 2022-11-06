@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.property.domain.aggregates;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.property.domain.entities.PropertyFeature;
 import com.meetyourroommate.app.property.domain.entities.PropertyAsset;
@@ -23,7 +24,7 @@ public class Property {
     @ManyToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;
-    @OneToMany(mappedBy = "propertyid")
+    @OneToMany(mappedBy = "propertyid", cascade = CascadeType.PERSIST)
     List<PropertyAsset> assets;
 
     @OneToMany(mappedBy = "property")
@@ -40,7 +41,7 @@ public class Property {
     public Profile getProfile(){
        return this.profile;
     }
-    public List<PropertyAsset> getPropertyAssets(){
+    public List<PropertyAsset> getAssets(){
        return this.assets;
     }
     public String getDescription() {
@@ -50,6 +51,10 @@ public class Property {
     public Property setDescription(String description) {
         this.description = description;
         return this;
+    }
+    public Property setPropertyAssets(List<PropertyAsset> newAssets){
+       this.assets = newAssets;
+       return this;
     }
     public Long getId(){
         return this.id;
