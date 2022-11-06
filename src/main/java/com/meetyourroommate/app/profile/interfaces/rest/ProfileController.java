@@ -2,10 +2,13 @@ package com.meetyourroommate.app.profile.interfaces.rest;
 
 import com.meetyourroommate.app.iam.application.services.UserService;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
+import com.meetyourroommate.app.profile.application.communication.ProfileListResponse;
+import com.meetyourroommate.app.profile.application.communication.ProfileResponse;
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.application.transform.ProfileMapper;
 import com.meetyourroommate.app.profile.application.transform.resources.ProfileResource;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.profile.domain.enumerate.TeamStatus;
 import com.meetyourroommate.app.property.application.services.PropertyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,6 +20,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
+import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Profile", description = "Create, read, update and delete profile")
@@ -56,6 +61,46 @@ public class ProfileController {
             return new ResponseEntity<Profile>(profileService.save(newProfile), HttpStatus.OK);
         }catch(Exception e){
            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "List all profiles", description = "List all profiles")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "All Profiles")
+    })
+    @GetMapping(value = "/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileListResponse> getAllProfiles(){
+        try{
+            List<Profile> profileList = profileService.findAll();
+            return new ResponseEntity<>(
+                    new ProfileListResponse(profileList),
+                    HttpStatus.OK
+            );
+        }catch(Exception e){
+            return new ResponseEntity<>(
+                    new ProfileListResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    @Operation(summary = "List all profiles without team assigned", description = "List all profiles")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "All Profiles")
+    })
+    @GetMapping(value = "/profiles/without/team", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileListResponse> getAllProfilesWithoutTeam(){
+        try{
+            List<Profile> profileList = profileService.findByTeamStatus(TeamStatus.WITHOUTTEAM);
+            return new ResponseEntity<>(
+                    new ProfileListResponse(profileList),
+                    HttpStatus.OK
+            );
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new ProfileListResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
 }

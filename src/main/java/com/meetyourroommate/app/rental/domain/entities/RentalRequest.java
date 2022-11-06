@@ -6,6 +6,7 @@ import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 
 import javax.persistence.*;
 
+
 @Entity
 public class RentalRequest {
     @Id

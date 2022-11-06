@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,15 +20,16 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Property Asset", description = "Create, read, update and delete properties assets")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class PropertyAssetController {
     @Autowired
     private PropertyAssetService propertyAssetService;
     @Autowired
     private PropertyService propertyService;
 
-    @Operation(summary = "Create new property asset", description = "Create propertyasset to property", tags = {"property asset"})
+    @Operation(summary = "Create new property asset", description = "Create propertyasset to property")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Created property assets", content = @Content(mediaType = "application/json"))
     })
@@ -47,7 +49,7 @@ public class PropertyAssetController {
         }
     }
 
-    @Operation(summary = "List property asset", description = "List all property assets by a property id", tags = {"property asset"})
+    @Operation(summary = "List property asset", description = "List all property assets by a property id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Lieted property assets", content = @Content(mediaType = "application/json"))
     })
@@ -67,7 +69,7 @@ public class PropertyAssetController {
        }
     }
 
-    @Operation(summary = "Get property asset", description = "List property assets by a property id and asset id", tags = {"property asset"})
+    @Operation(summary = "Get property asset", description = "List property assets by a property id and asset id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Listed property assets", content = @Content(mediaType = "application/json"))
     })
@@ -90,7 +92,7 @@ public class PropertyAssetController {
        }
     }
 
-    @Operation(summary = "Delete property asset", description = "Delete property assets by a property id and asset id", tags = {"property asset"})
+    @Operation(summary = "Delete property asset", description = "Delete property assets by a property id and asset id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Deleted property assets", content = @Content(mediaType = "application/json"))
     })

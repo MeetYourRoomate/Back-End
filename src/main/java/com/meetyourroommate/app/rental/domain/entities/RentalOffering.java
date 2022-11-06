@@ -9,6 +9,8 @@ import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import javax.persistence.*;
 import java.util.List;
 
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
+
 @Entity
 public class RentalOffering {
     @Id

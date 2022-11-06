@@ -11,12 +11,10 @@ import org.axonframework.modelling.command.AggregateRoot;
 
 import com.meetyourroommate.app.iam.domain.valueobjects.Email;
 
-@AggregateRoot
 @Entity
 @Table(name = "users")
 public class User {
   @Id
-  @AggregateIdentifier
   private String id;
   @Embedded
   private Email email;
