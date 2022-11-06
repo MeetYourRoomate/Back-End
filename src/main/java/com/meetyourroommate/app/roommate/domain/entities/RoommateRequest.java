@@ -17,10 +17,10 @@ public class RoommateRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "student_requestor_id", unique = true)
+    @JoinColumn(name = "student_requestor_id")
     private Profile studentRequestor;
     @ManyToOne
-    @JoinColumn(name = "student_requested_id", unique = true)
+    @JoinColumn(name = "student_requested_id")
     private Profile studentRequested;
 
     @Enumerated(EnumType.STRING)
