@@ -1,6 +1,7 @@
 package com.meetyourroommate.app.profile.application.services.Impl;
 
 import com.meetyourroommate.app.iam.domain.aggregates.User;
+import com.meetyourroommate.app.iam.domain.entities.Role;
 import com.meetyourroommate.app.iam.infrastructure.persistance.jpa.UserRepository;
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
@@ -67,5 +68,10 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public List<Profile> findByTeamStatus(TeamStatus teamStatus) {
         return profileRepository.findAllByTeamStatus(teamStatus);
+    }
+
+    @Override
+    public List<Profile> findAllByUser_RoleAndTeamStatus(Role role, TeamStatus teamStatus) {
+        return profileRepository.findAllByUser_RoleAndTeamStatus(role,teamStatus);
     }
 }
