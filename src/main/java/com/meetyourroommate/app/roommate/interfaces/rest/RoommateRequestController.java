@@ -181,10 +181,10 @@ public class RoommateRequestController {
             return new ResponseEntity<>(new RoommateRequestResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @Operation(summary = "Accept the roommate request", description = "Accept the roommate request to create a team")
+    @Operation(summary = "Decline the roommate request", description = "Decline the roommate request to create a team")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200",
-                    description = "Accept roommate request")
+                    description = "Declined roommate request")
     })
     @PostMapping(value = "/roommate/request/{id}/decline" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RoommateRequestResponse> declineRoommateRequest(@PathVariable("id")Long id){
