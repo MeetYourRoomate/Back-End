@@ -1,5 +1,7 @@
 package com.meetyourroommate.app.property.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ public class PropertyAsset {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "property_id", nullable = false )
+    @JsonIgnore
     private Property propertyid;
 
     @Column(name = "url_image")
@@ -24,8 +27,9 @@ public class PropertyAsset {
         this.propertyid = property;
     }
 
-    public void setPropertyid(Property propertyid) {
+    public PropertyAsset setPropertyid(Property propertyid) {
         this.propertyid = propertyid;
+        return this;
     }
 
     public String getUrlImage() {
@@ -38,5 +42,9 @@ public class PropertyAsset {
 
     public Long getId() {
         return id;
+    }
+
+    public Property getPropertyid() {
+        return propertyid;
     }
 }
