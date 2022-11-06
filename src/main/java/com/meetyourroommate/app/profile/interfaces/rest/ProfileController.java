@@ -1,7 +1,10 @@
 package com.meetyourroommate.app.profile.interfaces.rest;
 
+import com.meetyourroommate.app.iam.application.services.RoleService;
 import com.meetyourroommate.app.iam.application.services.UserService;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
+import com.meetyourroommate.app.iam.domain.entities.Role;
+import com.meetyourroommate.app.iam.domain.entities.enums.Roles;
 import com.meetyourroommate.app.profile.application.communication.ProfileListResponse;
 import com.meetyourroommate.app.profile.application.communication.ProfileResponse;
 import com.meetyourroommate.app.profile.application.services.ProfileService;
@@ -20,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,12 +34,14 @@ public class ProfileController {
     private UserService userService;
     private PropertyService propertyService;
     private ProfileMapper mapper;
+    private final RoleService roleService;
 
-    public ProfileController(ProfileService profileService, UserService userService, PropertyService propertyService, ProfileMapper mapper) {
+    public ProfileController(ProfileService profileService, UserService userService, PropertyService propertyService, ProfileMapper mapper, RoleService roleService) {
         this.profileService = profileService;
         this.userService = userService;
         this.propertyService = propertyService;
         this.mapper = mapper;
+        this.roleService = roleService;
     }
 
     @Operation(summary = "Create profile", description = "Create new profile")
@@ -84,14 +88,21 @@ public class ProfileController {
         }
     }
 
-    @Operation(summary = "List all profiles without team assigned", description = "List all profiles")
+    @Operation(summary = "List all student profiles without team assigned", description = "List all profiles")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "All Profiles")
     })
     @GetMapping(value = "/profiles/without/team", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileListResponse> getAllProfilesWithoutTeam(){
         try{
-            List<Profile> profileList = profileService.findByTeamStatus(TeamStatus.WITHOUTTEAM);
+            Optional<Role> role = roleService.findByName(Roles.ROLE_USER_STUDENT);
+            if(role.isEmpty()){
+                return new ResponseEntity<>(
+                        new ProfileListResponse("The student role has not been created yet."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            List<Profile> profileList = profileService.findAllByUser_RoleAndTeamStatus(role.get(),TeamStatus.WITHOUTTEAM);
             return new ResponseEntity<>(
                     new ProfileListResponse(profileList),
                     HttpStatus.OK
@@ -103,4 +114,30 @@ public class ProfileController {
             );
         }
     }
+    @Operation(summary = "Get profile by user id", description = "Get profile by user id")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Profile")
+    })
+    @GetMapping(value = "/users/{id}/profiles")
+    public ResponseEntity<ProfileResponse> getProfileByUserId(@PathVariable("id") String id){
+        try{
+            Optional<Profile> profile = profileService.findByUserId(id);
+            if(profile.isEmpty()){
+                return new ResponseEntity<>(
+                        new ProfileResponse("Profile not found."),
+                        HttpStatus.INTERNAL_SERVER_ERROR
+                );
+            }
+            return new ResponseEntity<>(
+                    new ProfileResponse(profile.get()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }catch(Exception e){
+            return new ResponseEntity<>(
+                    new ProfileResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
 }
