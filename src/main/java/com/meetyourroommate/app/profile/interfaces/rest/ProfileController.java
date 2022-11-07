@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,6 +84,32 @@ public class ProfileController {
         }catch(Exception e){
             return new ResponseEntity<>(
                     new ProfileListResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    @Operation(summary = "Get profile by profile id", description = "Get Profile by profile id")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Profile")
+    })
+    @GetMapping(value = "/profiles/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileResponse> getProfileById(@PathVariable("id") Long id){
+        try{
+            Optional<Profile> profile = profileService.findById(id);
+            if(profile.isEmpty()){
+                return new ResponseEntity<>(
+                        new ProfileResponse("Profile not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            return new ResponseEntity<>(
+                    new ProfileResponse(profile.get()),
+                    HttpStatus.OK
+            );
+        }catch(Exception e){
+            return new ResponseEntity<>(
+                    new ProfileResponse(e.getMessage()),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
