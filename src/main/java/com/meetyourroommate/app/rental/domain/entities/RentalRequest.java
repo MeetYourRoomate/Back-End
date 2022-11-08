@@ -33,6 +33,14 @@ public class RentalRequest {
         this.message = message;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Status getStatus() {
         return status;
     }
