@@ -50,22 +50,22 @@ public class ProfileController {
             @ApiResponse(responseCode = "200", description = "Created new profile", content = @Content(mediaType = "application/json"))
     })
     @PostMapping(value = "/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@RequestParam String userId, @RequestBody ProfileResource profileResource){
+    public ResponseEntity<ProfileResponse> save(@RequestParam String userId, @RequestBody ProfileResource profileResource){
         try
         {
             Optional<User> user = userService.findById(userId);
             if(user.isEmpty()){
-                return new ResponseEntity<String>("User not found.", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new ProfileResponse("User not found."), HttpStatus.NOT_FOUND);
             }
             Optional<Profile> profile = profileService.findByUser(user.get());
             if(profile.isPresent()){
-                return new ResponseEntity<String>("Profile Already exist.", HttpStatus.CONFLICT);
+                return new ResponseEntity<>(new ProfileResponse("Profile Already exist."), HttpStatus.CONFLICT);
             }
             Profile newProfile = mapper.toEntity(profileResource);
             newProfile.setUser(user.get());
-            return new ResponseEntity<Profile>(profileService.save(newProfile), HttpStatus.OK);
+            return new ResponseEntity<>(new ProfileResponse(profileService.save(newProfile)), HttpStatus.OK);
         }catch(Exception e){
-           return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+           return new ResponseEntity<>(new ProfileResponse(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
