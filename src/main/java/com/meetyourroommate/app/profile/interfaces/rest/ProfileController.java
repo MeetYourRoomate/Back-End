@@ -27,7 +27,6 @@ import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "Profile", description = "Create, read, update and delete profile")
 @RestController
 @RequestMapping("/api/v1")
 public class ProfileController {
@@ -45,30 +44,32 @@ public class ProfileController {
         this.roleService = roleService;
     }
 
+    @Tag(name = "Profile", description = "Create, read, update and delete profile")
     @Operation(summary = "Create profile", description = "Create new profile")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Created new profile", content = @Content(mediaType = "application/json"))
     })
     @PostMapping(value = "/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@RequestParam String userId, @RequestBody ProfileResource profileResource){
+    public ResponseEntity<ProfileResponse> save(@RequestParam String userId, @RequestBody ProfileResource profileResource){
         try
         {
             Optional<User> user = userService.findById(userId);
             if(user.isEmpty()){
-                return new ResponseEntity<String>("User not found.", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new ProfileResponse("User not found."), HttpStatus.NOT_FOUND);
             }
             Optional<Profile> profile = profileService.findByUser(user.get());
             if(profile.isPresent()){
-                return new ResponseEntity<String>("Profile Already exist.", HttpStatus.CONFLICT);
+                return new ResponseEntity<>(new ProfileResponse("Profile Already exist."), HttpStatus.CONFLICT);
             }
             Profile newProfile = mapper.toEntity(profileResource);
             newProfile.setUser(user.get());
-            return new ResponseEntity<Profile>(profileService.save(newProfile), HttpStatus.OK);
+            return new ResponseEntity<>(new ProfileResponse(profileService.save(newProfile)), HttpStatus.OK);
         }catch(Exception e){
-           return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+           return new ResponseEntity<>(new ProfileResponse(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @Tag(name = "Profile", description = "Create, read, update and delete profile")
     @Operation(summary = "List all profiles", description = "List all profiles")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "All Profiles")
@@ -89,6 +90,7 @@ public class ProfileController {
         }
     }
 
+    @Tag(name = "Profile", description = "Create, read, update and delete profile")
     @Operation(summary = "Get profile by profile id", description = "Get Profile by profile id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Profile")
@@ -115,13 +117,21 @@ public class ProfileController {
         }
     }
 
-    @Operation(summary = "List all student profiles without team assigned", description = "List all profiles")
+    @Operation(summary = "List all student profiles without team assigned", description = "List all profiles", tags = {"Users"})
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "All Profiles")
     })
-    @GetMapping(value = "/profiles/without/team", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileListResponse> getAllProfilesWithoutTeam(){
+    @GetMapping(value = "/users/{id}/profiles/without/team", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileListResponse> getAllProfilesWithoutTeam(@PathVariable("id") String id){
         try{
+            Optional<Profile> profile = profileService.findByUserId(id);
+            if(profile.isEmpty()){
+                return new ResponseEntity<>(
+                        new ProfileListResponse("User not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+
             Optional<Role> role = roleService.findByName(Roles.ROLE_USER_STUDENT);
             if(role.isEmpty()){
                 return new ResponseEntity<>(
@@ -130,6 +140,7 @@ public class ProfileController {
                 );
             }
             List<Profile> profileList = profileService.findAllByUser_RoleAndTeamStatus(role.get(),TeamStatus.WITHOUTTEAM);
+            profileList.remove(profile.get());
             return new ResponseEntity<>(
                     new ProfileListResponse(profileList),
                     HttpStatus.OK
@@ -141,7 +152,8 @@ public class ProfileController {
             );
         }
     }
-    @Operation(summary = "Get profile by user id", description = "Get profile by user id")
+
+    @Operation(summary = "Get profile by user id", description = "Get profile by user id", tags = "Users")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Profile")
     })
