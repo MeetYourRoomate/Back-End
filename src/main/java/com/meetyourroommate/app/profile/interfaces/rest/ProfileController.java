@@ -119,9 +119,17 @@ public class ProfileController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "All Profiles")
     })
-    @GetMapping(value = "/profiles/without/team", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileListResponse> getAllProfilesWithoutTeam(){
+    @GetMapping(value = "/users/{id}/profiles/without/team", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileListResponse> getAllProfilesWithoutTeam(@PathVariable("id") String id){
         try{
+            Optional<Profile> profile = profileService.findByUserId(id);
+            if(profile.isEmpty()){
+                return new ResponseEntity<>(
+                        new ProfileListResponse("User not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+
             Optional<Role> role = roleService.findByName(Roles.ROLE_USER_STUDENT);
             if(role.isEmpty()){
                 return new ResponseEntity<>(
@@ -130,6 +138,7 @@ public class ProfileController {
                 );
             }
             List<Profile> profileList = profileService.findAllByUser_RoleAndTeamStatus(role.get(),TeamStatus.WITHOUTTEAM);
+            profileList.remove(profile.get());
             return new ResponseEntity<>(
                     new ProfileListResponse(profileList),
                     HttpStatus.OK
@@ -141,6 +150,7 @@ public class ProfileController {
             );
         }
     }
+
     @Operation(summary = "Get profile by user id", description = "Get profile by user id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Profile")
