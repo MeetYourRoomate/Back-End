@@ -1,4 +1,4 @@
-package com.meetyourroommate.app.property.application.communication;
+package com.meetyourroommate.app.property.application.communication.responses;
 
 import com.meetyourroommate.app.property.domain.entities.PropertyAsset;
 import com.meetyourroommate.app.shared.application.communication.BaseResponse;

@@ -47,7 +47,7 @@ public class ProfileController {
     @Tag(name = "Profile", description = "Create, read, update and delete profile")
     @Operation(summary = "Create profile", description = "Create new profile")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Created new profile", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Created new profile")
     })
     @PostMapping(value = "/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileResponse> save(@RequestParam String userId, @RequestBody ProfileResource profileResource){
