@@ -27,7 +27,6 @@ import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "Profile", description = "Create, read, update and delete profile")
 @RestController
 @RequestMapping("/api/v1")
 public class ProfileController {
@@ -45,6 +44,7 @@ public class ProfileController {
         this.roleService = roleService;
     }
 
+    @Tag(name = "Profile", description = "Create, read, update and delete profile")
     @Operation(summary = "Create profile", description = "Create new profile")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Created new profile", content = @Content(mediaType = "application/json"))
@@ -69,6 +69,7 @@ public class ProfileController {
         }
     }
 
+    @Tag(name = "Profile", description = "Create, read, update and delete profile")
     @Operation(summary = "List all profiles", description = "List all profiles")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "All Profiles")
@@ -89,6 +90,7 @@ public class ProfileController {
         }
     }
 
+    @Tag(name = "Profile", description = "Create, read, update and delete profile")
     @Operation(summary = "Get profile by profile id", description = "Get Profile by profile id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Profile")
@@ -115,7 +117,7 @@ public class ProfileController {
         }
     }
 
-    @Operation(summary = "List all student profiles without team assigned", description = "List all profiles")
+    @Operation(summary = "List all student profiles without team assigned", description = "List all profiles", tags = {"Users"})
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "All Profiles")
     })
@@ -151,7 +153,7 @@ public class ProfileController {
         }
     }
 
-    @Operation(summary = "Get profile by user id", description = "Get profile by user id")
+    @Operation(summary = "Get profile by user id", description = "Get profile by user id", tags = "Users")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Profile")
     })
