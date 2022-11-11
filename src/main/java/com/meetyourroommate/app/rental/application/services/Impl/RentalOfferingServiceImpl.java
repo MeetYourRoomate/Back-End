@@ -3,6 +3,7 @@ package com.meetyourroommate.app.rental.application.services.Impl;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
+import com.meetyourroommate.app.rental.domain.enumerate.Visibility;
 import com.meetyourroommate.app.rental.infrastructure.persistance.jpa.RentalOfferingRepository;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,10 @@ public class RentalOfferingServiceImpl implements RentalOfferingService {
     @Override
     public List<RentalOffering> findAllByProperty_Profile(Profile profile) {
         return rentalOfferingRepository.findAllByProperty_Profile(profile);
+    }
+
+    @Override
+    public List<RentalOffering> findAllByVisibility(Visibility visibility) {
+        return rentalOfferingRepository.findAllByVisibility(visibility);
     }
 }
