@@ -14,6 +14,7 @@ import com.meetyourroommate.app.rental.domain.entities.Rental;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferingResource;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
+import com.meetyourroommate.app.rental.domain.enumerate.Visibility;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -164,6 +165,60 @@ public class RentalLifecycleController {
                    new RentalOfferResponse(e.getMessage()),
                    HttpStatus.INTERNAL_SERVER_ERROR);
        }
+    }
+
+    @Operation(summary = "Update visibility state of rental offer", description = "Update visibility state of rental offer to visible", tags = {"Rental Offer"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Offer visible")
+    })
+    @PutMapping(value = "/rentaloffers/{id}/visible", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferResponse> updateVisibilityStatusToVisible(@PathVariable("id") Long id){
+        try {
+            Optional<RentalOffering> rentalOffering  = rentalOfferingService.findById(id);
+            if(rentalOffering.isEmpty()){
+                return new ResponseEntity<>(
+                        new RentalOfferResponse("Rental offer not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            rentalOffering.get().setVisibility(Visibility.VISIBLE);
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(rentalOfferingService.save(rentalOffering.get())),
+                    HttpStatus.OK
+            );
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    @Operation(summary = "Update visibility state of rental offer", description = "Update visibility state of rental offer to not visible", tags = {"Rental Offer"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Offer not visible")
+    })
+    @PutMapping(value = "/rentaloffers/{id}/not/visible", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferResponse> updateVisibilityStatusToNotVisible(@PathVariable("id") Long id){
+        try {
+            Optional<RentalOffering> rentalOffering  = rentalOfferingService.findById(id);
+            if(rentalOffering.isEmpty()){
+                return new ResponseEntity<>(
+                        new RentalOfferResponse("Rental offer not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            rentalOffering.get().setVisibility(Visibility.NOTVISIBLE);
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(rentalOfferingService.save(rentalOffering.get())),
+                    HttpStatus.OK
+            );
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     @Operation(summary = "Get offer by user id", description = "Get offers by user id", tags = {"Users"})
