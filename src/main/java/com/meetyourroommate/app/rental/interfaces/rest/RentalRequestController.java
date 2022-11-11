@@ -2,6 +2,7 @@ package com.meetyourroommate.app.rental.interfaces.rest;
 
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.rental.application.communication.response.RentalRequestResponse;
 import com.meetyourroommate.app.rental.application.internal.commands.CreateRentalRequestCommand;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
 import com.meetyourroommate.app.rental.application.services.RentalRequestService;
@@ -26,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Tag(name = "Rental Request", description = "Create, read, update and delete rental request")
 @RestController
 @RequestMapping("/api/v1")
 @Slf4j
@@ -44,38 +44,49 @@ public class RentalRequestController {
         this.commandGateway = commandGateway;
     }
 
+    @Tag(name = "Rental Request", description = "Create, read, update and delete rental request")
     @Operation(summary = "Create new rental request", description = "Create new rental request to create rental object")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Created rental request", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Created rental request")
     })
-    @PostMapping(path = "/rental/request", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@RequestBody RentalRequestResource resource){
+    @PostMapping(path = "/requests", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalRequestResponse> save(@RequestBody RentalRequestResource resource){
         try{
             Optional<Profile> profile = profileService.findByUserId(resource.getUserId());
             if(profile.isEmpty()){
-                return new ResponseEntity<>("User not found.", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(
+                        new RentalRequestResponse("User not found."),
+                        HttpStatus.NOT_FOUND);
             }
             Optional<RentalOffering> rentalOffering = rentalOfferingService.findById(resource.getRentalOfferId());
             if(rentalOffering.isEmpty()){
-                return new ResponseEntity<>("Rental offer not found",HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(
+                        new RentalRequestResponse("Rental offer not found"),
+                        HttpStatus.NOT_FOUND);
             }
             Optional<RentalRequest> optionalRentalRequest = rentalRequestService.findByProfileAndOffer(profile.get(), rentalOffering.get());
             if(optionalRentalRequest.isPresent()){
-                return new ResponseEntity<>("Rental request already created",HttpStatus.CONFLICT);
+                return new ResponseEntity<>(
+                        new RentalRequestResponse("Rental request already created"),
+                        HttpStatus.CONFLICT);
             }
             RentalRequest rentalRequest  = new RentalRequest(profile.get(), rentalOffering.get(), resource.getMessage());
-            return new ResponseEntity<>(rentalRequestService.save(rentalRequest), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new RentalRequestResponse(rentalRequestService.save(rentalRequest)) ,
+                    HttpStatus.OK);
 
         }catch(Exception e){
-           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+           return new ResponseEntity<>(
+                   new RentalRequestResponse(e.getMessage()),
+                   HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @Operation(summary = "Find all rental request by offer", description = "Find all rental request by offer id")
+    @Operation(summary = "Find all rental request by offer", description = "Find all rental request by offer id", tags ={"Rental offer"})
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Listed rental request", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Listed rental request")
     })
-    @GetMapping(path = "/rental/offer/{id}/requests", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/rentaloffers/{id}/requests", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAllByOffer(@PathVariable Long id){
         try{
             Optional<RentalOffering> rentalOffering = rentalOfferingService.findById(id);
@@ -90,9 +101,9 @@ public class RentalRequestController {
         }
     }
 
-    @Operation(summary = "Find all rental request by user id", description = "Find all rental request by user id")
+    @Operation(summary = "Find all rental request by user id", description = "Find all rental request by user id", tags = {"Users"})
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Listed rental request", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Listed rental request")
     })
     @GetMapping(path = "/users/{id}/requests", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAllByUser(@PathVariable String id){
@@ -109,9 +120,10 @@ public class RentalRequestController {
         }
     }
 
+    @Tag(name = "Rental Request", description = "Create, read, update and delete rental request")
     @Operation(summary = "Accept rental request", description = "Accept rental request by request id")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Acepted rental request", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Acepted rental request")
     })
     @PutMapping(path = "/requests/{id}/accept")
     public ResponseEntity<?> acceptRentalRequest(@PathVariable Long id){
@@ -129,9 +141,10 @@ public class RentalRequestController {
        }
     }
 
+    @Tag(name = "Rental Request", description = "Create, read, update and delete rental request")
     @Operation(summary = "decline rental request", description = "decline rental request by request id")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Declined rental request", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Declined rental request")
     })
     @PutMapping(path = "/requests/{id}/decline")
     public ResponseEntity<?> declineRentalRequest(@PathVariable Long id){
