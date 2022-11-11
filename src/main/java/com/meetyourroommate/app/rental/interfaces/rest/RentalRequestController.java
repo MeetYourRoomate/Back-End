@@ -2,10 +2,14 @@ package com.meetyourroommate.app.rental.interfaces.rest;
 
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.rental.application.communication.response.RentalOfferListResponse;
+import com.meetyourroommate.app.rental.application.communication.response.RentalOfferResponse;
+import com.meetyourroommate.app.rental.application.communication.response.RentalRequestListResponse;
 import com.meetyourroommate.app.rental.application.communication.response.RentalRequestResponse;
 import com.meetyourroommate.app.rental.application.internal.commands.CreateRentalRequestCommand;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
 import com.meetyourroommate.app.rental.application.services.RentalRequestService;
+import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferingResource;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalRequestResource;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
@@ -87,17 +91,23 @@ public class RentalRequestController {
             @ApiResponse(responseCode = "200", description = "Listed rental request")
     })
     @GetMapping(path = "/rentaloffers/{id}/requests", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllByOffer(@PathVariable Long id){
+    public ResponseEntity<RentalRequestListResponse> findAllByOffer(@PathVariable Long id){
         try{
             Optional<RentalOffering> rentalOffering = rentalOfferingService.findById(id);
             if(rentalOffering.isEmpty()){
-                return new ResponseEntity<>("Rental Offer not found.", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(
+                        new RentalRequestListResponse("Rental Offer not found."),
+                        HttpStatus.NOT_FOUND);
             }
             List<RentalRequest> rentalOfferingList = rentalRequestService.findByRentalOffering(rentalOffering.get());
-            return new ResponseEntity<>(rentalOfferingList, HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new RentalRequestListResponse(rentalOfferingList),
+                    HttpStatus.OK);
 
         }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                    new RentalRequestListResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -106,17 +116,23 @@ public class RentalRequestController {
             @ApiResponse(responseCode = "200", description = "Listed rental request")
     })
     @GetMapping(path = "/users/{id}/requests", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllByUser(@PathVariable String id){
+    public ResponseEntity<RentalRequestListResponse> findAllByUser(@PathVariable String id){
         try{
             Optional<Profile> profile = profileService.findByUserId(id);
             if(profile.isEmpty()){
-                return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(
+                        new RentalRequestListResponse("Profile not found."),
+                        HttpStatus.NOT_FOUND);
             }
             List<RentalRequest> rentalOfferingList = rentalRequestService.findByProfile(profile.get());
-            return new ResponseEntity<>(rentalOfferingList, HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new RentalRequestListResponse(rentalOfferingList),
+                    HttpStatus.OK);
 
         }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                    new RentalRequestListResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -126,18 +142,24 @@ public class RentalRequestController {
             @ApiResponse(responseCode = "200", description = "Acepted rental request")
     })
     @PutMapping(path = "/requests/{id}/accept")
-    public ResponseEntity<?> acceptRentalRequest(@PathVariable Long id){
+    public ResponseEntity<RentalRequestResponse> acceptRentalRequest(@PathVariable Long id){
        try{
            Optional<RentalRequest> rentalRequest = rentalRequestService.findById(id);
            if(rentalRequest.isEmpty()){
-              return new ResponseEntity<>("Rental request not found", HttpStatus.NOT_FOUND);
+              return new ResponseEntity<>(
+                      new RentalRequestResponse("Rental request not found"),
+                      HttpStatus.NOT_FOUND);
            }
            rentalRequest.get().setStatus(Status.ACCEPTED);
            rentalRequest.get().getRentalOffering().setStatus(RentalStatus.BUSY);
            //TODO: add logic to delete other rental request and generate the rental object
-           return new ResponseEntity<>(rentalRequestService.save(rentalRequest.get()), HttpStatus.OK);
+           return new ResponseEntity<>(
+                   new RentalRequestResponse(rentalRequestService.save(rentalRequest.get())),
+                   HttpStatus.OK);
        }catch(Exception e){
-          return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+          return new ResponseEntity<>(
+                  new RentalRequestResponse(e.getMessage()),
+                  HttpStatus.INTERNAL_SERVER_ERROR);
        }
     }
 
@@ -147,16 +169,22 @@ public class RentalRequestController {
             @ApiResponse(responseCode = "200", description = "Declined rental request")
     })
     @PutMapping(path = "/requests/{id}/decline")
-    public ResponseEntity<?> declineRentalRequest(@PathVariable Long id){
+    public ResponseEntity<RentalRequestResponse> declineRentalRequest(@PathVariable Long id){
         try{
             Optional<RentalRequest> rentalRequest = rentalRequestService.findById(id);
             if(rentalRequest.isEmpty()){
-                return new ResponseEntity<>("Rental request not found", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(
+                        new RentalRequestResponse("Rental request not found"),
+                        HttpStatus.NOT_FOUND);
             }
             rentalRequest.get().setStatus(Status.DECLINED);
-            return new ResponseEntity<>(rentalRequestService.save(rentalRequest.get()), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new RentalRequestResponse(rentalRequestService.save(rentalRequest.get())),
+                    HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                    new RentalRequestResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
