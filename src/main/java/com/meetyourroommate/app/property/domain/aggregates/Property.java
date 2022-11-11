@@ -1,12 +1,9 @@
 package com.meetyourroommate.app.property.domain.aggregates;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.property.domain.entities.PropertyFeature;
 import com.meetyourroommate.app.property.domain.entities.PropertyAsset;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
-import org.axonframework.modelling.command.AggregateIdentifier;
-import org.axonframework.modelling.command.AggregateRoot;
 
 import javax.persistence.*;
 import java.util.List;
