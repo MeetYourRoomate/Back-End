@@ -10,6 +10,7 @@ import com.meetyourroommate.app.rental.application.communication.response.Rental
 import com.meetyourroommate.app.rental.application.communication.response.RentalOfferResponse;
 import com.meetyourroommate.app.rental.application.transform.RentalOfferMapper;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferResource;
+import com.meetyourroommate.app.rental.domain.entities.Rental;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferingResource;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
@@ -103,9 +104,13 @@ public class RentalLifecycleController {
             @ApiResponse(responseCode = "200", description = "Listed all rental offering")
     })
     @GetMapping(path = "/rentaloffers",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentalOfferPageResponse> findByQueryAndSort(@RequestParam int offset, @RequestParam int pagesize, @RequestParam String field, @RequestParam String order){
+    public ResponseEntity<RentalOfferPageResponse> findByQueryAndSort(
+            @RequestParam int offset,
+            @RequestParam int pagesize,
+            @RequestParam String field,
+            @RequestParam String order){
         try{
-            Page<RentalOffering> rentalOfferingPage = rentalOfferingService.findByOffsetAndPageSizeAndField(offset, pagesize,field, order);
+            Page<RentalOffering> rentalOfferingPage = rentalOfferingService.findAllVisibles(offset, pagesize,field, order);
             return new ResponseEntity<>(
                     new RentalOfferPageResponse(rentalOfferingPage),
                     HttpStatus.OK);
@@ -114,6 +119,27 @@ public class RentalLifecycleController {
                     new RentalOfferPageResponse(e.getMessage()),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Tag(name = "Rental offer", description = "Create, read, update and delete rental offer")
+    @Operation(summary = "List rentaloffering visibles", description = "List all rental offering visibles")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Listed all rental offering visibles")
+    })
+    @GetMapping(path = "/rentaloffers/visibles",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferListResponse> ListAllRenatlOffersVisibles(){
+       try{
+           List<RentalOffering> rentalOfferingList = rentalOfferingService.findAllVisibles();
+           return new ResponseEntity<>(
+                   new RentalOfferListResponse(rentalOfferingList),
+                   HttpStatus.OK
+           );
+       }catch (Exception e){
+           return new ResponseEntity<>(
+                   new RentalOfferListResponse(e.getMessage()),
+                   HttpStatus.INTERNAL_SERVER_ERROR
+           );
+       }
     }
 
     @Tag(name = "Rental offer", description = "Create, read, update and delete rental offer")

@@ -17,5 +17,6 @@ public interface RentalOfferingService extends CrudService<RentalOffering, Long>
     Optional<RentalOffering> findByProperty(Property property);
     List<RentalOffering> findAllByProperty_Profile(Profile profile);
 
-    List<RentalOffering> findAllByVisibility(Visibility visibility);
+    Page<RentalOffering> findAllVisibles(int offset, int pagesize, String field, String order);
+    List<RentalOffering> findAllVisibles();
 }
