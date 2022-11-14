@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,6 +20,10 @@ public class Roommate {
     @JoinColumn(name = "team_id")
     @JsonIgnore
     private Team team;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    public List<Duty> duties;
 
     @OneToOne
     @JoinColumn(name = "profile_id", unique = true)
