@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Tag(name = "Roommate request", description = "Create, read, update and delete roommate request")
 @RestController
 @RequestMapping("/api/v1")
 public class RoommateRequestController {
@@ -44,7 +43,7 @@ public class RoommateRequestController {
         this.roommateService = roommateService;
     }
 
-    @Operation(summary = "Create new roommmate request", description = "Create new request to be roommates")
+    @Operation(summary = "Create new roommmate request", description = "Create new request to be roommates", tags = {"Users"})
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Created roommate request")
     })
@@ -89,7 +88,7 @@ public class RoommateRequestController {
         }
     }
 
-    @Operation(summary = "List all roommate request made by user", description = "List all roommate request made by user id")
+    @Operation(summary = "List all roommate request made by user", description = "List all roommate request made by user id", tags = {"Users"})
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Listed request")
     })
@@ -114,7 +113,7 @@ public class RoommateRequestController {
         }
     }
 
-    @Operation(summary = "List all roommate request assigned to user", description = "List all roommate request assigned to user")
+    @Operation(summary = "List all roommate request assigned to user", description = "List all roommate request assigned to user", tags = {"Users"})
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Listed request")
     })
@@ -135,6 +134,7 @@ public class RoommateRequestController {
         }
     }
 
+    @Tag(name = "Roommate request", description = "Create, read, update and delete roommate request")
     @Operation(summary = "Accept the roommate request", description = "Accept the roommate request to create a team")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Accept roommate request")
@@ -181,6 +181,7 @@ public class RoommateRequestController {
             return new ResponseEntity<>(new RoommateRequestResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Tag(name = "Roommate request", description = "Create, read, update and delete roommate request")
     @Operation(summary = "Decline the roommate request", description = "Decline the roommate request to create a team")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200",

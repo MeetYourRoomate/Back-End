@@ -2,6 +2,7 @@ package com.meetyourroommate.app.rental.domain.entities;
 
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.rental.domain.enumerate.RentalStatus;
+import com.meetyourroommate.app.rental.domain.enumerate.Visibility;
 import com.meetyourroommate.app.rental.domain.valueobjects.Amount;
 import com.meetyourroommate.app.rental.domain.valueobjects.Lifecycle;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
@@ -28,6 +29,9 @@ public class RentalOffering {
 
     @Enumerated(EnumType.STRING)
     private RentalStatus status = RentalStatus.FREE;
+
+    @Enumerated(EnumType.STRING)
+    private Visibility visibility;
 
     @OneToMany(mappedBy = "rentalOffering", cascade = CascadeType.REMOVE)
     private List<RentalRequest> rentalRequestList;
@@ -87,5 +91,13 @@ public class RentalOffering {
     public RentalOffering setStatus(RentalStatus status) {
         this.status = status;
         return this;
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
     }
 }

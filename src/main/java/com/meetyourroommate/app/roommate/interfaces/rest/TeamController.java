@@ -8,6 +8,9 @@ import com.meetyourroommate.app.roommate.application.services.RoommateService;
 import com.meetyourroommate.app.roommate.application.services.TeamService;
 import com.meetyourroommate.app.roommate.domain.entities.Roommate;
 import com.meetyourroommate.app.roommate.domain.entities.Team;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.swing.text.html.Option;
 import java.util.Optional;
 
-@Tag(name = "Team", description = "Create, read, update and delete team")
 @RestController
 @RequestMapping("/api/v1")
 public class TeamController {
@@ -33,6 +35,11 @@ public class TeamController {
         this.profileService = profileService;
     }
 
+    @Operation(summary = "Decline the roommate request", description = "Decline the roommate request to create a team", tags = {"Users"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Declined roommate request")
+    })
     @GetMapping("/users/{id}/team")
     public ResponseEntity<TeamResponse> getTeam(@PathVariable("id") String id){
         try{

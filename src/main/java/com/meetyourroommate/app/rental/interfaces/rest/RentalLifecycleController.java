@@ -5,11 +5,16 @@ import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.property.application.transform.PropertyMapper;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.property.application.services.PropertyService;
+import com.meetyourroommate.app.rental.application.communication.response.RentalOfferListResponse;
+import com.meetyourroommate.app.rental.application.communication.response.RentalOfferPageResponse;
+import com.meetyourroommate.app.rental.application.communication.response.RentalOfferResponse;
 import com.meetyourroommate.app.rental.application.transform.RentalOfferMapper;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferResource;
+import com.meetyourroommate.app.rental.domain.entities.Rental;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferingResource;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
+import com.meetyourroommate.app.rental.domain.enumerate.Visibility;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,7 +30,6 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "Rental offer", description = "Create, read, update and delete rental offer")
 @RestController
 @RequestMapping("/api/v1")
 public class RentalLifecycleController {
@@ -44,111 +48,231 @@ public class RentalLifecycleController {
         this.rentalOfferMapper = rentalOfferMapper;
     }
 
-    @Operation(summary = "Create new rental offer with property id", description = "Create rental offer to property")
+    @Operation(summary = "Create new rental offer with property id", description = "Create rental offer to property", tags = {"Property"})
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Created property assets", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Created property assets")
     })
-    @PostMapping(path = "/property/{id}/rentaloffers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@PathVariable(value = "id") Long property_id, @RequestBody RentalOfferingResource rentalOfferingResource){
+    @PostMapping(path = "/properties/{id}/rentaloffers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferResponse> save(
+            @PathVariable(value = "id") Long property_id,
+            @RequestBody RentalOfferingResource rentalOfferingResource){
         try{
             Optional<Property> property = propertyService.findById(property_id);
             if(property.isEmpty()){
-                return new ResponseEntity<String>("Property Not Found.",HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(
+                        new RentalOfferResponse("Property Not Found."),
+                        HttpStatus.NOT_FOUND);
             }
             Optional<RentalOffering> rentalOffering = rentalOfferingService.findByProperty(property.get());
             if(rentalOffering.isPresent()){
-                return new ResponseEntity<String>("Rental Offer exist.",HttpStatus.CONFLICT);
+                return new ResponseEntity<>(
+                        new RentalOfferResponse("Rental Offer exist."),
+                        HttpStatus.CONFLICT);
             }
             RentalOffering newRentalOffering = new RentalOffering(rentalOfferingResource.getLifecycle(),rentalOfferingResource.getAmount(),rentalOfferingResource.getConditions());
             newRentalOffering.setProperty(property.get());
-            return new ResponseEntity<RentalOffering>(rentalOfferingService.save(newRentalOffering), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(rentalOfferingService.save(newRentalOffering)),
+                    HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @Tag(name = "Rental offer", description = "Create, read, update and delete rental offer")
     @Operation(summary = "List rentaloffering", description = "List all rental offering without pagination")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Listed all rental offering", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Listed all rental offering")
     })
     @GetMapping(path = "/rentaloffers/all" ,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<RentalOfferListResponse> findAll(){
         try{
             List<RentalOffering> rentalOfferingList = rentalOfferingService.findAll();
-            return new ResponseEntity<List<RentalOffering>>(rentalOfferingList, HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new RentalOfferListResponse(rentalOfferingList),
+                    HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                    new RentalOfferListResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Tag(name = "Rental offer", description = "Create, read, update and delete rental offer")
     @Operation(summary = "List rentaloffering", description = "List all rental offering with pagination and field")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Listed all rental offering", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Listed all rental offering")
     })
     @GetMapping(path = "/rentaloffers",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findByQueryAndSort(@RequestParam int offset, @RequestParam int pagesize,@RequestParam String field, @RequestParam String order){
+    public ResponseEntity<RentalOfferPageResponse> findByQueryAndSort(
+            @RequestParam int offset,
+            @RequestParam int pagesize,
+            @RequestParam String field,
+            @RequestParam String order){
         try{
-            Page<RentalOffering> rentalOfferingPage = rentalOfferingService.findByOffsetAndPageSizeAndField(offset, pagesize,field, order);
-            return new ResponseEntity<Page<RentalOffering>>(rentalOfferingPage, HttpStatus.OK);
+            Page<RentalOffering> rentalOfferingPage = rentalOfferingService.findAllVisibles(offset, pagesize,field, order);
+            return new ResponseEntity<>(
+                    new RentalOfferPageResponse(rentalOfferingPage),
+                    HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                    new RentalOfferPageResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @Operation(summary = "Get offer by id", description = "Get ofer by id")
+    @Tag(name = "Rental offer", description = "Create, read, update and delete rental offer")
+    @Operation(summary = "List rentaloffering visibles", description = "List all rental offering visibles")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Offer", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Listed all rental offering visibles")
     })
-    @GetMapping(value = "/rentaloffers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findById(@PathVariable Long id){
+    @GetMapping(path = "/rentaloffers/visibles",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferListResponse> ListAllRenatlOffersVisibles(){
        try{
-           Optional<RentalOffering> rentalOffering = rentalOfferingService.findById(id);
-           if(rentalOffering.isEmpty()){
-              return new ResponseEntity<>("Offer not found.", HttpStatus.NOT_FOUND);
-           }
-           return new ResponseEntity<>(rentalOffering.get(), HttpStatus.OK);
-       }catch(Exception e){
-           return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+           List<RentalOffering> rentalOfferingList = rentalOfferingService.findAllVisibles();
+           return new ResponseEntity<>(
+                   new RentalOfferListResponse(rentalOfferingList),
+                   HttpStatus.OK
+           );
+       }catch (Exception e){
+           return new ResponseEntity<>(
+                   new RentalOfferListResponse(e.getMessage()),
+                   HttpStatus.INTERNAL_SERVER_ERROR
+           );
        }
     }
 
-    @Operation(summary = "Get offer by user id", description = "Get offers by user id")
+    @Tag(name = "Rental offer", description = "Create, read, update and delete rental offer")
+    @Operation(summary = "Get offer by id", description = "Get ofer by id")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Listed offers", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Offer")
     })
-    @GetMapping(value = "/users/{id}/rental/offers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?>findByUserId(@PathVariable String id){
-        try{
-            Optional<Profile> profile = profileService.findByUserId(id);
-            if(profile.isEmpty()){
-                return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
+    @GetMapping(value = "/rentaloffers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferResponse> findById(@PathVariable Long id){
+       try{
+           Optional<RentalOffering> rentalOffering = rentalOfferingService.findById(id);
+           if(rentalOffering.isEmpty()){
+              return new ResponseEntity<>(
+                      new RentalOfferResponse("Offer not found."),
+                      HttpStatus.NOT_FOUND);
+           }
+           return new ResponseEntity<>(
+                   new RentalOfferResponse(rentalOffering.get()),
+                   HttpStatus.OK);
+       }catch(Exception e){
+           return new ResponseEntity<>(
+                   new RentalOfferResponse(e.getMessage()),
+                   HttpStatus.INTERNAL_SERVER_ERROR);
+       }
+    }
+
+    @Operation(summary = "Update visibility state of rental offer", description = "Update visibility state of rental offer to visible", tags = {"Rental Offer"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Offer visible")
+    })
+    @PutMapping(value = "/rentaloffers/{id}/visible", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferResponse> updateVisibilityStatusToVisible(@PathVariable("id") Long id){
+        try {
+            Optional<RentalOffering> rentalOffering  = rentalOfferingService.findById(id);
+            if(rentalOffering.isEmpty()){
+                return new ResponseEntity<>(
+                        new RentalOfferResponse("Rental offer not found."),
+                        HttpStatus.NOT_FOUND
+                );
             }
-            return new ResponseEntity<>(rentalOfferingService.findAllByProperty_Profile(profile.get()),HttpStatus.OK);
+            rentalOffering.get().setVisibility(Visibility.VISIBLE);
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(rentalOfferingService.save(rentalOffering.get())),
+                    HttpStatus.OK
+            );
         }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
 
-    @Operation(summary = "Create rental offer", description = "Create complete rental offer and property")
+    @Operation(summary = "Update visibility state of rental offer", description = "Update visibility state of rental offer to not visible", tags = {"Rental Offer"})
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Created offer", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Offer not visible")
     })
-    @PostMapping(value = "/users/{id}/rental/offer", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createOfferWithProperty(@PathVariable(value = "id") String id, @RequestBody RentalOfferResource rentalOfferResource){
+    @PutMapping(value = "/rentaloffers/{id}/not/visible", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferResponse> updateVisibilityStatusToNotVisible(@PathVariable("id") Long id){
+        try {
+            Optional<RentalOffering> rentalOffering  = rentalOfferingService.findById(id);
+            if(rentalOffering.isEmpty()){
+                return new ResponseEntity<>(
+                        new RentalOfferResponse("Rental offer not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            rentalOffering.get().setVisibility(Visibility.NOTVISIBLE);
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(rentalOfferingService.save(rentalOffering.get())),
+                    HttpStatus.OK
+            );
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    @Operation(summary = "Get offer by user id", description = "Get offers by user id", tags = {"Users"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Listed offers")
+    })
+    @GetMapping(value = "/users/{id}/rental/offers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferListResponse>findByUserId(@PathVariable String id){
         try{
             Optional<Profile> profile = profileService.findByUserId(id);
             if(profile.isEmpty()){
-                return new ResponseEntity<>("Profile not found.", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(
+                        new RentalOfferListResponse("Profile not found."),
+                        HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(
+                    new RentalOfferListResponse(rentalOfferingService.findAllByProperty_Profile(profile.get())),
+                    HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new RentalOfferListResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Create rental offer", description = "Create complete rental offer and property", tags = {"Users"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Created offer")
+    })
+    @PostMapping(value = "/users/{id}/rental/offer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentalOfferResponse> createOfferWithProperty(@PathVariable(value = "id") String id, @RequestBody RentalOfferResource rentalOfferResource){
+        try{
+            Optional<Profile> profile = profileService.findByUserId(id);
+
+            if(profile.isEmpty()){
+                return new ResponseEntity<>(
+                        new RentalOfferResponse("Profile not found."),
+                        HttpStatus.NOT_FOUND);
             }
             Property newProperty = propertyService.save(
                     propertyMapper.toEntity(rentalOfferResource.getPropertyResource())
                             .setProfile(profile.get()));
+
             RentalOffering newRentalOffering = rentalOfferMapper.toEntity(rentalOfferResource.getRentalOfferingResource());
+
             newRentalOffering.setProperty(newProperty);
-            return new ResponseEntity<>(rentalOfferingService.save(newRentalOffering), HttpStatus.OK);
+
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(rentalOfferingService.save(newRentalOffering)),
+                    HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                    new RentalOfferResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
 }
