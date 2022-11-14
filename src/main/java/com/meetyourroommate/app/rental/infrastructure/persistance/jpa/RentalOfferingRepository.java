@@ -16,9 +16,6 @@ import java.util.Optional;
 public interface RentalOfferingRepository extends JpaRepository<RentalOffering, Long> {
     Optional<RentalOffering> findByProperty(Property property);
     List<RentalOffering> findAllByProperty_Profile(Profile profile);
-    Page<RentalOffering> findAllByVisibility_Notvisible(Pageable pageable);
-    List<RentalOffering> findAllByVisibility_Notvisible();
-
-    Page<RentalOffering> findAllByVisibility_Visible(Pageable pageable);
-    List<RentalOffering> findAllByVisibility_Visible();
+    Page<RentalOffering> findAllByVisibility(Visibility visibility,Pageable pageable);
+    List<RentalOffering> findAllByVisibility(Visibility visibility);
 }

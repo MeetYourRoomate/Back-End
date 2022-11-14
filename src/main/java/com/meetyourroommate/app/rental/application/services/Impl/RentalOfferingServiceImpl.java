@@ -75,20 +75,25 @@ public class RentalOfferingServiceImpl implements RentalOfferingService {
     public Page<RentalOffering> findAllVisibles(int offset, int pagesize, String field, String order) {
         switch (order   ){
             case "DESC":
-                return rentalOfferingRepository.findAllByVisibility_Visible(
+                return rentalOfferingRepository.findAllByVisibility(
+                        Visibility.VISIBLE,
                         PageRequest.of(offset, pagesize).withSort(Sort.by(field).descending()));
             case "ASCE":
-                return rentalOfferingRepository.findAllByVisibility_Visible(
+                return rentalOfferingRepository.findAllByVisibility(
+                        Visibility.VISIBLE,
                         PageRequest.of(offset, pagesize).withSort(Sort.by(field).ascending()));
             default:
-                return rentalOfferingRepository.findAllByVisibility_Visible(
+                return rentalOfferingRepository.findAllByVisibility(
+                        Visibility.VISIBLE,
                         PageRequest.of(offset, pagesize).withSort(Sort.by(field)));
         }
     }
 
     @Override
     public List<RentalOffering> findAllVisibles() {
-        return rentalOfferingRepository.findAllByVisibility_Visible();
+        return rentalOfferingRepository.findAllByVisibility(
+                Visibility.VISIBLE
+        );
     }
 
 }
