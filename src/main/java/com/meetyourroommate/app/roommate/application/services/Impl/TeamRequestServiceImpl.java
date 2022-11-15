@@ -1,6 +1,7 @@
 package com.meetyourroommate.app.roommate.application.services.Impl;
 
 import com.meetyourroommate.app.roommate.application.services.TeamRequestService;
+import com.meetyourroommate.app.roommate.domain.entities.Team;
 import com.meetyourroommate.app.roommate.domain.entities.TeamRequest;
 import com.meetyourroommate.app.roommate.infrastructure.persistance.jpa.TeamRequestRepository;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,10 @@ public class TeamRequestServiceImpl implements TeamRequestService {
     @Override
     public void deleteById(String id) throws Exception {
         teamRequestRepository.deleteById(id);
+    }
+
+    @Override
+    public List<TeamRequest> findAllByTeamRequested(Team team) {
+        return teamRequestRepository.findAllByTeamRequested(team);
     }
 }

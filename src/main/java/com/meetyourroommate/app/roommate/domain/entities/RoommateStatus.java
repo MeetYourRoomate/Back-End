@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.roommate.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.shared.domain.enumerate.Status;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class RoommateStatus {
     private String id = UUID.randomUUID().toString();
     @ManyToOne
     @JoinColumn(name = "team_request_id")
+    @JsonIgnore
     private TeamRequest teamRequest;
 
     @OneToOne
