@@ -55,6 +55,7 @@ public class PropertyAssetController {
                         HttpStatus.NOT_FOUND);
             }
             PropertyAsset propertyAsset = propertyAssetsMapper.toEntity(resource);
+            propertyAsset.setPropertyid(property.get());
             return new ResponseEntity<>(
                     new PropertyAssetsResponse(propertyAssetService.save(propertyAsset)),
                     HttpStatus.OK
