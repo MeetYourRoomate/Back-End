@@ -1,12 +1,18 @@
 package com.meetyourroommate.app.roommate.interfaces.rest;
 
 import com.meetyourroommate.app.profile.application.services.ProfileService;
+import com.meetyourroommate.app.roommate.application.communication.RoommateResponse;
 import com.meetyourroommate.app.roommate.application.services.RoommateService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Roommate", description = "Create, read, update and delete roommate")
 @RestController
 @RequestMapping("/api/v1")
 public class RoommateController {
@@ -17,5 +23,4 @@ public class RoommateController {
         this.roommateService = roommateService;
         this.profileService = profileService;
     }
-
 }
