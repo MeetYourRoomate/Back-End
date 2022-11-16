@@ -8,4 +8,6 @@ import java.io.Serializable;
 public class PropertyResource implements Serializable {
     private String title;
     private String description;
+    private String location;
+    private String propertyType;
 }

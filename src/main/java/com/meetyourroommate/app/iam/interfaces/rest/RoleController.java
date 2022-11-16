@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.management.relation.RoleList;
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Role", description = "Create roles")
 @RestController
@@ -40,6 +42,13 @@ public class RoleController {
     @PostMapping("/roles/lessors")
     public ResponseEntity<RoleResponse> createLessorRole(){
         try{
+            Optional<Role> role =  roleService.findByName(Roles.ROLE_USER_LESSOR);
+            if(role.isPresent()){
+                return new ResponseEntity<>(
+                        new RoleResponse("Role lessor already exist."),
+                        HttpStatus.CONFLICT
+                );
+            }
             Role lessorRole = new Role();
             lessorRole.setName(Roles.ROLE_USER_LESSOR);
             return new ResponseEntity<>(new RoleResponse(roleService.save(lessorRole)),HttpStatus.OK);
@@ -56,6 +65,13 @@ public class RoleController {
     public ResponseEntity<RoleResponse> createStudentsRole(){
         try{
             Role studentRole = new Role();
+            Optional<Role> role =  roleService.findByName(Roles.ROLE_USER_STUDENT);
+            if(role.isPresent()){
+                return new ResponseEntity<>(
+                        new RoleResponse("Role student already exist."),
+                        HttpStatus.CONFLICT
+                );
+            }
             return new ResponseEntity<>(new RoleResponse(roleService.save(studentRole)),HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(new RoleResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
