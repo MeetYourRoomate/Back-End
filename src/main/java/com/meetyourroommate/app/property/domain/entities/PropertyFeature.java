@@ -20,6 +20,7 @@ public class PropertyFeature {
     @Embedded
     private Feature feature;
     @Embedded
+    @JsonIgnore
     private Audit audit = new Audit();
 
     public Property getProperty() {
@@ -44,5 +45,13 @@ public class PropertyFeature {
 
     public void setAudit(Audit audit) {
         this.audit = audit;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
