@@ -17,6 +17,8 @@ public class Property {
     private String title;
     @Lob
     private String description;
+    @Column(name = "property_type")
+    private String propertyType;
     @Lob
     private String location;
     @ManyToOne
@@ -80,5 +82,13 @@ public class Property {
 
     public void setPropertyFeatureList(List<PropertyFeature> propertyFeatureList) {
         this.propertyFeatureList = propertyFeatureList;
+    }
+
+    public String getPropertyType() {
+        return propertyType;
+    }
+
+    public void setPropertyType(String propertyType) {
+        this.propertyType = propertyType;
     }
 }
