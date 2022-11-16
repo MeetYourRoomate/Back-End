@@ -23,6 +23,15 @@ public class Profile {
     private String name;
     private String surname;
 
+    @Lob
+    @Column(name = "photo_url")
+    private String photoUrl;
+    private String gender;
+    @Lob
+    private String about;
+    @Lob
+    private String location;
+
     @Enumerated(EnumType.STRING)
     private TeamStatus teamStatus = TeamStatus.WITHOUTTEAM;
     @Embedded
@@ -75,7 +84,6 @@ public class Profile {
        this.phone = phone;
        return this;
     }
-
     public String getSurname() {
         return surname;
     }
@@ -107,5 +115,37 @@ public class Profile {
 
     public Long getId() {
         return id;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

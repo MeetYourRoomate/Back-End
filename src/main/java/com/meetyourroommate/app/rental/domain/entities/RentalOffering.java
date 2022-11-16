@@ -31,7 +31,7 @@ public class RentalOffering {
     private RentalStatus status = RentalStatus.FREE;
 
     @Enumerated(EnumType.STRING)
-    private Visibility visibility;
+    private Visibility visibility = Visibility.VISIBLE;
 
     @OneToMany(mappedBy = "rentalOffering", cascade = CascadeType.REMOVE)
     private List<RentalRequest> rentalRequestList;

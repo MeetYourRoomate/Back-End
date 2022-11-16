@@ -55,6 +55,7 @@ public class PropertyAssetController {
                         HttpStatus.NOT_FOUND);
             }
             PropertyAsset propertyAsset = propertyAssetsMapper.toEntity(resource);
+            propertyAsset.setPropertyid(property.get());
             return new ResponseEntity<>(
                     new PropertyAssetsResponse(propertyAssetService.save(propertyAsset)),
                     HttpStatus.OK
@@ -97,7 +98,9 @@ public class PropertyAssetController {
             @ApiResponse(responseCode = "200", description = "Listed property assets")
     })
     @GetMapping(path = "/properties/{property_id}/propertyasset/{asset_id}")
-    public ResponseEntity<PropertyAssetsResponse> findByPropertyAndId(@PathVariable("property_id")Long propertyId, @PathVariable("asset_id") Long assetId){
+    public ResponseEntity<PropertyAssetsResponse> findByPropertyAndId(
+            @PathVariable("property_id")Long propertyId,
+            @PathVariable("asset_id") Long assetId){
        try{
            Optional<Property> property = propertyService.findById(propertyId);
            if(property.isEmpty()){

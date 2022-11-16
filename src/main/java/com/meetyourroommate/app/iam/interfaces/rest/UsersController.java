@@ -10,7 +10,6 @@ import com.meetyourroommate.app.iam.domain.entities.Role;
 import com.meetyourroommate.app.iam.domain.entities.enums.Roles;
 import com.meetyourroommate.app.iam.domain.valueobjects.Email;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Tag(name = "Users", description = "Create, read, update and delete users")
@@ -125,7 +123,7 @@ public class UsersController {
   @GetMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserResponse>getUserByEmail(@RequestParam String email){
     try{
-      Optional<User> user = userService.findUserByEmail(new Email().setAdress(email));
+      Optional<User> user = userService.findUserByEmail(new Email().setAddress(email));
       if(user.isEmpty()){
         return new ResponseEntity<>(new UserResponse("User not found"), HttpStatus.NOT_FOUND);
       }

@@ -11,6 +11,8 @@ public class MappingConfiguration {
     public PropertyMapper propertyMapper() { return new PropertyMapper(); }
     @Bean
     public PropertyAssetsMapper propertyAssetsMapper() { return new PropertyAssetsMapper(); }
+    @Bean
+    public PropertyFeatureMapper propertyFeatureMapper() { return new PropertyFeatureMapper(); }
 
 
 }
