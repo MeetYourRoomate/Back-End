@@ -7,5 +7,4 @@ import java.io.Serializable;
 public class Feature implements Serializable {
     private String name;
     private String type;
-    private String size;
 }

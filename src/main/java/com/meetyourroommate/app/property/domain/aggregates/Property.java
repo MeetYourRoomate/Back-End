@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 public class Property {
-
     @Id
     @GeneratedValue
     private Long id;
@@ -18,14 +17,16 @@ public class Property {
     private String title;
     @Lob
     private String description;
+    @Lob
+    private String location;
     @ManyToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;
     @OneToMany(mappedBy = "propertyid", cascade = CascadeType.PERSIST)
-    List<PropertyAsset> assets;
+    private List<PropertyAsset> assets;
 
     @OneToMany(mappedBy = "property")
-    List<PropertyFeature> propertyFeatureList;
+    private List<PropertyFeature> propertyFeatureList;
     @Embedded
     private Audit audit;
     public Property() {
@@ -63,5 +64,21 @@ public class Property {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public List<PropertyFeature> getPropertyFeatureList() {
+        return propertyFeatureList;
+    }
+
+    public void setPropertyFeatureList(List<PropertyFeature> propertyFeatureList) {
+        this.propertyFeatureList = propertyFeatureList;
     }
 }
