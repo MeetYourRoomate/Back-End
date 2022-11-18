@@ -40,10 +40,10 @@ public class TeamController {
         this.profileService = profileService;
     }
 
-    @Operation(summary = "Decline the roommate request", description = "Decline the roommate request to create a team", tags = {"Users"})
+    @Operation(summary = "Get team by student user id", description = "Get team by student user id", tags = {"Users"})
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200",
-                    description = "Declined roommate request")
+                    description = "Team")
     })
     @GetMapping("/users/{id}/teams")
     public ResponseEntity<TeamResponse> getTeam(@PathVariable("id") String id){

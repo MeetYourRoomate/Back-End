@@ -188,4 +188,32 @@ public class RentalRequestController {
         }
     }
 
+    @Operation(summary = "List all rental request by user lessor", description = "List all rental request by lessor id", tags = {"Users"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Listed all rental request")
+    })
+    @GetMapping(path = "/users/lessor/{id}/request")
+    public ResponseEntity<RentalRequestListResponse> listAllRentalRequestForUserLessor(
+            @PathVariable("id") String id){
+       try{
+           Optional<Profile> profile = profileService.findByUserId(id);
+           if(profile.isEmpty()){
+               return new ResponseEntity<>(
+                       new RentalRequestListResponse("User not found."),
+                       HttpStatus.NOT_FOUND
+               );
+           }
+           List<RentalRequest> rentalRequests = rentalRequestService.findByProfileLessor(profile.get());
+           return new ResponseEntity<>(
+                   new RentalRequestListResponse(rentalRequests),
+                   HttpStatus.OK
+           );
+       } catch(Exception e){
+           return new ResponseEntity<>(
+                   new RentalRequestListResponse(e.getMessage()),
+                   HttpStatus.INTERNAL_SERVER_ERROR
+           );
+       }
+    }
+
 }

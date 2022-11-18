@@ -54,4 +54,9 @@ public class RentalRequestServiceImpl implements RentalRequestService {
     public List<RentalRequest> findByProfile(Profile profile) {
        return rentalRequestRepository.findAllByStudentProfile(profile);
     }
+
+    @Override
+    public List<RentalRequest> findByProfileLessor(Profile profile) {
+       return rentalRequestRepository.findAllByRentalOffering_Property_Profile(profile);
+    }
 }
