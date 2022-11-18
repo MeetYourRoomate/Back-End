@@ -12,4 +12,5 @@ public interface RentalRequestService extends CrudService<RentalRequest,Long> {
     Optional<RentalRequest> findByProfileAndOffer(Profile profile, RentalOffering rentalOffering);
     List<RentalRequest> findByRentalOffering(RentalOffering rentalOffering);
     List<RentalRequest> findByProfile(Profile profile);
+    List<RentalRequest> findByProfileLessor(Profile profile);
 }
