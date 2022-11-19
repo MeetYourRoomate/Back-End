@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.profile.application.transform.resources;
 
+import com.meetyourroommate.app.profile.domain.enumerate.TeamStatus;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ public class ProfileDto {
     private String photoUrl;
     private String gender;
     private String about;
+    private TeamStatus teamStatus;
     private String country;
     private String city;
     private Long age;

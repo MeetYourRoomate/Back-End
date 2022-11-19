@@ -51,22 +51,25 @@ public class ProfileController {
             @ApiResponse(responseCode = "200", description = "Created new profile")
     })
     @PostMapping(value = "/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileResponse> save(@RequestParam String userId, @RequestBody ProfileResource profileResource){
+    public ResponseEntity<ProfileDtoResponse> save(@RequestParam String userId, @RequestBody ProfileResource profileResource){
         try
         {
             Optional<User> user = userService.findById(userId);
             if(user.isEmpty()){
-                return new ResponseEntity<>(new ProfileResponse("User not found."), HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new ProfileDtoResponse("User not found."), HttpStatus.NOT_FOUND);
             }
             Optional<Profile> profile = profileService.findByUser(user.get());
             if(profile.isPresent()){
-                return new ResponseEntity<>(new ProfileResponse("Profile Already exist."), HttpStatus.CONFLICT);
+                return new ResponseEntity<>(new ProfileDtoResponse("Profile Already exist."), HttpStatus.CONFLICT);
             }
             Profile newProfile = mapper.toEntity(profileResource);
             newProfile.setUser(user.get());
-            return new ResponseEntity<>(new ProfileResponse(profileService.save(newProfile)), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new ProfileDtoResponse(
+                            profileDtoMapper.toDto(profileService.save(newProfile))),
+                    HttpStatus.OK);
         }catch(Exception e){
-           return new ResponseEntity<>(new ProfileResponse(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+           return new ResponseEntity<>(new ProfileDtoResponse(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -76,16 +79,16 @@ public class ProfileController {
             @ApiResponse(responseCode = "200", description = "All Profiles")
     })
     @GetMapping(value = "/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileListResponse> getAllProfiles(){
+    public ResponseEntity<ProfileDtoListResponse> getAllProfiles(){
         try{
             List<Profile> profileList = profileService.findAll();
             return new ResponseEntity<>(
-                    new ProfileListResponse(profileList),
+                    new ProfileDtoListResponse(profileDtoMapper.toDtoList(profileList)),
                     HttpStatus.OK
             );
         }catch(Exception e){
             return new ResponseEntity<>(
-                    new ProfileListResponse(e.getMessage()),
+                    new ProfileDtoListResponse(e.getMessage()),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
@@ -97,22 +100,22 @@ public class ProfileController {
             @ApiResponse(responseCode = "200", description = "Profile")
     })
     @GetMapping(value = "/profiles/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileResponse> getProfileById(@PathVariable("id") Long id){
+    public ResponseEntity<ProfileDtoResponse> getProfileById(@PathVariable("id") Long id){
         try{
             Optional<Profile> profile = profileService.findById(id);
             if(profile.isEmpty()){
                 return new ResponseEntity<>(
-                        new ProfileResponse("Profile not found."),
+                        new ProfileDtoResponse("Profile not found."),
                         HttpStatus.NOT_FOUND
                 );
             }
             return new ResponseEntity<>(
-                    new ProfileResponse(profile.get()),
+                    new ProfileDtoResponse(profileDtoMapper.toDto(profile.get())),
                     HttpStatus.OK
             );
         }catch(Exception e){
             return new ResponseEntity<>(
-                    new ProfileResponse(e.getMessage()),
+                    new ProfileDtoResponse(e.getMessage()),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
