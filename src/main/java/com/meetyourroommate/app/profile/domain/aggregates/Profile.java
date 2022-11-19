@@ -11,8 +11,7 @@ import com.meetyourroommate.app.roommate.domain.entities.RoommateRequest;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Profile {
@@ -41,8 +40,23 @@ public class Profile {
     @Embedded
     @JsonIgnore
     private Audit audit;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Atribute> atributes;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+          CascadeType.PERSIST,
+          CascadeType.MERGE
+    })
+    @JoinTable(name = "profile_atributes",
+      joinColumns = { @JoinColumn(name = "profile_id") },
+      inverseJoinColumns = { @JoinColumn(name = "atributes_id") })
+    private Set<Atribute> atributes = new HashSet<>();
+
+    public void addAtribute(Atribute atribute){
+       this.atributes.add(atribute);
+       atribute.getProfiles().add(this);
+    }
+    public void removeAtribute(Atribute atribute){
+        this.atributes.remove(atribute);
+        atribute.getProfiles().remove(this);
+    }
 
     @OneToMany(mappedBy = "studentProfile")
     @JsonIgnore
@@ -182,11 +196,11 @@ public class Profile {
         return this;
     }
 
-    public List<Atribute> getAtributesList() {
+    public Set<Atribute> getAtributesSet() {
         return this.atributes;
     }
 
-    public void setAtributesList(List<Atribute> atributeList) {
+    public void setAtributesList(Set<Atribute> atributeList) {
         this.atributes = atributeList;
     }
 }

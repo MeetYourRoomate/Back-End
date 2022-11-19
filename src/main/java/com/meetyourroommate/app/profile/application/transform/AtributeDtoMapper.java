@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AtributeDtoMapper implements Serializable {
     @Autowired
@@ -19,6 +21,14 @@ public class AtributeDtoMapper implements Serializable {
     public Atribute toEntity(AtributeDto dto){
         return mapper.map(dto, Atribute.class);
     }
+    public List<AtributeDto> toDtoList(Set<Atribute> models){
+        List<AtributeDto> dtos = new ArrayList<>();
+        models.forEach((model) ->{
+            dtos.add(mapper.map(model, AtributeDto.class));
+        });
+        return dtos;
+    }
+
     public List<AtributeDto> toDtoList(List<Atribute> models){
         List<AtributeDto> dtos = new ArrayList<>();
         models.forEach((model) ->{

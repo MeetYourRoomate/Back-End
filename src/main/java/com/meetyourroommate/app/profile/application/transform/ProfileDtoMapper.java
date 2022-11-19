@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.profile.application.transform;
 
+import com.meetyourroommate.app.profile.application.transform.resources.AtributeDto;
 import com.meetyourroommate.app.profile.application.transform.resources.ProfileDto;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.shared.application.transform.EnhancedModelMapper;
@@ -18,7 +19,11 @@ public class ProfileDtoMapper implements Serializable {
         TypeMap<Profile, ProfileDto> typeMap = this.mapper.getTypeMap(Profile.class, ProfileDto.class);
         if(typeMap == null){
             TypeMap<Profile, ProfileDto> propertyMapper = this.mapper.createTypeMap(Profile.class, ProfileDto.class);
-            propertyMapper.addMappings(mapp -> mapp.map(src -> src.getAudit().getCreatedAt(), ProfileDto::setCreatedAt));
+            propertyMapper.addMappings(mapp ->
+            {
+                mapp.map(src -> src.getAudit().getCreatedAt(), ProfileDto::setCreatedAt);
+                mapp.map(src -> src.getAtributesSet(), ProfileDto::setAtributes);
+            });
         }
         return mapper.map(model, ProfileDto.class);
     }

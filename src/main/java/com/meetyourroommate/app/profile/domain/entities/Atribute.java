@@ -5,9 +5,7 @@ import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
@@ -17,10 +15,13 @@ public class Atribute {
     private String name;
     private String value;
     private String type;
-    @ManyToMany(mappedBy = "atributes", fetch = FetchType.LAZY)
-    private List<Profile> profile;
+    @ManyToMany(mappedBy = "atributes", cascade = {
+          CascadeType.PERSIST,
+          CascadeType.MERGE
+    }, fetch = FetchType.LAZY)
+    private Set<Profile> profiles = new HashSet<>();
     @Embedded
-    private Audit audit;
+    private Audit audit = new Audit();
     public Atribute updateAudit(){
         audit.setUpdatedAt(new Date());
         return this;

@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.profile.application.transform.resources;
 
+import com.meetyourroommate.app.profile.application.communication.responses.AtributeDtoResponse;
 import com.meetyourroommate.app.profile.domain.enumerate.TeamStatus;
 import com.meetyourroommate.app.profile.domain.entities.Atribute;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
@@ -7,9 +8,11 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class ProfileDto {
+    private Long id;
     private String name;
     private String surname;
     private String photoUrl;
@@ -21,5 +24,5 @@ public class ProfileDto {
     private Long age;
     private Phone phone;
     private Date createdAt;
-    private List<Atribute> atributeList;
+    private Set<AtributeDto> atributes;
 }
