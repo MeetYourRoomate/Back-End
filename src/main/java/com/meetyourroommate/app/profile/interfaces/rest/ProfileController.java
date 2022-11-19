@@ -7,6 +7,7 @@ import com.meetyourroommate.app.iam.domain.entities.Role;
 import com.meetyourroommate.app.iam.domain.entities.enums.Roles;
 import com.meetyourroommate.app.profile.application.communication.ProfileListResponse;
 import com.meetyourroommate.app.profile.application.communication.ProfileResponse;
+import com.meetyourroommate.app.profile.application.communication.responses.ProfileResourceResponse;
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.application.transform.ProfileMapper;
 import com.meetyourroommate.app.profile.application.transform.resources.ProfileResource;
@@ -178,5 +179,18 @@ public class ProfileController {
             );
         }
     }
+
+    @PutMapping("/users/{id}/profiles")
+    public ResponseEntity<ProfileResourceResponse> updateProfile(@PathVariable("id") String id, @RequestBody ProfileResource model){
+        try {
+            Optional<Profile> profileOptional = profileService.findByUserId(id);
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new ProfileResourceResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
 
 }

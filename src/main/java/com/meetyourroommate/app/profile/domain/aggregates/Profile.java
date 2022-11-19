@@ -20,9 +20,10 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long edad;
     private String name;
     private String surname;
-
     @Lob
     @Column(name = "photo_url")
     private String photoUrl;
@@ -30,7 +31,9 @@ public class Profile {
     @Lob
     private String about;
     @Lob
-    private String location;
+    private String country;
+    @Lob
+    private String city;
 
     @Enumerated(EnumType.STRING)
     private TeamStatus teamStatus = TeamStatus.WITHOUTTEAM;
@@ -141,11 +144,27 @@ public class Profile {
         this.about = about;
     }
 
-    public String getLocation() {
-        return location;
+    public Long getEdad() {
+        return edad;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setEdad(Long edad) {
+        this.edad = edad;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

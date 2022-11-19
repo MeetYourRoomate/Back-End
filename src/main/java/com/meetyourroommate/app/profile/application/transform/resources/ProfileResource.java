@@ -13,6 +13,8 @@ public class ProfileResource {
     private String photoUrl;
     private String gender;
     private String about;
-    private String location;
+    private String country;
+    private String city;
+    private Long edad;
     private Phone phone;
 }
