@@ -13,6 +13,7 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateRoot;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long edad;
+    private Long age;
     private String name;
     private String surname;
     @Lob
@@ -120,6 +121,11 @@ public class Profile {
         return id;
     }
 
+    public Profile setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getPhotoUrl() {
         return photoUrl;
     }
@@ -144,14 +150,6 @@ public class Profile {
         this.about = about;
     }
 
-    public Long getEdad() {
-        return edad;
-    }
-
-    public void setEdad(Long edad) {
-        this.edad = edad;
-    }
-
     public String getCountry() {
         return country;
     }
@@ -166,5 +164,21 @@ public class Profile {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Long getAge() {
+        return age;
+    }
+
+    public void setAge(Long age) {
+        this.age = age;
+    }
+
+    public Audit getAudit() {
+        return audit;
+    }
+    public Profile updateAudit(){
+        this.audit.setUpdatedAt(new Date());
+        return this;
     }
 }

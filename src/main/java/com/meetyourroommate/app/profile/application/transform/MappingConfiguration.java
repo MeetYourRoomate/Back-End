@@ -10,4 +10,6 @@ public class MappingConfiguration {
     @Bean
     public ProfileMapper profileMapper() { return new ProfileMapper(); }
 
+    @Bean
+    public ProfileDtoMapper profileDtoMapper() { return new ProfileDtoMapper(); }
 }
