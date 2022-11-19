@@ -12,4 +12,7 @@ public class MappingConfiguration {
 
     @Bean
     public ProfileDtoMapper profileDtoMapper() { return new ProfileDtoMapper(); }
+
+    @Bean
+    public AtributeDtoMapper atributeDtoMapper() { return new AtributeDtoMapper(); }
 }

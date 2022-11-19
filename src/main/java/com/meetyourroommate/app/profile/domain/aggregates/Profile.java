@@ -3,14 +3,12 @@ package com.meetyourroommate.app.profile.domain.aggregates;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.profile.domain.enumerate.TeamStatus;
+import com.meetyourroommate.app.profile.domain.entities.Atribute;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
 import com.meetyourroommate.app.roommate.domain.entities.RoommateRequest;
-import com.meetyourroommate.app.roommate.domain.entities.Team;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
-import org.axonframework.modelling.command.AggregateIdentifier;
-import org.axonframework.modelling.command.AggregateRoot;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -43,6 +41,8 @@ public class Profile {
     @Embedded
     @JsonIgnore
     private Audit audit;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Atribute> atributes;
 
     @OneToMany(mappedBy = "studentProfile")
     @JsonIgnore
@@ -180,5 +180,13 @@ public class Profile {
     public Profile updateAudit(){
         this.audit.setUpdatedAt(new Date());
         return this;
+    }
+
+    public List<Atribute> getAtributesList() {
+        return this.atributes;
+    }
+
+    public void setAtributesList(List<Atribute> atributeList) {
+        this.atributes = atributeList;
     }
 }
