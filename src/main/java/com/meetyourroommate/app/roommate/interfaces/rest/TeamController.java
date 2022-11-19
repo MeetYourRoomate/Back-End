@@ -2,7 +2,6 @@ package com.meetyourroommate.app.roommate.interfaces.rest;
 
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
-import com.meetyourroommate.app.property.domain.valueobjects.PropertyId;
 import com.meetyourroommate.app.roommate.application.communication.TeamListResponse;
 import com.meetyourroommate.app.roommate.application.communication.TeamResponse;
 import com.meetyourroommate.app.roommate.application.services.RoommateService;
@@ -13,8 +12,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jdk.jshell.spi.ExecutionControlProvider;
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

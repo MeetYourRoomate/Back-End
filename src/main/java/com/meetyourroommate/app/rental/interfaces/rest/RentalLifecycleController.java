@@ -10,13 +10,11 @@ import com.meetyourroommate.app.rental.application.communication.response.Rental
 import com.meetyourroommate.app.rental.application.communication.response.RentalOfferResponse;
 import com.meetyourroommate.app.rental.application.transform.RentalOfferMapper;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferResource;
-import com.meetyourroommate.app.rental.domain.entities.Rental;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferingResource;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
 import com.meetyourroommate.app.rental.domain.enumerate.Visibility;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +24,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 

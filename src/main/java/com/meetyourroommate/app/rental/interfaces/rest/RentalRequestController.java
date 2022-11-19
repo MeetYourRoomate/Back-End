@@ -2,26 +2,20 @@ package com.meetyourroommate.app.rental.interfaces.rest;
 
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
-import com.meetyourroommate.app.rental.application.communication.response.RentalOfferListResponse;
-import com.meetyourroommate.app.rental.application.communication.response.RentalOfferResponse;
 import com.meetyourroommate.app.rental.application.communication.response.RentalRequestListResponse;
 import com.meetyourroommate.app.rental.application.communication.response.RentalRequestResponse;
-import com.meetyourroommate.app.rental.application.internal.commands.CreateRentalRequestCommand;
 import com.meetyourroommate.app.rental.application.services.RentalOfferingService;
 import com.meetyourroommate.app.rental.application.services.RentalRequestService;
-import com.meetyourroommate.app.rental.application.transform.resources.RentalOfferingResource;
 import com.meetyourroommate.app.rental.application.transform.resources.RentalRequestResource;
 import com.meetyourroommate.app.rental.domain.entities.RentalOffering;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
 import com.meetyourroommate.app.rental.domain.enumerate.RentalStatus;
 import com.meetyourroommate.app.shared.domain.enumerate.Status;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -39,13 +32,11 @@ public class RentalRequestController {
     private final RentalRequestService rentalRequestService;
     private final RentalOfferingService rentalOfferingService;
     private final ProfileService profileService;
-    private final CommandGateway commandGateway;
 
-    public RentalRequestController(RentalRequestService rentalRequestService, RentalOfferingService rentalOfferingService, ProfileService profileService, CommandGateway commandGateway) {
+    public RentalRequestController(RentalRequestService rentalRequestService, RentalOfferingService rentalOfferingService, ProfileService profileService) {
         this.rentalRequestService = rentalRequestService;
         this.rentalOfferingService = rentalOfferingService;
         this.profileService = profileService;
-        this.commandGateway = commandGateway;
     }
 
     @Tag(name = "Rental Request", description = "Create, read, update and delete rental request")
