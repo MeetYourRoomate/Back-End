@@ -3,26 +3,25 @@ package com.meetyourroommate.app.profile.domain.aggregates;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.profile.domain.enumerate.TeamStatus;
+import com.meetyourroommate.app.profile.domain.entities.Atribute;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
 import com.meetyourroommate.app.roommate.domain.entities.RoommateRequest;
-import com.meetyourroommate.app.roommate.domain.entities.Team;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
-import org.axonframework.modelling.command.AggregateIdentifier;
-import org.axonframework.modelling.command.AggregateRoot;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long age;
     private String name;
     private String surname;
-
     @Lob
     @Column(name = "photo_url")
     private String photoUrl;
@@ -30,7 +29,9 @@ public class Profile {
     @Lob
     private String about;
     @Lob
-    private String location;
+    private String country;
+    @Lob
+    private String city;
 
     @Enumerated(EnumType.STRING)
     private TeamStatus teamStatus = TeamStatus.WITHOUTTEAM;
@@ -39,6 +40,23 @@ public class Profile {
     @Embedded
     @JsonIgnore
     private Audit audit;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+          CascadeType.PERSIST,
+          CascadeType.MERGE
+    })
+    @JoinTable(name = "profile_atributes",
+      joinColumns = { @JoinColumn(name = "profile_id") },
+      inverseJoinColumns = { @JoinColumn(name = "atributes_id") })
+    private Set<Atribute> atributes = new HashSet<>();
+
+    public void addAtribute(Atribute atribute){
+       this.atributes.add(atribute);
+       atribute.getProfiles().add(this);
+    }
+    public void removeAtribute(Atribute atribute){
+        this.atributes.remove(atribute);
+        atribute.getProfiles().remove(this);
+    }
 
     @OneToMany(mappedBy = "studentProfile")
     @JsonIgnore
@@ -117,6 +135,11 @@ public class Profile {
         return id;
     }
 
+    public Profile setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getPhotoUrl() {
         return photoUrl;
     }
@@ -141,11 +164,43 @@ public class Profile {
         this.about = about;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCountry() {
+        return country;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Long getAge() {
+        return age;
+    }
+
+    public void setAge(Long age) {
+        this.age = age;
+    }
+
+    public Audit getAudit() {
+        return audit;
+    }
+    public Profile updateAudit(){
+        this.audit.setUpdatedAt(new Date());
+        return this;
+    }
+
+    public Set<Atribute> getAtributesSet() {
+        return this.atributes;
+    }
+
+    public void setAtributesList(Set<Atribute> atributeList) {
+        this.atributes = atributeList;
     }
 }

@@ -4,6 +4,7 @@ import com.meetyourroommate.app.profile.application.transform.resources.ProfileR
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.shared.application.transform.EnhancedModelMapper;
 import net.bytebuddy.build.ToStringPlugin;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
