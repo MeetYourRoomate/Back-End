@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.util.List;
 import java.util.Optional;
 
@@ -120,5 +121,31 @@ public class AtributeController {
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
+    }
+
+    @Operation(summary = "Get All atribute by profile id", description = "Get all atributes by profile id", tags = {"Profile"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Atributes")
+    })
+    @GetMapping(value = "/profile/{id}/atributes", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AtributeDtoListResponse> getAllAtributesOfProfile(@PathVariable("id") Long profileId){
+       try{
+           Optional<Profile> profile = profileService.findById(profileId);
+           if(profile.isEmpty()){
+               return new ResponseEntity<>(
+                       new AtributeDtoListResponse("Profile not found."),
+                       HttpStatus.NOT_FOUND
+               );
+           }
+           return new ResponseEntity<>(
+                   new AtributeDtoListResponse(atributeDtoMapper.toDtoList(profile.get().getAtributesSet())),
+                   HttpStatus.INTERNAL_SERVER_ERROR
+           );
+       }catch (Exception e){
+          return new ResponseEntity<>(
+                  new AtributeDtoListResponse(e.getMessage()),
+                  HttpStatus.INTERNAL_SERVER_ERROR
+          );
+       }
     }
 }
