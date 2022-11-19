@@ -3,7 +3,6 @@ package com.meetyourroommate.app.property.domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.property.domain.valueobjects.Feature;
-import com.meetyourroommate.app.property.domain.valueobjects.PropertyFeatureId;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 
 import javax.persistence.*;
