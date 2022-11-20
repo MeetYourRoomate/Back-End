@@ -21,5 +21,11 @@ public abstract class BaseResponse<T> {
     this.message = Strings.EMPTY;
     this.resource = resource;
   }
+
+  public BaseResponse(T resource, String message) {
+    this.success = true;
+    this.message = message;
+    this.resource = resource;
+  }
 }
 

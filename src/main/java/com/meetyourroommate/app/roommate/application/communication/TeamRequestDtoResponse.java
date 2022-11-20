@@ -11,4 +11,8 @@ public class TeamRequestDtoResponse extends BaseResponse<TeamRequestDto> {
     public TeamRequestDtoResponse(TeamRequestDto resource) {
         super(resource);
     }
+
+    public TeamRequestDtoResponse(TeamRequestDto resource, String message) {
+        super(resource, message);
+    }
 }

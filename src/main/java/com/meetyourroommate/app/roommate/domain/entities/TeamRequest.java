@@ -33,7 +33,7 @@ public class TeamRequest {
 
     @Embedded
     @JsonIgnore
-    private Audit audit;
+    private Audit audit = new Audit();
 
     public TeamRequest(){
 
