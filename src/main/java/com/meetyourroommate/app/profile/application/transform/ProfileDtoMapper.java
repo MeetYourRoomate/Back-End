@@ -1,6 +1,5 @@
 package com.meetyourroommate.app.profile.application.transform;
 
-import com.meetyourroommate.app.profile.application.transform.resources.AtributeDto;
 import com.meetyourroommate.app.profile.application.transform.resources.ProfileDto;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.shared.application.transform.EnhancedModelMapper;
