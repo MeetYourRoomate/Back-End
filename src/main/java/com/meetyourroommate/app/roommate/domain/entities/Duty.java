@@ -9,13 +9,14 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 @AllArgsConstructor
 public class Duty {
     @Id
-    public Long id;
+    public String id = UUID.randomUUID().toString();
 
     public String title;
     @Lob
