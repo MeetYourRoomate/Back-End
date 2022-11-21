@@ -17,4 +17,15 @@ public class MappingConfiguration {
     @Bean
     public TeamRequestDtoMapper teamRequestDtoMapper() { return new TeamRequestDtoMapper(); }
 
+    @Bean
+    public DutyDtoMapper dutyDtoMapper() { return new DutyDtoMapper(); }
+
+    @Bean
+    public DutyResourceMapper dutyResourceMapper() {
+        return new DutyResourceMapper();
+    }
+
+    @Bean
+    public RoommateDtoMapper roommateDtoMapper() { return new RoommateDtoMapper(); }
+
 }

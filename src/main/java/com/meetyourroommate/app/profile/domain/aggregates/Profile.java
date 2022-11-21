@@ -3,7 +3,7 @@ package com.meetyourroommate.app.profile.domain.aggregates;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.iam.domain.aggregates.User;
 import com.meetyourroommate.app.profile.domain.enumerate.TeamStatus;
-import com.meetyourroommate.app.profile.domain.entities.Atribute;
+import com.meetyourroommate.app.profile.domain.entities.Attribute;
 import com.meetyourroommate.app.profile.domain.valueobjects.Phone;
 import com.meetyourroommate.app.property.domain.aggregates.Property;
 import com.meetyourroommate.app.rental.domain.entities.RentalRequest;
@@ -47,15 +47,15 @@ public class Profile {
     @JoinTable(name = "profile_atributes",
       joinColumns = { @JoinColumn(name = "profile_id") },
       inverseJoinColumns = { @JoinColumn(name = "atributes_id") })
-    private Set<Atribute> atributes = new HashSet<>();
+    private Set<Attribute> attributes = new HashSet<>();
 
-    public void addAtribute(Atribute atribute){
-       this.atributes.add(atribute);
-       atribute.getProfiles().add(this);
+    public void addAtribute(Attribute attribute){
+       this.attributes.add(attribute);
+       attribute.getProfiles().add(this);
     }
-    public void removeAtribute(Atribute atribute){
-        this.atributes.remove(atribute);
-        atribute.getProfiles().remove(this);
+    public void removeAtribute(Attribute attribute){
+        this.attributes.remove(attribute);
+        attribute.getProfiles().remove(this);
     }
 
     @OneToMany(mappedBy = "studentProfile")
@@ -196,11 +196,11 @@ public class Profile {
         return this;
     }
 
-    public Set<Atribute> getAtributesSet() {
-        return this.atributes;
+    public Set<Attribute> getAtributesSet() {
+        return this.attributes;
     }
 
-    public void setAtributesList(Set<Atribute> atributeList) {
-        this.atributes = atributeList;
+    public void setAtributesList(Set<Attribute> attributeList) {
+        this.attributes = attributeList;
     }
 }

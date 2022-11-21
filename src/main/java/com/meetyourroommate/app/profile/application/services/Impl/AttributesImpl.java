@@ -1,7 +1,7 @@
 package com.meetyourroommate.app.profile.application.services.Impl;
 
-import com.meetyourroommate.app.profile.application.services.AtributeService;
-import com.meetyourroommate.app.profile.domain.entities.Atribute;
+import com.meetyourroommate.app.profile.application.services.AttributeService;
+import com.meetyourroommate.app.profile.domain.entities.Attribute;
 import com.meetyourroommate.app.profile.infrastructure.persistance.jpa.AtributeRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,30 +9,30 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AtributesImpl implements AtributeService {
+public class AttributesImpl implements AttributeService {
     private final AtributeRepository atributeRepository;
 
-    public AtributesImpl(AtributeRepository atributeRepository) {
+    public AttributesImpl(AtributeRepository atributeRepository) {
         this.atributeRepository = atributeRepository;
     }
 
     @Override
-    public Atribute save(Atribute atribute) throws Exception {
-        return atributeRepository.save(atribute);
+    public Attribute save(Attribute attribute) throws Exception {
+        return atributeRepository.save(attribute);
     }
 
     @Override
-    public List<Atribute> findAll() throws Exception {
+    public List<Attribute> findAll() throws Exception {
         return atributeRepository.findAll();
     }
 
     @Override
-    public Optional<Atribute> findById(String id) throws Exception {
+    public Optional<Attribute> findById(String id) throws Exception {
         return atributeRepository.findById(id);
     }
 
     @Override
-    public Atribute update(String s, Atribute atribute) throws Exception {
+    public Attribute update(String s, Attribute attribute) throws Exception {
         return null;
     }
 

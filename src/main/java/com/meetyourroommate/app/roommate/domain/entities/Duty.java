@@ -7,15 +7,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 @AllArgsConstructor
 public class Duty {
     @Id
-    public Long id;
+    public String id = UUID.randomUUID().toString();
 
     public String title;
     @Lob
@@ -31,8 +33,8 @@ public class Duty {
     @JsonIgnore
     public Team team;
 
-    @ManyToMany(mappedBy = "duties", fetch = FetchType.LAZY)
-    public List<Roommate> roommateList;
+    @ManyToMany(fetch = FetchType.LAZY)
+    public List<Roommate> roommateList = new ArrayList<>();
 
     @Embedded
     public Audit audit = new Audit();

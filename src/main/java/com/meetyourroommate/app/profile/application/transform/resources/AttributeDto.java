@@ -3,7 +3,7 @@ package com.meetyourroommate.app.profile.application.transform.resources;
 import lombok.Data;
 
 @Data
-public class AtributeDto {
+public class AttributeDto {
     private String id;
     private String name;
     private String value;
