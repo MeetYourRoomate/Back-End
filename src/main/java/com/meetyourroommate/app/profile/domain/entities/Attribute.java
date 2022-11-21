@@ -1,5 +1,6 @@
 package com.meetyourroommate.app.profile.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.shared.domain.valueobjects.Audit;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class Attribute {
           CascadeType.PERSIST,
           CascadeType.MERGE
     }, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Profile> profiles = new HashSet<>();
     @Embedded
     private Audit audit = new Audit();
