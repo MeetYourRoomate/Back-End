@@ -2,10 +2,12 @@ package com.meetyourroommate.app.roommate.interfaces.rest;
 
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
+import com.meetyourroommate.app.roommate.application.communication.RoommateListDtoResponse;
 import com.meetyourroommate.app.roommate.application.communication.TeamListResponse;
 import com.meetyourroommate.app.roommate.application.communication.TeamResponse;
 import com.meetyourroommate.app.roommate.application.services.RoommateService;
 import com.meetyourroommate.app.roommate.application.services.TeamService;
+import com.meetyourroommate.app.roommate.application.tranform.RoommateDtoMapper;
 import com.meetyourroommate.app.roommate.domain.entities.Roommate;
 import com.meetyourroommate.app.roommate.domain.entities.Team;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,11 +31,13 @@ public class TeamController {
     private TeamService teamService;
     private RoommateService roommateService;
     private ProfileService profileService;
+    private final RoommateDtoMapper roommateDtoMapper;
 
-    public TeamController(TeamService teamService, RoommateService roommateService, ProfileService profileService) {
+    public TeamController(TeamService teamService, RoommateService roommateService, ProfileService profileService, RoommateDtoMapper roommateDtoMapper) {
         this.teamService = teamService;
         this.roommateService = roommateService;
         this.profileService = profileService;
+        this.roommateDtoMapper = roommateDtoMapper;
     }
 
     @Operation(summary = "Get team by student user id", description = "Get team by student user id", tags = {"Users"})
@@ -84,6 +88,36 @@ public class TeamController {
                    new TeamListResponse(e.getMessage()),
                    HttpStatus.INTERNAL_SERVER_ERROR
            );
+        }
+    }
+
+    @Operation(summary = "List all roommates", description = "list all roommates on a team", tags = {"Teams"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Listed all roommates")
+    })
+    @GetMapping(value = "/teams/{id}/roommates", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RoommateListDtoResponse> getAllRommatesOnTeam(@PathVariable("id") Long id){
+        try{
+            Optional<Team> team = teamService.findById(id);
+            if(team.isEmpty()){
+                return new ResponseEntity<>(
+                        new RoommateListDtoResponse("Team not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            return new ResponseEntity<>(
+                    new RoommateListDtoResponse(
+                            roommateDtoMapper.toDtoList(
+                                    team.get().getRoommates())),
+                    HttpStatus.OK
+            );
+
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new RoommateListDtoResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
 }

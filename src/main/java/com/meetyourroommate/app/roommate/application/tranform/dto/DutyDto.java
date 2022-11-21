@@ -14,5 +14,5 @@ public class DutyDto {
     public String description;
     public Status status;
     public Date dateline;
-    public List<Roommate> roommateList;
+    public List<RoommateDto> roommateList;
 }
