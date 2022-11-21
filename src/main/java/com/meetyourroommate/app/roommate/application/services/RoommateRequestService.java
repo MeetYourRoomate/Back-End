@@ -5,8 +5,10 @@ import com.meetyourroommate.app.roommate.domain.entities.RoommateRequest;
 import com.meetyourroommate.app.shared.application.services.CrudService;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RoommateRequestService extends CrudService<RoommateRequest, Long> {
     List<RoommateRequest> findAllByStudentRequestor(Profile studentRequestor) throws Exception;
     List<RoommateRequest> findAllByStudentRequested(Profile studentRequested) throws Exception;
+    Optional<RoommateRequest> findRoommateRequestByStudentRequestedAndStudentRequestor(Profile requested, Profile requestor);
 }

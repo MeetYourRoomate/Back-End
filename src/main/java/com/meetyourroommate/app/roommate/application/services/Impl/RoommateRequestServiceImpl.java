@@ -51,4 +51,9 @@ public class RoommateRequestServiceImpl implements RoommateRequestService {
     public List<RoommateRequest> findAllByStudentRequested(Profile studentRequested) throws Exception {
         return roommateRequestRepository.findAllByStudentRequested(studentRequested);
     }
+
+    @Override
+    public Optional<RoommateRequest> findRoommateRequestByStudentRequestedAndStudentRequestor(Profile requested, Profile requestor) {
+        return roommateRequestRepository.findRoommateRequestByStudentRequestedAndStudentRequestor(requested, requestor);
+    }
 }
