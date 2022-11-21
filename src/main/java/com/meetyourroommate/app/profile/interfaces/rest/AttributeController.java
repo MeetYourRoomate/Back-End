@@ -119,7 +119,7 @@ public class AttributeController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Assigned attribute")
     })
-    @PutMapping(value = "/profiles/{profile_id}/attributes{atribute_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/profiles/{profile_id}/attributes/{atribute_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AtributeDtoListResponse> assignAttributeToProfile(
             @PathVariable("profile_id") Long profileId,
             @PathVariable("atribute_id") String attributeId
