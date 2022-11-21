@@ -9,20 +9,20 @@ import java.util.*;
 
 @Entity
 @Data
-public class Atribute {
+public class Attribute {
     @Id
     private String id = UUID.randomUUID().toString();
     private String name;
     private String value;
     private String type;
-    @ManyToMany(mappedBy = "atributes", cascade = {
+    @ManyToMany(mappedBy = "attributes", cascade = {
           CascadeType.PERSIST,
           CascadeType.MERGE
     }, fetch = FetchType.LAZY)
     private Set<Profile> profiles = new HashSet<>();
     @Embedded
     private Audit audit = new Audit();
-    public Atribute updateAudit(){
+    public Attribute updateAudit(){
         audit.setUpdatedAt(new Date());
         return this;
     }

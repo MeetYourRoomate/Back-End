@@ -21,7 +21,7 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<Roommate> roommates;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
     private List<Duty> duties;
 
     @Embedded

@@ -21,7 +21,7 @@ public class Roommate {
     @JsonIgnore
     private Team team;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roommateList",fetch = FetchType.LAZY)
     @JsonIgnore
     public List<Duty> duties;
 

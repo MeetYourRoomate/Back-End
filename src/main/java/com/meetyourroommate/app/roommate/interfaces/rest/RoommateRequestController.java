@@ -9,9 +9,11 @@ import com.meetyourroommate.app.roommate.application.communication.RoommateReque
 import com.meetyourroommate.app.roommate.application.communication.RoommateRequestResponse;
 import com.meetyourroommate.app.roommate.application.services.RoommateRequestService;
 import com.meetyourroommate.app.roommate.application.services.RoommateService;
+import com.meetyourroommate.app.roommate.application.services.RoommateStatusService;
 import com.meetyourroommate.app.roommate.application.services.TeamService;
 import com.meetyourroommate.app.roommate.domain.entities.Roommate;
 import com.meetyourroommate.app.roommate.domain.entities.RoommateRequest;
+import com.meetyourroommate.app.roommate.domain.entities.RoommateStatus;
 import com.meetyourroommate.app.roommate.domain.entities.Team;
 import com.meetyourroommate.app.shared.domain.enumerate.Status;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,6 +35,7 @@ public class RoommateRequestController {
     private RoommateRequestService roommateRequestService;
     private UserService userService;
     private ProfileService profileService;
+    private RoommateStatusService roommateStatusService;
     private TeamService teamService;
     private RoommateService roommateService;
     public RoommateRequestController(RoommateRequestService roommateRequestService, UserService userService, ProfileService profileService, TeamService teamService, RoommateService roommateService) {
