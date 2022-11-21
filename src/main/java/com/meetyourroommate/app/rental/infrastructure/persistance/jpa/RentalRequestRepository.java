@@ -16,4 +16,5 @@ public interface RentalRequestRepository extends JpaRepository<RentalRequest, Lo
 
     List<RentalRequest> findAllByStudentProfile(Profile profile);
     List<RentalRequest> findAllByRentalOffering_Property_Profile(Profile profile);
+
 }

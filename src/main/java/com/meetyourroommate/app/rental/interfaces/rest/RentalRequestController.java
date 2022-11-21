@@ -207,4 +207,48 @@ public class RentalRequestController {
        }
     }
 
+    @Operation(summary = "Get rental request by profile and rental offer id", description = "Get rental request by profile id is user id and renatl offer id", tags = {"Rental Request"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Found Rental Request")
+    })
+    @GetMapping("/requests/student/{student_id}/rentals/offers/{rental_offer_id}")
+    public ResponseEntity<RentalRequestResponse> getRentalRequestByStudentProfielAndRentalOffer(
+            @PathVariable("student_id") String studentId,
+            @PathVariable("rental_offer_id") Long rentalOfferId
+    ){
+        try{
+            Optional<Profile> studentProfile = profileService.findByUserId(studentId);
+            if(studentProfile.isEmpty()){
+                return new ResponseEntity<>(
+                        new RentalRequestResponse("Student profile not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            Optional<RentalOffering> rentalOffer = rentalOfferingService.findById(rentalOfferId);
+            if(rentalOffer.isEmpty()){
+                return new ResponseEntity<>(
+                        new RentalRequestResponse("Rental offer not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            Optional<RentalRequest> rentalRequest = rentalRequestService
+                    .findByProfileAndOffer(studentProfile.get(), rentalOffer.get());
+            if(rentalRequest.isEmpty()){
+                return new ResponseEntity<>(
+                        new RentalRequestResponse("Rental request not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            return new ResponseEntity<>(
+                    new RentalRequestResponse(rentalRequest.get()),
+                    HttpStatus.OK
+            );
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new RentalRequestResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
 }

@@ -20,11 +20,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import net.bytebuddy.description.NamedElement;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -219,6 +222,51 @@ public class RoommateRequestController {
         }
     }
 
+    @Tag(name = "Roommate request", description = "Create, read, update and delete roommate request")
+    @Operation(summary = "Get roommate request by requestor id y requested id", description = "Get roommate request by requestor id is user id and requested id is profile id")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Roommate request")
+    })
+    @GetMapping(value = "/roommate/request/requestor/{user_id}/requested/{requested_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RoommateRequestResponse> getRoommateRequestByRequestorAndRequestedUser(
+            @PathVariable("user_id") String userId,
+            @PathVariable("requested_id") Long requested_id
+    ){
+        try{
+            Optional<Profile> requestorProfile = profileService.findByUserId(userId);
+            if(requestorProfile.isEmpty()){
+                return new ResponseEntity<>(
+                        new RoommateRequestResponse("Requestor profile not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            Optional<Profile> requestedProfile = profileService.findById(requested_id);
+            if(requestedProfile.isEmpty()){
+                return new ResponseEntity<>(
+                        new RoommateRequestResponse("Requested profile not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            Optional<RoommateRequest> roommateRequestOptional = roommateRequestService
+                    .findRoommateRequestByStudentRequestedAndStudentRequestor(requestedProfile.get(), requestorProfile.get());
+            if(roommateRequestOptional.isEmpty()){
+                return new ResponseEntity<>(
+                        new RoommateRequestResponse("Roommate request not found"),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            return new ResponseEntity<>(
+                    new RoommateRequestResponse(roommateRequestOptional.get()),
+                    HttpStatus.OK
+            );
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new RoommateRequestResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 
     private boolean IsStudent(Profile userProfile){
         return userProfile.getUser().getRole().getName() == Roles.ROLE_USER_STUDENT;
