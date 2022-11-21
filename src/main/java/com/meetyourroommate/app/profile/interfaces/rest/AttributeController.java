@@ -6,7 +6,8 @@ import com.meetyourroommate.app.profile.application.services.AttributeService;
 import com.meetyourroommate.app.profile.application.services.ProfileService;
 import com.meetyourroommate.app.profile.application.transform.AtributeDtoMapper;
 import com.meetyourroommate.app.profile.application.transform.AtributeResourceMapper;
-import com.meetyourroommate.app.profile.application.transform.resources.AtributeResource;
+import com.meetyourroommate.app.profile.application.transform.resources.AttributeDto;
+import com.meetyourroommate.app.profile.application.transform.resources.AttributeResource;
 import com.meetyourroommate.app.profile.domain.aggregates.Profile;
 import com.meetyourroommate.app.profile.domain.entities.Attribute;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,7 +68,7 @@ public class AttributeController {
             @ApiResponse(responseCode = "200", description = "Created new attribute")
     })
     @PostMapping(value = "/attributes", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AtributeDtoResponse> createAttribute(@RequestBody AtributeResource model){
+    public ResponseEntity<AtributeDtoResponse> createAttribute(@RequestBody AttributeResource model){
         try{
             Attribute attribute = atributeResourceMapper.toEntity(model);
             return new ResponseEntity<>(
@@ -80,6 +82,37 @@ public class AttributeController {
                     new AtributeDtoResponse(e.getMessage()),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
+        }
+    }
+
+    @Operation(summary = "Create atributes by a list", description = "Create new atributes with a list of atributes resource", tags = {"Attribute"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Created new attributes")
+    })
+    @PostMapping(value = "/atributes")
+    public ResponseEntity<AtributeDtoListResponse> createAttributes(
+            @RequestBody List<AttributeResource> attributeResourceList){
+        try{
+
+            List<AttributeDto> dtos = new ArrayList<>();
+            attributeResourceList.forEach((attribute) -> {
+                try {
+                    Attribute newAttribute = atributeResourceMapper.toEntity(attribute);
+                    attributeService.save(newAttribute);
+                    dtos.add(atributeDtoMapper.toDto(newAttribute));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            return new ResponseEntity<>(
+                    new AtributeDtoListResponse(dtos),
+                    HttpStatus.OK
+            );
+        }catch (Exception e){
+           return new ResponseEntity<>(
+                   new AtributeDtoListResponse(e.getMessage()),
+                   HttpStatus.INTERNAL_SERVER_ERROR
+           );
         }
     }
     @Operation(summary = "Assign attribute to profile", description = "Assign attribute to profile by ids", tags = {"Profile"})

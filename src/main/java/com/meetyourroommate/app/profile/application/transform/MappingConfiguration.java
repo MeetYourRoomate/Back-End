@@ -1,7 +1,6 @@
 package com.meetyourroommate.app.profile.application.transform;
 
 
-import com.meetyourroommate.app.profile.application.transform.resources.AtributeResource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
