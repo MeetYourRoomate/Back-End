@@ -59,20 +59,26 @@
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.3.0</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.meetyourroommate.app.MeetyourroommateApplication</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		</plugins>
+			<plugin>
+					<groupId>com.heroku.sdk</groupId>
+					<artifactId>heroku-maven-plugin</artifactId>
+					<version>3.0.4</version>
+					<configuration>
+							<appName>${heroku.appName}</appName>
+							<includeTarget>false</includeTarget>
+							<includes>
+									<include>${project.build.directory}/${project.build.finalName}.jar</include>
+							</includes>
+							<jdkVersion>${java.version}</jdkVersion>
+							<processTypes>
+								<web>java $JAVA_OPTS -jar ./target/${project.build.finalName}.jar</web>
+						</processTypes>
+					</configuration>
+			</plugin>
+	</plugins>
 	</build>
 
 </project>
