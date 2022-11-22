@@ -60,16 +60,16 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
+				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.3.0</version>
-			</plugin>
-			<plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
 				<configuration>
-					<processTypes>
-						<web>java $JAVA_OPTS -cp target/classes:target/dependency/* MeetyourroommateApplication</web>
-					</processTypes>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>com.meetyourroommate.app.MeetyourroommateApplication</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
