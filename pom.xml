@@ -9,9 +9,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.meetyourroommate</groupId>
-	<artifactId>app</artifactId>
+	<artifactId>meetyourroommate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>meetyourroommate</name>
+	<packaging>war</packaging>
 	<description>Backend Application for MeetYourRoommatePlataform</description>
 	<properties>
 		<java.version>19</java.version>
@@ -56,7 +57,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>${artifact-name}-${project.version}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -67,11 +68,6 @@
 				<groupId>com.heroku.sdk</groupId>
 				<artifactId>heroku-maven-plugin</artifactId>
 				<version>3.0.5</version>
-				<configuration>
-					<processTypes>
-						<web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
-					</processTypes>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
