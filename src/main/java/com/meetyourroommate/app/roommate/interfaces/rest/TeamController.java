@@ -120,4 +120,28 @@ public class TeamController {
             );
         }
     }
+
+    @Operation(summary = "Get team by  id", description = "Get team by id", tags = {"Teams"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Team")
+    })
+    @GetMapping("/teams/{id}")
+    public ResponseEntity<TeamResponse> getTeamById(@PathVariable("id") Long id){
+        try{
+            Optional<Team> team = teamService.findById(id);
+            if(team.isEmpty()){
+                return new ResponseEntity<>(
+                        new TeamResponse("Team not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            return new ResponseEntity<>(
+                    new TeamResponse(team.get()),
+                    HttpStatus.OK);
+
+        }catch(Exception e){
+            return new ResponseEntity<>(new TeamResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
