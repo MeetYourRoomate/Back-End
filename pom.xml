@@ -68,11 +68,6 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-					<nonFilteredFileExtensions>
-            <nonFilteredFileExtension>png</nonFilteredFileExtension>
-            <nonFilteredFileExtension>jpg</nonFilteredFileExtension>
-            <nonFilteredFileExtension>jpeg</nonFilteredFileExtension>
-          </nonFilteredFileExtensions>
 				</configuration>
 			</plugin>
 		</plugins>
