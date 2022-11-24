@@ -120,12 +120,10 @@ public class TeamController {
             );
         }
     }
-
-    @Tag(name = "Teams", description = "Create, read, update and delete Teams")
-    @Operation(summary = "Get team by id", description = "Get team by id")
+    @Operation(summary = "Get team by  id", description = "Get team by id", tags = {"Teams"})
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200",
-                    description = "Get team by id")
+                    description = "Team")
     })
     @GetMapping(value = "/teams/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamResponse> getTeamById(@PathVariable("id") Long id){
