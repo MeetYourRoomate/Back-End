@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -113,6 +114,48 @@ public class AttributeController {
                    new AtributeDtoListResponse(e.getMessage()),
                    HttpStatus.INTERNAL_SERVER_ERROR
            );
+        }
+    }
+    @Operation(summary = "Assign list of attribute to profile", description = "Assign attribute to profile by ids", tags = {"Profile"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Assigned attribute")
+    })
+    @PutMapping(value = "/profiles/{profile_id}/attributes")
+    public ResponseEntity<AtributeDtoListResponse> assignListOfAttributesToProfile(
+           @PathVariable("profile_id") Long profileId,
+           @RequestBody List<String> attributesIds
+    ){
+        try{
+            Optional<Profile> profile = profileService.findById(profileId);
+            if(profile.isEmpty()){
+                return new ResponseEntity<>(
+                        new AtributeDtoListResponse("Profile not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            for (String attributeId : attributesIds) {
+                Optional<Attribute> attribute = attributeService.findById(attributeId);
+                if(attribute.isEmpty()){
+                    return new ResponseEntity<>(
+                            new AtributeDtoListResponse("Attribute with id " + attributeId + " not found."),
+                            HttpStatus.NOT_FOUND
+                    );
+                }
+                profile.get().setAtributesList(new HashSet<>());
+                profile.get().addAtribute(attribute.get());
+            }
+            profileService.save(profile.get());
+
+            return new ResponseEntity<>(
+                    new AtributeDtoListResponse(atributeDtoMapper.toDtoList(profile.get().getAtributesSet())),
+                    HttpStatus.OK
+            );
+
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new AtributeDtoListResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
     @Operation(summary = "Assign attribute to profile", description = "Assign attribute to profile by ids", tags = {"Profile"})
