@@ -6,13 +6,9 @@ import com.meetyourroommate.app.profile.domain.enumerate.TeamStatus;
 import com.meetyourroommate.app.roommate.application.communication.RoommateListDtoResponse;
 import com.meetyourroommate.app.roommate.application.communication.TeamListResponse;
 import com.meetyourroommate.app.roommate.application.communication.TeamResponse;
-import com.meetyourroommate.app.roommate.application.services.DutyService;
-import com.meetyourroommate.app.roommate.application.services.RoommateService;
-import com.meetyourroommate.app.roommate.application.services.TeamService;
+import com.meetyourroommate.app.roommate.application.services.*;
 import com.meetyourroommate.app.roommate.application.tranform.RoommateDtoMapper;
-import com.meetyourroommate.app.roommate.domain.entities.Duty;
-import com.meetyourroommate.app.roommate.domain.entities.Roommate;
-import com.meetyourroommate.app.roommate.domain.entities.Team;
+import com.meetyourroommate.app.roommate.domain.entities.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -32,13 +28,17 @@ public class TeamController {
     private RoommateService roommateService;
     private DutyService dutyService;
     private ProfileService profileService;
+    private TeamRequestService teamRequestService;
+    private RoommateStatusService roommateStatusService;
     private final RoommateDtoMapper roommateDtoMapper;
 
-    public TeamController(TeamService teamService, RoommateService roommateService, DutyService dutyService, ProfileService profileService, RoommateDtoMapper roommateDtoMapper) {
+    public TeamController(TeamService teamService, RoommateService roommateService, DutyService dutyService, ProfileService profileService, TeamRequestService teamRequestService, RoommateStatusService roommateStatusService, RoommateDtoMapper roommateDtoMapper) {
         this.teamService = teamService;
         this.roommateService = roommateService;
         this.dutyService = dutyService;
         this.profileService = profileService;
+        this.teamRequestService = teamRequestService;
+        this.roommateStatusService = roommateStatusService;
         this.roommateDtoMapper = roommateDtoMapper;
     }
 
@@ -163,6 +163,19 @@ public class TeamController {
                         HttpStatus.NOT_FOUND
                 );
             }
+            List<TeamRequest> teamRequests = teamRequestService.findAllByTeamRequested(team.get());
+            for (TeamRequest teamRequest : teamRequests) {
+                List<RoommateStatus> roommateStatuses = roommateStatusService.findRoommateStatusesByTeamRequest(teamRequest);
+                roommateStatuses.forEach((roommateStatus -> {
+                    try {
+                        roommateStatusService.deleteById(roommateStatus.getId());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }));
+                teamRequestService.deleteById(teamRequest.getId());
+            }
+
             List<Roommate> roommates = team.get().getRoommates();
             List<Duty> duties = team.get().getDuties();
             duties.forEach(duty -> {
