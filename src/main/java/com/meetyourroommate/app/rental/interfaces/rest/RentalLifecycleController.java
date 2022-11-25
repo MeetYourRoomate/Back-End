@@ -255,6 +255,12 @@ public class RentalLifecycleController {
                         new RentalOfferResponse("Profile not found."),
                         HttpStatus.NOT_FOUND);
             }
+            Optional<Property> propertyFounded = propertyService.findByTitle(rentalOfferResource.getPropertyResource().getTitle());
+            if(propertyFounded.isPresent()){
+                return new ResponseEntity<>(
+                        new RentalOfferResponse("Property found with the same title."),
+                        HttpStatus.CONFLICT);
+            }
             Property newProperty = propertyService.save(
                     propertyMapper.toEntity(rentalOfferResource.getPropertyResource())
                             .setProfile(profile.get()));

@@ -44,4 +44,9 @@ public class PropertyServiceImpl implements PropertyService {
     public List<Property> findAllByProfile(Profile profile) {
         return propertyRepository.findAllByProfile(profile);
     }
+
+    @Override
+    public Optional<Property> findByTitle(String title) {
+        return propertyRepository.findByTitle(title);
+    }
 }
