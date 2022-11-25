@@ -21,7 +21,7 @@ public class ProfileDtoMapper implements Serializable {
             propertyMapper.addMappings(mapp ->
             {
                 mapp.map(src -> src.getAudit().getCreatedAt(), ProfileDto::setCreatedAt);
-                mapp.map(src -> src.getAtributesSet(), ProfileDto::setAtributes);
+                mapp.map(src -> src.getAtributesSet(), ProfileDto::setAttributes);
             });
         }
         return mapper.map(model, ProfileDto.class);

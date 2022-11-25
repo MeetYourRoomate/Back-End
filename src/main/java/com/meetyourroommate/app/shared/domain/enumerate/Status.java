@@ -2,6 +2,7 @@ package com.meetyourroommate.app.shared.domain.enumerate;
 
 public enum Status {
     PENDING ("Pending"),
+    FINISHED ("Finished"),
     ACCEPTED ("Aceepted"),
     DECLINED ("Declined");
     private final String name;
