@@ -201,6 +201,7 @@ public class ProfileController {
             newProfile.setAudit(oldProfile.get().getAudit());
             newProfile.updateAudit();
             newProfile.setUser(oldProfile.get().getUser());
+            newProfile.setAtributesList(oldProfile.get().getAtributesSet());
             newProfile = profileService.save(newProfile.setId(oldProfile.get().getId()));
             return new ResponseEntity<>(
                     new ProfileDtoResponse(profileDtoMapper.toDto(newProfile)),
