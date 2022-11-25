@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface TeamRequestService extends CrudService<TeamRequest, String> {
     List<TeamRequest> findAllByTeamRequested(Team team);
+    void deleteAllByTeamRequested(Team team);
 }

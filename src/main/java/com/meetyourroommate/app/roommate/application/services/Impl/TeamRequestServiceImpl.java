@@ -46,4 +46,9 @@ public class TeamRequestServiceImpl implements TeamRequestService {
     public List<TeamRequest> findAllByTeamRequested(Team team) {
         return teamRequestRepository.findAllByTeamRequested(team);
     }
+
+    @Override
+    public void deleteAllByTeamRequested(Team team) {
+        teamRequestRepository.deleteAllByTeamRequested(team);
+    }
 }

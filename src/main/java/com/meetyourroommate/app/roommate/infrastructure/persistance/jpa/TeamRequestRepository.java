@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface TeamRequestRepository extends JpaRepository<TeamRequest, String> {
     List<TeamRequest> findAllByTeamRequested(Team team);
+    void deleteAllByTeamRequested(Team team);
 }
