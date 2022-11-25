@@ -30,10 +30,8 @@ public class Property {
     @OneToMany(mappedBy = "property")
     private List<PropertyFeature> propertyFeatureList;
     @Embedded
-    private Audit audit;
-    public Property() {
-        this.audit = new Audit();
-    }
+    private Audit audit = new Audit();
+    public Property() {}
     public Property setProfile(Profile profile) {
         this.profile = profile;
         return this;
