@@ -14,6 +14,7 @@ import com.meetyourroommate.app.roommate.application.tranform.resources.DutyReso
 import com.meetyourroommate.app.roommate.domain.entities.Duty;
 import com.meetyourroommate.app.roommate.domain.entities.Roommate;
 import com.meetyourroommate.app.roommate.domain.entities.Team;
+import com.meetyourroommate.app.shared.domain.enumerate.Status;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -190,5 +191,68 @@ public class DutiesController {
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
+    }
+    @Operation(summary = "Change status of duty to finished", description = "Change status to duty to finished", tags = {"Duties"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Duty finished")
+    })
+    @PutMapping(value = "/duties/{id}/finish")
+    public ResponseEntity<DutyDtoResponse> finishDuty(@PathVariable("id") String dutyId){
+        try{
+            Optional<Duty> duty = dutyService.findById(dutyId);
+            if(duty.isEmpty()){
+                return new ResponseEntity<>(
+                        new DutyDtoResponse("Duty not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            duty.get().setStatus(Status.FINISHED);
+            Duty updatedDuty = dutyService.save(duty.get());
+
+            return new ResponseEntity<>(
+                    new DutyDtoResponse(
+                            dutyDtoMapper.toDto(updatedDuty),"Duty satisfactorily updated."
+                    ),
+                    HttpStatus.OK
+            );
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new DutyDtoResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+
+    }
+
+    @Operation(summary = "Change status of duty to pending", description = "Change status to duty to pending", tags = {"Duties"})
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Duty Pending")
+    })
+    @PutMapping(value = "/duties/{id}/pending")
+    public ResponseEntity<DutyDtoResponse> pendingDuty(@PathVariable("id") String dutyId){
+        try{
+            Optional<Duty> duty = dutyService.findById(dutyId);
+            if(duty.isEmpty()){
+                return new ResponseEntity<>(
+                        new DutyDtoResponse("Duty not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            duty.get().setStatus(Status.PENDING);
+            Duty updatedDuty = dutyService.save(duty.get());
+
+            return new ResponseEntity<>(
+                    new DutyDtoResponse(
+                            dutyDtoMapper.toDto(updatedDuty), "Duty satisfactorily updated."
+                    ),
+                    HttpStatus.OK
+            );
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new DutyDtoResponse(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+
     }
 }

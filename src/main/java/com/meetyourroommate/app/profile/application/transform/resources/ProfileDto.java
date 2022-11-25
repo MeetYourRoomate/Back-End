@@ -21,5 +21,5 @@ public class ProfileDto {
     private Long age;
     private Phone phone;
     private Date createdAt;
-    private Set<AttributeDto> atributes;
+    private Set<AttributeDto> attributes;
 }
