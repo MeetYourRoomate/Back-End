@@ -133,6 +133,8 @@ public class AttributeController {
                         HttpStatus.NOT_FOUND
                 );
             }
+
+            profile.get().setAtributesList(new HashSet<>());
             for (String attributeId : attributesIds) {
                 Optional<Attribute> attribute = attributeService.findById(attributeId);
                 if(attribute.isEmpty()){
@@ -141,7 +143,6 @@ public class AttributeController {
                             HttpStatus.NOT_FOUND
                     );
                 }
-                profile.get().setAtributesList(new HashSet<>());
                 profile.get().addAtribute(attribute.get());
             }
             profileService.save(profile.get());
